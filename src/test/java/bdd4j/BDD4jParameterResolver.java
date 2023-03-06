@@ -31,7 +31,6 @@ public class BDD4jParameterResolver implements ParameterResolver
                                  final ExtensionContext extensionContext)
       throws ParameterResolutionException
   {
-
     try
     {
       return parameterContext.getParameter().getType().getConstructors()[0].newInstance();
