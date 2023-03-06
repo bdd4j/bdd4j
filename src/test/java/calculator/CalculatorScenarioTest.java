@@ -1,3 +1,5 @@
+package calculator;
+
 import bdd4j.BDD4jTest;
 import bdd4j.BDDRunner;
 import bdd4j.Feature;
