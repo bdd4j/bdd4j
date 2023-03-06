@@ -5,10 +5,8 @@ import java.time.temporal.ChronoUnit;
 
 public class BDDRunner
 {
-  public static void scenario(final String name, final Step... steps)
+  public static void scenario(final Step... steps)
   {
-    System.out.println("Running scenario: " + name);
-
     for (final Step step : steps)
     {
       final LocalDateTime timestamp = LocalDateTime.now();
