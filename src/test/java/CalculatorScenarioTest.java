@@ -61,4 +61,17 @@ public class CalculatorScenarioTest
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't add the given value, because it would produce an Integer overflow"));
   }
+
+  @Scenario("Integer underflow")
+  @Test
+  public void integerUnderflow(final CalculatorSteps steps)
+  {
+    BDDRunner.scenario(
+        steps,
+        steps.givenThatIHaveABlankCalculator(),
+        steps.whenIAddToTheSubtotal(Integer.MIN_VALUE),
+        steps.whenISubtractFromTheSubtotal(1),
+        steps.thenTheCalculationShouldHaveFailedWithTheMessage(
+            "Can't subtract the given value, because it would produce an Integer underflow"));
+  }
 }

@@ -21,6 +21,12 @@ public class Calculator
 
   public void subtract(final Integer value)
   {
+    if (this.value == Integer.MIN_VALUE && value > 0)
+    {
+      throw new IllegalStateException(
+          "Can't subtract the given value, because it would produce an Integer underflow");
+    }
+
     this.value -= value;
   }
 
