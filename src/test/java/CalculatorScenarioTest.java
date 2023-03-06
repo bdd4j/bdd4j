@@ -51,6 +51,6 @@ public class CalculatorScenarioTest
   {
     BDDRunner.scenario(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
-        steps.thenTheSubtotalShouldBe(10));
+        steps.thenTheCalculationShouldHaveFailedWithTheMessage(""));
   }
 }

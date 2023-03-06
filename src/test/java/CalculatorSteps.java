@@ -38,4 +38,13 @@ public class CalculatorSteps implements BDD4jSteps
     return new Then(String.format("the subtotal should be %d", value),
         () -> assertThat(calculator.subtotal()).isEqualTo(value));
   }
+
+  public Then thenTheCalculationShouldHaveFailedWithTheMessage(final String expectedMessage)
+  {
+    return new Then(
+        String.format("the calculation should have failed with the message %s", expectedMessage),
+        () -> {
+          throw new IllegalStateException("Not implemented");
+        });
+  }
 }
