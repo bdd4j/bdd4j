@@ -1,8 +1,24 @@
 package bdd4j;
 
-public interface Step
+/**
+ * The common interface for objects that represent a step.
+ *
+ * @param <T> The type of the test state.
+ */
+public interface Step<T>
 {
-  String name();
+  /**
+   * A human-readable description for the step.
+   *
+   * @return The description.
+   */
+  String description();
 
-  Runnable runnable();
+  /**
+   * Accepts the given visitor and invokes its step specific logic.
+   *
+   * @param visitor The visitor that should be accepted.
+   * @throws Throwable Might throw any kind of exception.
+   */
+  void accept(final StepVisitor<T> visitor) throws Throwable;
 }

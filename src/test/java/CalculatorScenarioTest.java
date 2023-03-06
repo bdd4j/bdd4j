@@ -22,7 +22,8 @@ public class CalculatorScenarioTest
   @Test
   public void addAValue(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(steps.givenThatIHaveABlankCalculator(),
+    BDDRunner.scenario(steps,
+        steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(1));
   }
@@ -31,7 +32,9 @@ public class CalculatorScenarioTest
   @Test
   public void subtractAValue(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(steps.givenThatIHaveABlankCalculator(),
+    BDDRunner.scenario(
+        steps,
+        steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(10));
   }
@@ -40,7 +43,9 @@ public class CalculatorScenarioTest
   @Test
   public void clear(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(steps.givenThatIHaveABlankCalculator(),
+    BDDRunner.scenario(
+        steps,
+        steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
         steps.thenTheSubtotalShouldBe(0));
   }
@@ -49,8 +54,11 @@ public class CalculatorScenarioTest
   @Test
   public void integerOverflow(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(steps.givenThatIHaveABlankCalculator(),
+    BDDRunner.scenario(
+        steps,
+        steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
-        steps.thenTheCalculationShouldHaveFailedWithTheMessage(""));
+        steps.thenTheCalculationShouldHaveFailedWithTheMessage(
+            "Can't add the given value, because it would produce an Integer overflow"));
   }
 }
