@@ -38,6 +38,9 @@ public class BDDRunner
       }
 
       System.out.println();
+    } catch (final AssertionError e)
+    {
+      throw e;
     } catch (final Throwable e)
     {
       throw new AssertionError("Failed to execute the scenario", e);
