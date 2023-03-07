@@ -1,12 +1,12 @@
-package com.github.bdd4j.example.calculator;
+package org.bdd4j.example.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.bdd4j.BDD4jSteps;
-import com.github.bdd4j.Given;
-import com.github.bdd4j.TestState;
-import com.github.bdd4j.Then;
-import com.github.bdd4j.When;
+import org.bdd4j.BDD4jSteps;
+import org.bdd4j.Given;
+import org.bdd4j.TestState;
+import org.bdd4j.Then;
+import org.bdd4j.When;
 
 /**
  * The steps used to test the calculator feature.

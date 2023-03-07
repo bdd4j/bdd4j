@@ -1,10 +1,10 @@
-package com.github.bdd4j.example.calculator;
+package org.bdd4j.example.calculator;
 
-import com.github.bdd4j.BDD4jTest;
-import com.github.bdd4j.BDDRunner;
-import com.github.bdd4j.Feature;
-import com.github.bdd4j.Scenario;
-import com.github.bdd4j.UserStory;
+import org.bdd4j.BDD4jTest;
+import org.bdd4j.BDDRunner;
+import org.bdd4j.Feature;
+import org.bdd4j.Scenario;
+import org.bdd4j.UserStory;
 import org.junit.jupiter.api.Test;
 
 

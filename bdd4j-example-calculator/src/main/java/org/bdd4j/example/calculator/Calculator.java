@@ -1,4 +1,4 @@
-package com.github.bdd4j.example.calculator;
+package org.bdd4j.example.calculator;
 
 public class Calculator
 {

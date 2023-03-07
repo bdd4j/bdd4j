@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 /**
  * This is an abstract base class that needs to be

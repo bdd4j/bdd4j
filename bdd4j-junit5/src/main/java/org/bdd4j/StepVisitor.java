@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 /**
  * A visitor that can be used to visit the various types of steps and invoke step specific logic.

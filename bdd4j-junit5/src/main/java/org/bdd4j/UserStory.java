@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,16 +6,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * An annotation that can be used to describe a scenario.
+ * An annotation that can be used to describe the user story.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Scenario
+@Target(ElementType.TYPE)
+public @interface UserStory
 {
   /**
-   * The name of the scenario.
+   * The user story.
    *
-   * @return The name.
+   * @return The user story.
    */
   String value();
 }

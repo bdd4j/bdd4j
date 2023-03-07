@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 /**
  * A datatype that can be used to represent the state for a BDD test.

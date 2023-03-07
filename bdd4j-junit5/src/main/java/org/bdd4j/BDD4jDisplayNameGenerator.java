@@ -1,4 +1,4 @@
-package com.github.bdd4j;
+package org.bdd4j;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
