@@ -15,6 +15,7 @@ public class BDDRunner
    * @param steps        The steps that should be executed.
    * @param <T>          The type of the test state.
    */
+  @SafeVarargs
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
     try
