@@ -18,34 +18,50 @@ public class BDDRunner
   @SafeVarargs
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
-    try
-    {
-      final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(stepsWrapper.init());
+    final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(stepsWrapper.init());
 
-      for (final Step<T> step : steps)
+    for (final Step<T> step : steps)
+    {
+      final var timestamp = LocalDateTime.now();
+
+      final var fullStepDescription = step.getClass().getSimpleName() + " " + step.description();
+
+      try
       {
-        final LocalDateTime timestamp = LocalDateTime.now();
-        System.out.println(
-            "> Running step: " + step.getClass().getSimpleName() + " " + step.description());
+        publishEvent(new StepExecutionStartedEvent(LocalDateTime.now(), fullStepDescription));
 
         step.accept(stepVisitor);
 
-        final long executionTime = timestamp.until(LocalDateTime.now(), ChronoUnit.MILLIS);
+        publishEvent(new StepExecutionCompletedEvent(LocalDateTime.now(), fullStepDescription,
+            calculateExecutionTime(timestamp)));
 
-        System.out.println(
-            "> Completed step: " + step.getClass().getSimpleName() + " " + step.description() +
-                " in " +
-                executionTime + "ms");
+      } catch (final AssertionError e)
+      {
+        publishEvent(
+            new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
+                calculateExecutionTime(timestamp)));
+
+        throw e;
+      } catch (final Throwable e)
+      {
+        publishEvent(
+            new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
+                calculateExecutionTime(timestamp)));
+
+        throw new AssertionError("Failed to execute the scenario", e);
       }
-
-      System.out.println();
-    } catch (final AssertionError e)
-    {
-      throw e;
-    } catch (final Throwable e)
-    {
-      throw new AssertionError("Failed to execute the scenario", e);
     }
+  }
+
+  /**
+   * Calculates the execution time based on the given timestamp.
+   *
+   * @param timestamp The timestamp that should be used to calculate the execution time.
+   * @return The elapsed time in milliseconds.
+   */
+  private static long calculateExecutionTime(LocalDateTime timestamp)
+  {
+    return timestamp.until(LocalDateTime.now(), ChronoUnit.MILLIS);
   }
 
   /**
@@ -125,5 +141,17 @@ public class BDDRunner
         state = TestState.exception(exception);
       }
     }
+  }
+
+  /**
+   * Publishes an event.
+   *
+   * @param event The event that should be published.
+   */
+  private static void publishEvent(final StepExecutionEvent event)
+  {
+    //TODO: Support some kind of event bus, that can be subscribed to by various consumers
+
+    System.out.println(event);
   }
 }
