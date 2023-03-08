@@ -1,6 +1,9 @@
 package org.bdd4j.example.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.bdd4j.StepDSL.given;
+import static org.bdd4j.StepDSL.then;
+import static org.bdd4j.StepDSL.when;
 
 import org.bdd4j.BDD4jSteps;
 import org.bdd4j.Given;
@@ -24,47 +27,50 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
 
   public Given<Calculator> givenThatIHaveABlankCalculator()
   {
-    return new Given<>("that I have a blank calculator", TestState::state);
+    return given("that I have a blank calculator").step(TestState::state);
   }
 
   public When<Calculator> whenIAddToTheSubtotal(final Integer value)
   {
-    return new When<>(String.format("I add %d to the subtotal", value), (calculator) -> {
-      calculator.add(value);
-      return TestState.state(calculator);
-    });
+    return when("I add {0} to the subtotal", value)
+        .step((calculator) -> {
+          calculator.add(value);
+          return TestState.state(calculator);
+        });
   }
 
   public When<Calculator> whenISubtractFromTheSubtotal(final Integer value)
   {
-    return new When<>(String.format("I subtract %d from the subtotal", value), (calculator) -> {
-      calculator.subtract(value);
-      return TestState.state(calculator);
-    });
+    return when("I subtract {0} from the subtotal", value)
+        .step((calculator -> {
+          calculator.subtract(value);
+          return TestState.state(calculator);
+        }));
   }
 
   public When<Calculator> whenIClearTheCalculator()
   {
-    return new When<>("I clear the calculator", (calculator) -> {
-      calculator.clear();
-      return TestState.state(calculator);
-    });
+    return when("I clear the calculator")
+        .step((calculator) -> {
+          calculator.clear();
+          return TestState.state(calculator);
+        });
   }
 
   public Then<Calculator> thenTheSubtotalShouldBe(final Integer value)
   {
-    return new Then<>(String.format("the subtotal should be %d", value), (state) -> {
-      assertThat(state.state().subtotal()).isEqualTo(value);
-      return TestState.state(state.state());
-    });
+    return then("the subtotal should be {0}", value)
+        .step((state) -> {
+          assertThat(state.state().subtotal()).isEqualTo(value);
+          return TestState.state(state.state());
+        });
   }
 
   public Then<Calculator> thenTheCalculationShouldHaveFailedWithTheMessage(
       final String expectedMessage)
   {
-    return new Then<>(
-        String.format("the calculation should have failed with the message: '%s'", expectedMessage),
-        (state) -> {
+    return then("the calculation should have failed with the message: {0}", expectedMessage)
+        .step((state) -> {
           assertThat(state.exception()).hasMessage(expectedMessage);
           return state;
         });
