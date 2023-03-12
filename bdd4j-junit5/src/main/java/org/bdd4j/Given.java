@@ -15,7 +15,7 @@ public record Given<T>(String description, Function<T, TestState<T>> logic) impl
    * {@inheritDoc}
    */
   @Override
-  public void accept(StepVisitor<T> visitor) throws Throwable
+  public void accept(final StepVisitor<T> visitor) throws Throwable
   {
     visitor.visit(this);
   }

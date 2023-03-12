@@ -26,7 +26,7 @@ public class StepDSL
    * @param args     The parameters that should be injected into the template.
    * @return The builder.
    */
-  public static GivenBuilder given(final String template, Object... args)
+  public static GivenBuilder given(final String template, final Object... args)
   {
     return given(MessageFormat.format(template, args));
   }

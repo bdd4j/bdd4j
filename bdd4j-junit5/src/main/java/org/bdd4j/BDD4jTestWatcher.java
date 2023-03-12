@@ -5,8 +5,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 
+/**
+ * Hooks into the JUnit5 test execution to generate the metadata necessary for BDD4j.
+ */
 public class BDD4jTestWatcher implements TestWatcher
 {
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void testAborted(final ExtensionContext context,
                           final Throwable cause)
@@ -14,6 +20,9 @@ public class BDD4jTestWatcher implements TestWatcher
     TestWatcher.super.testAborted(context, cause);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void testSuccessful(final ExtensionContext context)
   {
@@ -46,6 +55,9 @@ public class BDD4jTestWatcher implements TestWatcher
     TestWatcher.super.testSuccessful(context);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void testDisabled(final ExtensionContext context,
                            final Optional<String> reason)
@@ -53,6 +65,9 @@ public class BDD4jTestWatcher implements TestWatcher
     TestWatcher.super.testDisabled(context, reason);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void testFailed(final ExtensionContext context,
                          final Throwable cause)
