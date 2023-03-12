@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @DisplayNameGeneration(BDD4jDisplayNameGenerator.class)
 @ExtendWith(BDD4jParameterResolver.class)
+@ExtendWith(BDD4jTestWatcher.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface BDD4jTest

@@ -62,7 +62,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
     return then("the subtotal should be {0}", value)
         .step((state) -> {
           assertThat(state.state().subtotal()).isEqualTo(value);
-          return TestState.state(state.state());
+          return state;
         });
   }
 

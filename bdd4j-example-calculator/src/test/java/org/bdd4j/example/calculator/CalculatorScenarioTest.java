@@ -1,7 +1,7 @@
 package org.bdd4j.example.calculator;
 
+import org.bdd4j.BDD4jRunner;
 import org.bdd4j.BDD4jTest;
-import org.bdd4j.BDDRunner;
 import org.bdd4j.Feature;
 import org.bdd4j.Scenario;
 import org.bdd4j.UserStory;
@@ -24,19 +24,15 @@ public class CalculatorScenarioTest
   @Test
   public void addAValue(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(steps,
-        steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(1),
-        steps.thenTheSubtotalShouldBe(1));
+    BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
+        steps.whenIAddToTheSubtotal(1), steps.thenTheSubtotalShouldBe(1));
   }
 
   @Scenario("Subtract a value")
   @Test
   public void subtractAValue(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(
-        steps,
-        steps.givenThatIHaveABlankCalculator(),
+    BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(10));
   }
@@ -45,9 +41,7 @@ public class CalculatorScenarioTest
   @Test
   public void clear(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(
-        steps,
-        steps.givenThatIHaveABlankCalculator(),
+    BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
         steps.thenTheSubtotalShouldBe(0));
   }
@@ -56,9 +50,7 @@ public class CalculatorScenarioTest
   @Test
   public void integerOverflow(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(
-        steps,
-        steps.givenThatIHaveABlankCalculator(),
+    BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't add the given value, because it would produce an Integer overflow"));
@@ -68,11 +60,8 @@ public class CalculatorScenarioTest
   @Test
   public void integerUnderflow(final CalculatorSteps steps)
   {
-    BDDRunner.scenario(
-        steps,
-        steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(Integer.MIN_VALUE),
-        steps.whenISubtractFromTheSubtotal(1),
+    BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
+        steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't subtract the given value, because it would produce an Integer underflow"));
   }

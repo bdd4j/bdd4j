@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * A runner that can be used to execute BDD scenarios.
  */
-public class BDDRunner
+public class BDD4jRunner
 {
   /**
    * Creates a new scenario.
@@ -19,6 +19,9 @@ public class BDDRunner
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
     final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(stepsWrapper.init());
+
+    publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
+        "TODO: Determine the actual name of the scenario"));
 
     for (final Step<T> step : steps)
     {
@@ -69,7 +72,7 @@ public class BDDRunner
    *
    * @param event The event that should be published.
    */
-  private static void publishEvent(final StepExecutionEvent event)
+  private static void publishEvent(final ScenarioEvent event)
   {
     //TODO: Support some kind of event bus, that can be subscribed to by various consumers
 
