@@ -69,7 +69,16 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testFailed(final ExtensionContext context, final Throwable cause)
   {
-    TestWatcher.super.testFailed(context, cause);
+    System.out.println(new ScenarioTestFailedEvent(
+        LocalDateTime.now(),
+        context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
+            .orElse(""),
+        context.getTestClass().map(BDD4jTestWatcher::extractUserStory)
+            .orElse(""),
+        context.getTestMethod().map(BDD4jTestWatcher::extractScenarioName)
+            .orElse(""),
+        context.getTags(),
+        cause.getMessage()));
   }
 
   /**
