@@ -52,7 +52,15 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testDisabled(final ExtensionContext context, final Optional<String> reason)
   {
-    TestWatcher.super.testDisabled(context, reason);
+    System.out.println(new ScenarioTestDisabledEvent(
+        LocalDateTime.now(),
+        context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
+            .orElse(""),
+        context.getTestClass().map(BDD4jTestWatcher::extractUserStory)
+            .orElse(""),
+        context.getTestMethod().map(BDD4jTestWatcher::extractScenarioName)
+            .orElse(""),
+        context.getTags()));
   }
 
   /**
