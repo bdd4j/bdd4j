@@ -8,3 +8,18 @@ dependencies {
     implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
     runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
+
+publishing {
+    publications {
+        customLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'build'
+            url = layout.buildDirectory.dir("maven")
+        }
+    }
+}
