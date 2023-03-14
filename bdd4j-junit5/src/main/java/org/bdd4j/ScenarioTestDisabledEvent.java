@@ -11,9 +11,11 @@ import java.util.Collection;
  * @param userStory    The user story of the feature.
  * @param scenarioName The name of the scenario.
  * @param tags         The tags of the scenario.
+ * @param reason       The reason for the disabled test.
  */
 public record ScenarioTestDisabledEvent(LocalDateTime timestamp, String featureName,
                                         String userStory, String scenarioName,
-                                        Collection<String> tags) implements ScenarioEvent
+                                        Collection<String> tags, String reason)
+    implements ScenarioEvent
 {
 }

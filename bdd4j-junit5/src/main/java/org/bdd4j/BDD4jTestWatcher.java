@@ -60,7 +60,8 @@ public class BDD4jTestWatcher implements TestWatcher
             .orElse(""),
         context.getTestMethod().map(BDD4jTestWatcher::extractScenarioName)
             .orElse(""),
-        context.getTags()));
+        context.getTags(),
+        reason.orElse("No reason")));
   }
 
   /**
