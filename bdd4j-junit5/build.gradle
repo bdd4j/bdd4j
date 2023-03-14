@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 dependencies {
@@ -22,4 +23,8 @@ publishing {
             url = layout.buildDirectory.dir("maven")
         }
     }
+}
+
+signing {
+    sign publishing.publications
 }
