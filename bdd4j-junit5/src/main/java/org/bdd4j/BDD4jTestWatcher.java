@@ -3,6 +3,8 @@ package org.bdd4j;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
@@ -18,7 +20,7 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testAborted(final ExtensionContext context, final Throwable cause)
   {
-    System.out.println(new ScenarioTestAbortedEvent(
+    publishEvent(new ScenarioTestAbortedEvent(
         LocalDateTime.now(),
         context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
             .orElse(""),
@@ -35,7 +37,7 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testSuccessful(final ExtensionContext context)
   {
-    System.out.println(new ScenarioTestSuccessfullyCompletedEvent(
+    publishEvent(new ScenarioTestSuccessfullyCompletedEvent(
         LocalDateTime.now(),
         context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
             .orElse(""),
@@ -52,7 +54,7 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testDisabled(final ExtensionContext context, final Optional<String> reason)
   {
-    System.out.println(new ScenarioTestDisabledEvent(
+    publishEvent(new ScenarioTestDisabledEvent(
         LocalDateTime.now(),
         context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
             .orElse(""),
@@ -70,7 +72,7 @@ public class BDD4jTestWatcher implements TestWatcher
   @Override
   public void testFailed(final ExtensionContext context, final Throwable cause)
   {
-    System.out.println(new ScenarioTestFailedEvent(
+    publishEvent(new ScenarioTestFailedEvent(
         LocalDateTime.now(),
         context.getTestClass().map(BDD4jTestWatcher::extractFeatureName)
             .orElse(""),
@@ -80,6 +82,17 @@ public class BDD4jTestWatcher implements TestWatcher
             .orElse(""),
         context.getTags(),
         cause.getMessage()));
+  }
+
+  /**
+   * Publishes an event.
+   *
+   * @param event The event that should be published.
+   */
+  private static void publishEvent(final ScenarioEvent event)
+  {
+    //TODO: Support some kind of event bus, that can be subscribed to by various consumers
+    Logger.getLogger(BDD4jTestWatcher.class.getSimpleName()).log(Level.INFO, event.toString());
   }
 
   /**

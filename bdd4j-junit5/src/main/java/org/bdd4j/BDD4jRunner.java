@@ -2,6 +2,8 @@ package org.bdd4j;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A runner that can be used to execute BDD scenarios.
@@ -9,7 +11,11 @@ import java.time.temporal.ChronoUnit;
 public class BDD4jRunner
 {
   /**
-   * Creates a new scenario.
+   * Runs a new scenario.
+   * <p>
+   * If the test state implements the {@link AutoCloseable} interface, the
+   * {@link AutoCloseable#close()} method will be invoked when the scenario has been completed.
+   * This can be used to clean up resources used by the test, such as database connections.
    *
    * @param stepsWrapper The steps instance.
    * @param steps        The steps that should be executed.
@@ -20,38 +26,53 @@ public class BDD4jRunner
   {
     final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(stepsWrapper.init());
 
-    publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
-        "TODO: Determine the actual name of the scenario"));
-
-    for (final Step<T> step : steps)
+    try
     {
-      final var timestamp = LocalDateTime.now();
+      publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
+          "TODO: Determine the actual name of the scenario"));
 
-      final var fullStepDescription = step.getClass().getSimpleName() + " " + step.description();
-
-      try
+      for (final Step<T> step : steps)
       {
-        publishEvent(new StepExecutionStartedEvent(LocalDateTime.now(), fullStepDescription));
+        final var timestamp = LocalDateTime.now();
 
-        step.accept(stepVisitor);
+        final var fullStepDescription = step.getClass().getSimpleName() + " " + step.description();
 
-        publishEvent(new StepExecutionCompletedEvent(LocalDateTime.now(), fullStepDescription,
-            calculateExecutionTime(timestamp)));
+        try
+        {
+          publishEvent(new StepExecutionStartedEvent(LocalDateTime.now(), fullStepDescription));
 
-      } catch (final AssertionError e)
+          step.accept(stepVisitor);
+
+          publishEvent(new StepExecutionCompletedEvent(LocalDateTime.now(), fullStepDescription,
+              calculateExecutionTime(timestamp)));
+
+        } catch (final AssertionError e)
+        {
+          publishEvent(
+              new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
+                  calculateExecutionTime(timestamp)));
+
+          throw e;
+        } catch (final Throwable e)
+        {
+          publishEvent(
+              new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
+                  calculateExecutionTime(timestamp)));
+
+          throw new AssertionError("Failed to execute the scenario", e);
+        }
+      }
+    } finally
+    {
+      if (stepVisitor.currentState() instanceof AutoCloseable closeable)
       {
-        publishEvent(
-            new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
-                calculateExecutionTime(timestamp)));
-
-        throw e;
-      } catch (final Throwable e)
-      {
-        publishEvent(
-            new StepExecutionFailedEvent(LocalDateTime.now(), fullStepDescription, e.getMessage(),
-                calculateExecutionTime(timestamp)));
-
-        throw new AssertionError("Failed to execute the scenario", e);
+        try
+        {
+          closeable.close();
+        } catch (final Exception e)
+        {
+          throw new RuntimeException(e);
+        }
       }
     }
   }
@@ -75,7 +96,6 @@ public class BDD4jRunner
   private static void publishEvent(final ScenarioEvent event)
   {
     //TODO: Support some kind of event bus, that can be subscribed to by various consumers
-
-    System.out.println(event);
+    Logger.getLogger(BDD4jRunner.class.getSimpleName()).log(Level.INFO, event.toString());
   }
 }

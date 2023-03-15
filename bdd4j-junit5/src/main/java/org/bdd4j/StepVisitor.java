@@ -8,6 +8,13 @@ package org.bdd4j;
 public interface StepVisitor<T>
 {
   /**
+   * Retrieves the current state.
+   *
+   * @return The current state.
+   */
+  T currentState();
+
+  /**
    * Visits the given step.
    *
    * @param step The step.
