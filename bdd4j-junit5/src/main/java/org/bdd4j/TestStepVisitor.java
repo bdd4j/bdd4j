@@ -24,6 +24,15 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
+  public T currentState()
+  {
+    return state.state();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void visit(final Given<T> step) throws Throwable
   {
     if (state.exception() != null)
