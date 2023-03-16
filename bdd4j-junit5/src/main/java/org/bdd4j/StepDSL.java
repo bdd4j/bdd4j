@@ -28,7 +28,7 @@ public class StepDSL
    */
   public static GivenBuilder given(final String template, final Object... args)
   {
-    return given(MessageFormat.format(template, args));
+    return given(formatStepName(template, args));
   }
 
   /**
@@ -51,7 +51,7 @@ public class StepDSL
    */
   public static WhenBuilder when(final String template, final Object... args)
   {
-    return when(MessageFormat.format(template, args));
+    return when(formatStepName(template, args));
   }
 
   /**
@@ -74,7 +74,20 @@ public class StepDSL
    */
   public static ThenBuilder then(final String template, final Object... args)
   {
-    return then(MessageFormat.format(template, args));
+    return then(formatStepName(template, args));
+  }
+
+  /**
+   * Formats the given step name template with the given arguments.
+   *
+   * @param template The template string.
+   * @param args     The arguments.
+   * @return The formatted name template.
+   */
+  private static String formatStepName(final String template,
+                                       final Object[] args)
+  {
+    return MessageFormat.format(template, args);
   }
 
   /**

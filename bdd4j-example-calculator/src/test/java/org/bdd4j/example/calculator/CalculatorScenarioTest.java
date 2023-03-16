@@ -1,17 +1,14 @@
 package org.bdd4j.example.calculator;
 
 import org.bdd4j.BDD4jRunner;
-import org.bdd4j.BDD4jTest;
 import org.bdd4j.Feature;
 import org.bdd4j.Scenario;
 import org.bdd4j.UserStory;
-import org.junit.jupiter.api.Test;
 
 
 /**
  * A scenario based test for the very complex calculator.
  */
-@BDD4jTest
 @Feature("Very complex calculator")
 @UserStory("""
     As a mathematician
@@ -21,7 +18,6 @@ import org.junit.jupiter.api.Test;
 public class CalculatorScenarioTest
 {
   @Scenario("Add a value")
-  @Test
   public void addAValue(final CalculatorSteps steps)
   {
     BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
@@ -29,7 +25,6 @@ public class CalculatorScenarioTest
   }
 
   @Scenario("Subtract a value")
-  @Test
   public void subtractAValue(final CalculatorSteps steps)
   {
     BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
@@ -38,7 +33,6 @@ public class CalculatorScenarioTest
   }
 
   @Scenario("Clear")
-  @Test
   public void clear(final CalculatorSteps steps)
   {
     BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
@@ -47,7 +41,6 @@ public class CalculatorScenarioTest
   }
 
   @Scenario("Integer overflow")
-  @Test
   public void integerOverflow(final CalculatorSteps steps)
   {
     BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),
@@ -57,7 +50,6 @@ public class CalculatorScenarioTest
   }
 
   @Scenario("Integer underflow")
-  @Test
   public void integerUnderflow(final CalculatorSteps steps)
   {
     BDD4jRunner.scenario(steps, steps.givenThatIHaveABlankCalculator(),

@@ -19,4 +19,21 @@ public record Given<T>(String description, Function<T, TestState<T>> logic) impl
   {
     visitor.visit(this);
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public TestState<T> applyLogic(final TestState<T> state) throws Throwable
+  {
+    state.raiseExceptionIfPresent();
+
+    try
+    {
+      return logic().apply(state.state());
+    } catch (final Throwable exception)
+    {
+      return TestState.exception(exception);
+    }
+  }
 }

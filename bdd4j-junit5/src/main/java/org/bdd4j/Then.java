@@ -16,8 +16,26 @@ public record Then<T>(String description, Function<TestState<T>, TestState<T>> l
    * {@inheritDoc}
    */
   @Override
-  public void accept(final StepVisitor<T> visitor)
+  public void accept(final StepVisitor<T> visitor) throws Throwable
   {
     visitor.visit(this);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public TestState<T> applyLogic(TestState<T> state)
+  {
+    try
+    {
+      return logic().apply(state);
+    } catch (final AssertionError assertionError)
+    {
+      throw assertionError;
+    } catch (final Throwable exception)
+    {
+      return TestState.exception(exception);
+    }
   }
 }

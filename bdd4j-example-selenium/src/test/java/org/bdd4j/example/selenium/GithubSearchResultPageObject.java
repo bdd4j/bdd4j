@@ -27,18 +27,18 @@ public class GithubSearchResultPageObject
   /**
    * Checks whether the page contains the given URL.
    *
-   * @param url The URL that should be checked.
+   * @param expectedURL The URL that should be checked.
    */
-  public void shouldContainALinkTo(final String url)
+  public void shouldContainALinkTo(final String expectedURL)
   {
     for (final WebElement link : driver.findElements(By.tagName("a")))
     {
-      if (Objects.equals(link.getAttribute("href"), url))
+      if (Objects.equals(link.getAttribute("href"), expectedURL))
       {
         return;
       }
     }
 
-    Assertions.fail("Missing link to " + url);
+    Assertions.fail("Missing link to " + expectedURL);
   }
 }
