@@ -77,7 +77,7 @@ public class GithubPageObject implements AutoCloseable
    * {@inheritDoc}
    */
   @Override
-  public void close() throws Exception
+  public void close()
   {
     container.close();
   }

@@ -21,4 +21,13 @@ public interface Step<T>
    * @throws Throwable Might throw any kind of exception.
    */
   void accept(final StepVisitor<T> visitor) throws Throwable;
+
+  /**
+   * Applies the logic of the step to the given state.
+   *
+   * @param state The state.
+   * @return The result of the applied logic.
+   * @throws Throwable Might throw any kind of exception based on the steps logic.
+   */
+  TestState<T> applyLogic(final TestState<T> state) throws Throwable;
 }

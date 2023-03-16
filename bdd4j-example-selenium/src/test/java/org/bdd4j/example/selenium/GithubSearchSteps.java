@@ -1,15 +1,12 @@
 package org.bdd4j.example.selenium;
 
-import static org.bdd4j.StepDSL.given;
 import static org.bdd4j.StepDSL.then;
 import static org.bdd4j.StepDSL.when;
 
 import org.bdd4j.BDD4jSteps;
-import org.bdd4j.Given;
 import org.bdd4j.TestState;
 import org.bdd4j.Then;
 import org.bdd4j.When;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testcontainers.containers.BrowserWebDriverContainer;
 
@@ -33,9 +30,9 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     return TestState.state(new GithubPageObject(container));
   }
 
-  public Given<GithubPageObject> givenThatIOpenTheLandingPage()
+  public When<GithubPageObject> whenIOpenTheLandingPage()
   {
-    return given("that I open the landing page").step(state -> {
+    return when("I open the landing page").step(state -> {
       state.openLandingPage();
 
       return TestState.state(state);
@@ -44,7 +41,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
 
   public When<GithubPageObject> whenIEnterTheSearchTerm(final String searchTerm)
   {
-    return when("I enter the search term '{0}'", searchTerm).step(state -> {
+    return when("I enter the search term ''{0}''", searchTerm).step(state -> {
       state.landingPage().enterSearchTerm(searchTerm);
 
       return TestState.state(state);
@@ -60,10 +57,10 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     });
   }
 
-  public Then<GithubPageObject> thenIShouldFindTheLinkToTheBdd4jProject()
+  public Then<GithubPageObject> thenIShouldFindALinkTo(final String expectedLink)
   {
-    return then("I should find the link to the bdd4j project").step(state -> {
-      state.state().searchResultsPage().shouldContainALinkTo("https://github.com/bdd4j/bdd4j");
+    return then("I should find the link to ''{0}''", expectedLink).step(state -> {
+      state.state().searchResultsPage().shouldContainALinkTo(expectedLink);
       return state;
     });
   }
@@ -72,6 +69,13 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
   {
     return then("I should be on the search results page").step(state -> {
       state.state().shouldBeOnTheURL("https://github.com/search?q=bdd4j&type=");
+      try
+      {
+        state.state().wait();
+      } catch (final InterruptedException e)
+      {
+        throw new RuntimeException(e);
+      }
 
       return state;
     });

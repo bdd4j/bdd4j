@@ -7,7 +7,6 @@ package org.bdd4j;
  */
 public final class TestStepVisitor<T> implements StepVisitor<T>
 {
-
   private TestState<T> state;
 
   /**
@@ -24,29 +23,9 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
-  public T currentState()
-  {
-    return state.state();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public void visit(final Given<T> step) throws Throwable
   {
-    if (state.exception() != null)
-    {
-      throw state.exception();
-    }
-
-    try
-    {
-      state = step.logic().apply(state.state());
-    } catch (final Throwable exception)
-    {
-      state = TestState.exception(exception);
-    }
+    state = step.applyLogic(state);
   }
 
   /**
@@ -55,35 +34,15 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
   @Override
   public void visit(final When<T> step) throws Throwable
   {
-    if (state.exception() != null)
-    {
-      throw state.exception();
-    }
-
-    try
-    {
-      state = step.logic().apply(state.state());
-    } catch (final Throwable exception)
-    {
-      state = TestState.exception(exception);
-    }
+    state = step.applyLogic(state);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void visit(final Then<T> step)
+  public void visit(final Then<T> step) throws Throwable
   {
-    try
-    {
-      state = step.logic().apply(state);
-    } catch (final AssertionError assertionError)
-    {
-      throw assertionError;
-    } catch (final Throwable exception)
-    {
-      state = TestState.exception(exception);
-    }
+    state = step.applyLogic(state);
   }
 }

@@ -8,13 +8,6 @@ package org.bdd4j;
 public interface StepVisitor<T>
 {
   /**
-   * Retrieves the current state.
-   *
-   * @return The current state.
-   */
-  T currentState();
-
-  /**
    * Visits the given step.
    *
    * @param step The step.
@@ -33,5 +26,5 @@ public interface StepVisitor<T>
    *
    * @param step The step.
    */
-  void visit(Then<T> step);
+  void visit(Then<T> step) throws Throwable;
 }

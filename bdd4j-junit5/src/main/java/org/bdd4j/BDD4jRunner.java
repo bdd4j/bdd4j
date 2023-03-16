@@ -24,10 +24,10 @@ public class BDD4jRunner
   @SafeVarargs
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
-    final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(stepsWrapper.init());
-
-    try
+    try (final TestState<T> state = stepsWrapper.init())
     {
+      final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(state);
+
       publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
           "TODO: Determine the actual name of the scenario"));
 
@@ -62,18 +62,9 @@ public class BDD4jRunner
           throw new AssertionError("Failed to execute the scenario", e);
         }
       }
-    } finally
+    } catch (final Exception e)
     {
-      if (stepVisitor.currentState() instanceof AutoCloseable closeable)
-      {
-        try
-        {
-          closeable.close();
-        } catch (final Exception e)
-        {
-          throw new RuntimeException(e);
-        }
-      }
+      throw new RuntimeException(e);
     }
   }
 
