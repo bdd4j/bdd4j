@@ -41,7 +41,7 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
-  public void visit(final Then<T> step) throws Throwable
+  public void visit(final Then<T> step)
   {
     state = step.applyLogic(state);
   }
