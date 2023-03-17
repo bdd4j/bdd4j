@@ -3,7 +3,9 @@ package org.bdd4j.example.calculator;
 import org.bdd4j.BDD4jRunner;
 import org.bdd4j.Feature;
 import org.bdd4j.Scenario;
+import org.bdd4j.ScenarioOutline;
 import org.bdd4j.UserStory;
+import org.junit.jupiter.params.provider.CsvSource;
 
 
 /**
@@ -56,5 +58,19 @@ public class CalculatorScenarioTest
         steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't subtract the given value, because it would produce an Integer underflow"));
+  }
+
+  @ScenarioOutline("Parameterized test")
+  @CsvSource("""
+      1,1,2
+      2,2,4
+      """)
+  public void parameterizedTest(int a, int b, int expectedSum, CalculatorSteps steps)
+  {
+    BDD4jRunner.scenario(steps,
+        steps.givenThatIHaveABlankCalculator(),
+        steps.whenIAddToTheSubtotal(a),
+        steps.whenIAddToTheSubtotal(b),
+        steps.thenTheSubtotalShouldBe(expectedSum));
   }
 }
