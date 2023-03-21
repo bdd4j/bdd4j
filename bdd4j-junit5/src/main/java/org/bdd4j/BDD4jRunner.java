@@ -2,6 +2,7 @@ package org.bdd4j;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,11 +32,23 @@ public class BDD4jRunner
       publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
           "TODO: Determine the actual name of the scenario"));
 
+      String previousStepType = "";
+
       for (final Step<T> step : steps)
       {
         final var timestamp = LocalDateTime.now();
 
-        final var fullStepDescription = step.getClass().getSimpleName() + " " + step.description();
+        String currentStepPrefix = step.getClass().getSimpleName();
+
+        if (Objects.equals(previousStepType, currentStepPrefix))
+        {
+          currentStepPrefix = "And";
+        }
+
+        previousStepType = step.getClass().getSimpleName();
+
+        final var fullStepDescription =
+            String.format("%s %s", currentStepPrefix, step.description());
 
         try
         {
