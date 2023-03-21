@@ -3,8 +3,6 @@ package org.bdd4j;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
@@ -91,8 +89,7 @@ public class BDD4jTestWatcher implements TestWatcher
    */
   private static void publishEvent(final ScenarioEvent event)
   {
-    //TODO: Support some kind of event bus, that can be subscribed to by various consumers
-    Logger.getLogger(BDD4jTestWatcher.class.getSimpleName()).log(Level.INFO, event.toString());
+    EventBus.getInstance().publish(event);
   }
 
   /**
