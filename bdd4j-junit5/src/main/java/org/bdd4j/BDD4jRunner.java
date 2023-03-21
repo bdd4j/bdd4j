@@ -3,8 +3,6 @@ package org.bdd4j;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A runner that can be used to execute BDD scenarios.
@@ -25,6 +23,10 @@ public class BDD4jRunner
   @SafeVarargs
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
+    final EventBus eventBus = EventBus.getInstance();
+
+    EventListener.loadListeners().forEach(eventBus::subscribe);
+
     try (final TestState<T> state = stepsWrapper.init())
     {
       final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(state);
@@ -99,7 +101,6 @@ public class BDD4jRunner
    */
   private static void publishEvent(final ScenarioEvent event)
   {
-    //TODO: Support some kind of event bus, that can be subscribed to by various consumers
-    Logger.getLogger(BDD4jRunner.class.getSimpleName()).log(Level.INFO, event.toString());
+    EventBus.getInstance().publish(event);
   }
 }
