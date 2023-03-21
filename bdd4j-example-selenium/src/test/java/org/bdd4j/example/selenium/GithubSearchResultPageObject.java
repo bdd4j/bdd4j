@@ -1,6 +1,8 @@
 package org.bdd4j.example.selenium;
 
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
@@ -31,14 +33,31 @@ public class GithubSearchResultPageObject
    */
   public void shouldContainALinkTo(final String expectedURL)
   {
-    for (final WebElement link : driver.findElements(By.tagName("a")))
+    if (driver.findElements(By.tagName("a")).stream().map(extractHref())
+        .noneMatch(urlMatcher(expectedURL)))
     {
-      if (Objects.equals(link.getAttribute("href"), expectedURL))
-      {
-        return;
-      }
+      Assertions.fail("Missing link to " + expectedURL);
     }
+  }
 
-    Assertions.fail("Missing link to " + expectedURL);
+  /**
+   * Extracts the href attributes value.
+   *
+   * @return The mapping function.
+   */
+  private static Function<WebElement, String> extractHref()
+  {
+    return element -> element.getAttribute("href");
+  }
+
+  /**
+   * Builds a predicate that checks if two URLs match.
+   *
+   * @param otherURL The other URL.
+   * @return The predicate.
+   */
+  private static Predicate<String> urlMatcher(final String otherURL)
+  {
+    return url -> Objects.equals(url, otherURL);
   }
 }
