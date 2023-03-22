@@ -2,8 +2,7 @@ package org.bdd4j;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 /**
  * A runner that can be used to execute BDD scenarios.
@@ -24,6 +23,10 @@ public class BDD4jRunner
   @SafeVarargs
   public static <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
   {
+    final EventBus eventBus = EventBus.getInstance();
+
+    EventListener.loadListeners().forEach(eventBus::subscribe);
+
     try (final TestState<T> state = stepsWrapper.init())
     {
       final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(state);
@@ -31,11 +34,23 @@ public class BDD4jRunner
       publishEvent(new ScenarioTestStartedEvent(LocalDateTime.now(), steps.length,
           "TODO: Determine the actual name of the scenario"));
 
+      String previousStepType = "";
+
       for (final Step<T> step : steps)
       {
         final var timestamp = LocalDateTime.now();
 
-        final var fullStepDescription = step.getClass().getSimpleName() + " " + step.description();
+        String currentStepPrefix = step.getClass().getSimpleName();
+
+        if (Objects.equals(previousStepType, currentStepPrefix))
+        {
+          currentStepPrefix = "And";
+        }
+
+        previousStepType = step.getClass().getSimpleName();
+
+        final var fullStepDescription =
+            String.format("%s %s", currentStepPrefix, step.description());
 
         try
         {
@@ -86,7 +101,6 @@ public class BDD4jRunner
    */
   private static void publishEvent(final ScenarioEvent event)
   {
-    //TODO: Support some kind of event bus, that can be subscribed to by various consumers
-    Logger.getLogger(BDD4jRunner.class.getSimpleName()).log(Level.INFO, event.toString());
+    EventBus.getInstance().publish(event);
   }
 }
