@@ -1,0 +1,7 @@
+dependencies {
+    implementation('org.apache.camel:camel-core:3.19.0')
+
+    testImplementation project(':bdd4j-junit5')
+    testImplementation 'org.apache.camel:camel-test-main-junit5:3.19.0'
+}
+

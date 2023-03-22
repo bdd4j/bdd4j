@@ -4,3 +4,5 @@ include ':bdd4j-junit5'
 
 include ':bdd4j-example-calculator'
 include ':bdd4j-example-selenium'
+include 'bdd4j-example-camel'
+
