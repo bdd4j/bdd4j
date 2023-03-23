@@ -17,5 +17,12 @@ public @interface Feature
    *
    * @return The name of the feature.
    */
-  String value();
+  String title();
+
+  /**
+   * A unique identifier for the feature.
+   *
+   * @return The identifier.
+   */
+  String identifier();
 }

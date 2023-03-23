@@ -17,7 +17,7 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator
   public String generateDisplayNameForClass(final Class<?> testClass)
   {
     return "Feature: " +
-        Optional.ofNullable(testClass.getAnnotation(Feature.class)).map(Feature::value)
+        Optional.ofNullable(testClass.getAnnotation(Feature.class)).map(Feature::title)
             .orElse(testClass.getSimpleName());
   }
 
@@ -28,7 +28,7 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator
   public String generateDisplayNameForNestedClass(final Class<?> nestedClass)
   {
     return "Feature: " +
-        Optional.ofNullable(nestedClass.getAnnotation(Feature.class)).map(Feature::value)
+        Optional.ofNullable(nestedClass.getAnnotation(Feature.class)).map(Feature::title)
             .orElse(nestedClass.getSimpleName());
   }
 

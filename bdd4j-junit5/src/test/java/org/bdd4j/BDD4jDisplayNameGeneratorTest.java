@@ -76,7 +76,10 @@ class BDD4jDisplayNameGeneratorTest
     assertThat(displayName).isEqualTo("Scenario: doTheThing");
   }
 
-  @Feature("Cool feature")
+  @Feature(
+      title = "Cool feature",
+      identifier = "M-01"
+  )
   private static class TestWithAnnotation
   {
     @Scenario("Do the thing")

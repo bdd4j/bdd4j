@@ -8,6 +8,7 @@ dependencies {
     implementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     implementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
     runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    implementation 'org.junit.platform:junit-platform-reporting:1.9.2'
 }
 
 publishing {
