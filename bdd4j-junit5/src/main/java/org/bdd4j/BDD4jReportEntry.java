@@ -10,7 +10,7 @@ import org.junit.jupiter.api.TestReporter;
  * This class simplifies building and processing report entries with BDD4j specific
  * fields.
  */
-public class BDD4jReportEntry
+public final class BDD4jReportEntry
 {
   private static final String STEP_FIELD = "step";
   private static final String TYPE_FIELD = "type";
@@ -21,6 +21,11 @@ public class BDD4jReportEntry
 
   private final Map<String, String> entry;
 
+  /**
+   * Creates a new instance.
+   *
+   * @param entry The entry data.
+   */
   public BDD4jReportEntry(final Map<String, String> entry)
   {
     this.entry = new ConcurrentHashMap<>(entry);
@@ -83,12 +88,8 @@ public class BDD4jReportEntry
   @Override
   public String toString()
   {
-    return "BDD4jReportEntry{" +
-        "type=" + type() + "\n" +
-        "step=" + step() + "\n" +
-        "executionTime=" + executionTime() + "\n" +
-        "errorMessage=" + errorMessage() + "\n" +
-        '}';
+    return "BDD4jReportEntry{" + "type=" + type() + "\n" + "step=" + step() + "\n" +
+        "executionTime=" + executionTime() + "\n" + "errorMessage=" + errorMessage() + "\n" + '}';
   }
 
   /**
