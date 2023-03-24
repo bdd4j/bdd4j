@@ -2,7 +2,6 @@ package org.bdd4j;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
 
 import static org.bdd4j.BDD4jReportEntry.builder;
 
@@ -43,25 +42,13 @@ public abstract class AbstractScenarioTest
   {
     try (final TestState<T> state = stepsWrapper.init())
     {
-      final TestStepVisitor<T> stepVisitor = new TestStepVisitor<>(state);
-
-      String previousStepType = "";
+      final var stepVisitor = new TestStepVisitor<>(state);
+      final var stepDescriptionGenerator = new ConditionalStepDescriptionGenerator();
 
       for (final Step<T> step : steps)
       {
         final var timestamp = LocalDateTime.now();
-
-        String currentStepPrefix = step.getClass().getSimpleName();
-
-        if (Objects.equals(previousStepType, currentStepPrefix))
-        {
-          currentStepPrefix = "And";
-        }
-
-        previousStepType = step.getClass().getSimpleName();
-
-        final var fullStepDescription =
-            String.format("%s %s", currentStepPrefix, step.description());
+        final var fullStepDescription = stepDescriptionGenerator.generateStepDescriptionFor(step);
 
         try
         {
