@@ -83,16 +83,6 @@ public final class BDD4jReportEntry
   }
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String toString()
-  {
-    return "BDD4jReportEntry{" + "type=" + type() + "\n" + "step=" + step() + "\n" +
-        "executionTime=" + executionTime() + "\n" + "errorMessage=" + errorMessage() + "\n" + '}';
-  }
-
-  /**
    * Creates a builder for a new entry.
    *
    * @return The builder.
