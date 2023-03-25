@@ -4,9 +4,9 @@ import java.util.Objects;
 
 /**
  * A step description generator that substitutes the Given, When, Then keywords with the And keyword
- * when its appropriate.
+ * when it's appropriate.
  */
-public class ConditionalStepDescriptionGenerator
+public final class ConditionalStepDescriptionGenerator
 {
   private String previousStepType = "";
 
