@@ -1,9 +1,22 @@
-def javaProjects = subprojects.findAll { it.name != "" }
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13"
+    }
+}
 
-configure(javaProjects) {
+configure(subprojects.findAll()) {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+
+    apply plugin: 'jacoco'
+    apply plugin: 'pmd'
+    apply plugin: 'com.github.spotbugs'
 
     repositories {
         mavenCentral()
@@ -18,9 +31,62 @@ configure(javaProjects) {
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 
         testImplementation "org.assertj:assertj-core:${assertjVersion}"
+
+        compileOnly 'com.github.spotbugs:spotbugs-annotations:4.7.3'
+        spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+            vendor.set(JvmVendorSpec.ADOPTIUM)
+        }
     }
 
     test {
         useJUnitPlatform()
+    }
+
+    tasks.test {
+        finalizedBy(tasks.jacocoTestReport)
+    }
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+    }
+
+
+    jacocoTestReport {
+        reports {
+            xml.required = false
+            csv.required = false
+        }
+    }
+
+    pmd {
+        consoleOutput = false
+        sourceSets = [project.sourceSets.main]
+        toolVersion = "6.55.0"
+        incrementalAnalysis = true
+
+        //TODO: Set this flag to false as soon as the issues are fixed
+        ignoreFailures = true
+    }
+
+    project.spotbugs {
+        toolVersion = '4.7.3'
+
+        //TODO: Set this flag to false as soon as the issues are fixed
+        ignoreFailures = true
+    }
+
+    tasks.matching { it.name.startsWith("spotbugs") }.each {
+        if (it.name.contains("test")) {
+            it.enabled = false
+        }
+
+        it.reports {
+            xml.enabled = false
+            html.enabled = true
+        }
     }
 }
