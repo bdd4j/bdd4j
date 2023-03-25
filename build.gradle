@@ -92,7 +92,7 @@ configure(subprojects.findAll()) {
     }
 
     checkstyle {
-        toolVersion = '10.9.2'
+        toolVersion = '10.9.3'
         ignoreFailures = false
         configFile = file("${project.rootDir}/checkstyle.xml")
 
