@@ -4,12 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class BDD4jDisplayNameGeneratorTest
-{
+class BDD4jDisplayNameGeneratorTest {
 
   @Test
-  public void generateDisplayNameForClass_withAnnotation()
-  {
+  public void generateDisplayNameForClass_withAnnotation() {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var displayName = generator.generateDisplayNameForClass(TestWithAnnotation.class);
@@ -18,8 +16,7 @@ class BDD4jDisplayNameGeneratorTest
   }
 
   @Test
-  public void generateDisplayNameForClass_withoutAnnotation()
-  {
+  public void generateDisplayNameForClass_withoutAnnotation() {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var displayName = generator.generateDisplayNameForClass(TestWithoutAnnotation.class);
@@ -28,8 +25,7 @@ class BDD4jDisplayNameGeneratorTest
   }
 
   @Test
-  public void generateDisplayNameForNestedClass_withAnnotation()
-  {
+  public void generateDisplayNameForNestedClass_withAnnotation() {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var displayName = generator.generateDisplayNameForNestedClass(TestWithAnnotation.class);
@@ -38,8 +34,7 @@ class BDD4jDisplayNameGeneratorTest
   }
 
   @Test
-  public void generateDisplayNameForNestedClass_withoutAnnotation()
-  {
+  public void generateDisplayNameForNestedClass_withoutAnnotation() {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var displayName =
@@ -49,8 +44,7 @@ class BDD4jDisplayNameGeneratorTest
   }
 
   @Test
-  public void generateDisplayNameForMethod_withAnnotation() throws Throwable
-  {
+  public void generateDisplayNameForMethod_withAnnotation() throws Throwable {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var testClass = TestWithAnnotation.class;
@@ -63,8 +57,7 @@ class BDD4jDisplayNameGeneratorTest
   }
 
   @Test
-  public void generateDisplayNameForMethod_withoutAnnotation() throws Throwable
-  {
+  public void generateDisplayNameForMethod_withoutAnnotation() throws Throwable {
     final var generator = new BDD4jDisplayNameGenerator();
 
     final var testClass = TestWithoutAnnotation.class;
@@ -80,19 +73,15 @@ class BDD4jDisplayNameGeneratorTest
       title = "Cool feature",
       identifier = "M-01"
   )
-  private static class TestWithAnnotation
-  {
+  private static class TestWithAnnotation {
     @Scenario("Do the thing")
-    public void doTheThing()
-    {
+    public void doTheThing() {
     }
   }
 
-  private static class TestWithoutAnnotation
-  {
+  private static class TestWithoutAnnotation {
 
-    public void doTheThing()
-    {
+    public void doTheThing() {
     }
   }
 }

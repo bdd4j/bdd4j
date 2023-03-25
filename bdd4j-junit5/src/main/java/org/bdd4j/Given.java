@@ -9,14 +9,12 @@ import java.util.function.Function;
  * @param logic       The logic used to prepare the state.
  * @param <T>         The type of the test state.
  */
-public record Given<T>(String description, Function<T, TestState<T>> logic) implements Step<T>
-{
+public record Given<T>(String description, Function<T, TestState<T>> logic) implements Step<T> {
   /**
    * {@inheritDoc}
    */
   @Override
-  public void accept(final StepVisitor<T> visitor) throws Throwable
-  {
+  public void accept(final StepVisitor<T> visitor) throws Throwable {
     visitor.visit(this);
   }
 
@@ -24,15 +22,12 @@ public record Given<T>(String description, Function<T, TestState<T>> logic) impl
    * {@inheritDoc}
    */
   @Override
-  public TestState<T> applyLogic(final TestState<T> state) throws Throwable
-  {
+  public TestState<T> applyLogic(final TestState<T> state) throws Throwable {
     state.raiseExceptionIfPresent();
 
-    try
-    {
+    try {
       return logic().apply(state.state());
-    } catch (final Throwable exception)
-    {
+    } catch (final Throwable exception) {
       return TestState.exception(exception);
     }
   }

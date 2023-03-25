@@ -7,20 +7,16 @@ import java.net.UnknownHostException;
  * A helper class that can be used to gather various information about the infrastructure used to
  * run the tests.
  */
-public final class InfrastructureHelper
-{
+public final class InfrastructureHelper {
   /**
    * Determines the machines' hostname.
    *
    * @return The hostname.
    */
-  public static String determineHostname()
-  {
-    try
-    {
+  public static String determineHostname() {
+    try {
       return InetAddress.getLocalHost().getHostName();
-    } catch (final UnknownHostException ignored)
-    {
+    } catch (final UnknownHostException ignored) {
       return "Unknown";
     }
   }
@@ -30,8 +26,7 @@ public final class InfrastructureHelper
    *
    * @return The username.
    */
-  public static String determineUsername()
-  {
+  public static String determineUsername() {
     return System.getProperty("user.name");
   }
 
@@ -40,8 +35,7 @@ public final class InfrastructureHelper
    *
    * @return The operating system.
    */
-  public static String determineOperatingSystem()
-  {
+  public static String determineOperatingSystem() {
     return System.getProperty("os.name");
   }
 
@@ -50,8 +44,7 @@ public final class InfrastructureHelper
    *
    * @return The number of CPU cores.
    */
-  public static Integer determineNumberOfCores()
-  {
+  public static Integer determineNumberOfCores() {
     return Runtime.getRuntime().availableProcessors();
   }
 
@@ -60,8 +53,7 @@ public final class InfrastructureHelper
    *
    * @return The java version.
    */
-  public static String determineJavaVersion()
-  {
+  public static String determineJavaVersion() {
     return System.getProperty("java.version");
   }
 
@@ -70,8 +62,7 @@ public final class InfrastructureHelper
    *
    * @return The file encoding.
    */
-  public static String determineFileEncoding()
-  {
+  public static String determineFileEncoding() {
     return System.getProperty("file.encoding");
   }
 
@@ -80,8 +71,7 @@ public final class InfrastructureHelper
    *
    * @return The heap size.
    */
-  public static Long determineHeapSize()
-  {
+  public static Long determineHeapSize() {
     return Runtime.getRuntime().maxMemory();
   }
 }

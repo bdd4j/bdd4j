@@ -6,8 +6,7 @@ import java.util.Objects;
  * A step description generator that substitutes the Given, When, Then keywords with the And keyword
  * when it's appropriate.
  */
-public final class ConditionalStepDescriptionGenerator
-{
+public final class ConditionalStepDescriptionGenerator {
   private String previousStepType = "";
 
   /**
@@ -17,12 +16,10 @@ public final class ConditionalStepDescriptionGenerator
    * @param <T>  The type of the test state.
    * @return The step description.
    */
-  public <T> String generateStepDescriptionFor(final Step<T> step)
-  {
+  public <T> String generateStepDescriptionFor(final Step<T> step) {
     String currentStepPrefix = step.getClass().getSimpleName();
 
-    if (Objects.equals(previousStepType, currentStepPrefix))
-    {
+    if (Objects.equals(previousStepType, currentStepPrefix)) {
       currentStepPrefix = "And";
     }
 

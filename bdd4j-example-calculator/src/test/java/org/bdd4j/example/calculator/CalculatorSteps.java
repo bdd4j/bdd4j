@@ -14,24 +14,20 @@ import org.bdd4j.When;
 /**
  * The steps used to test the calculator feature.
  */
-public class CalculatorSteps implements BDD4jSteps<Calculator>
-{
+public class CalculatorSteps implements BDD4jSteps<Calculator> {
   /**
    * {@inheritDoc}
    */
   @Override
-  public TestState<Calculator> init()
-  {
+  public TestState<Calculator> init() {
     return TestState.state(new Calculator());
   }
 
-  public Given<Calculator> givenThatIHaveABlankCalculator()
-  {
+  public Given<Calculator> givenThatIHaveABlankCalculator() {
     return given("that I have a blank calculator").step(TestState::state);
   }
 
-  public When<Calculator> whenIAddToTheSubtotal(final Integer value)
-  {
+  public When<Calculator> whenIAddToTheSubtotal(final Integer value) {
     return when("I add {0} to the subtotal", value)
         .step((calculator) -> {
           calculator.add(value);
@@ -39,8 +35,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
         });
   }
 
-  public When<Calculator> whenISubtractFromTheSubtotal(final Integer value)
-  {
+  public When<Calculator> whenISubtractFromTheSubtotal(final Integer value) {
     return when("I subtract {0} from the subtotal", value)
         .step((calculator -> {
           calculator.subtract(value);
@@ -48,8 +43,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
         }));
   }
 
-  public When<Calculator> whenIClearTheCalculator()
-  {
+  public When<Calculator> whenIClearTheCalculator() {
     return when("I clear the calculator")
         .step((calculator) -> {
           calculator.clear();
@@ -57,8 +51,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
         });
   }
 
-  public Then<Calculator> thenTheSubtotalShouldBe(final Integer value)
-  {
+  public Then<Calculator> thenTheSubtotalShouldBe(final Integer value) {
     return then("the subtotal should be {0}", value)
         .step((state) -> {
           assertThat(state.state().subtotal()).isEqualTo(value);
@@ -67,8 +60,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator>
   }
 
   public Then<Calculator> thenTheCalculationShouldHaveFailedWithTheMessage(
-      final String expectedMessage)
-  {
+      final String expectedMessage) {
     return then("the calculation should have failed with the message: {0}", expectedMessage)
         .step((state) -> {
           assertThat(state.exception()).hasMessage(expectedMessage);

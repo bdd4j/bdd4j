@@ -2,7 +2,6 @@ package org.bdd4j;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
@@ -11,22 +10,19 @@ import org.junit.platform.launcher.TestPlan;
 /**
  * A {@link TestExecutionListener} that can be used to subscribe to BDD4j specific events.
  */
-public final class BDD4jTestExecutionListener implements TestExecutionListener
-{
+public final class BDD4jTestExecutionListener implements TestExecutionListener {
   /**
    * {@inheritDoc}
    */
   @Override
-  public void testPlanExecutionStarted(final TestPlan testPlan)
-  {
+  public void testPlanExecutionStarted(final TestPlan testPlan) {
     reportInfrastructure();
   }
 
   /**
    * Reports metadata about the infrastructure used to run the tests.
    */
-  private void reportInfrastructure()
-  {
+  private void reportInfrastructure() {
     final var entry = BDD4jReportEntry.builder().type(TestEventType.INFRASTRUCTURE_REPORTED)
         .with("hostname", InfrastructureHelper.determineHostname())
         .with("username", InfrastructureHelper.determineUsername())
@@ -44,8 +40,7 @@ public final class BDD4jTestExecutionListener implements TestExecutionListener
    */
   @Override
   public void reportingEntryPublished(final TestIdentifier testIdentifier,
-                                      final ReportEntry rawEntry)
-  {
+                                      final ReportEntry rawEntry) {
     final BDD4jReportEntry entry =
         BDD4jReportEntry.builder().copy(rawEntry.getKeyValuePairs()).build();
 

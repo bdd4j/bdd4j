@@ -1,10 +1,9 @@
 package org.bdd4j;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
 import static org.bdd4j.BDD4jReportEntry.builder;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestReporter;
 
@@ -16,13 +15,11 @@ import org.junit.jupiter.api.TestReporter;
  * <p>
  * The tests progress is reported to the {@link TestReporter}.
  */
-public abstract class AbstractScenarioTest
-{
+public abstract class AbstractScenarioTest {
   protected TestReporter reporter;
 
   @BeforeEach
-  public void setupReporter(final TestReporter reporter)
-  {
+  public void setupReporter(final TestReporter reporter) {
     this.reporter = reporter;
   }
 
@@ -38,20 +35,16 @@ public abstract class AbstractScenarioTest
    * @param <T>          The type of the test state.
    */
   @SafeVarargs
-  protected final <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps)
-  {
-    try (final TestState<T> state = stepsWrapper.init())
-    {
+  protected final <T> void scenario(final BDD4jSteps<T> stepsWrapper, final Step<T>... steps) {
+    try (final TestState<T> state = stepsWrapper.init()) {
       final var stepVisitor = new TestStepVisitor<>(state);
       final var stepDescriptionGenerator = new ConditionalStepDescriptionGenerator();
 
-      for (final Step<T> step : steps)
-      {
+      for (final Step<T> step : steps) {
         final var timestamp = LocalDateTime.now();
         final var fullStepDescription = stepDescriptionGenerator.generateStepDescriptionFor(step);
 
-        try
-        {
+        try {
           publish(builder().stepExecutionStarted().step(fullStepDescription).build());
 
           step.accept(stepVisitor);
@@ -60,16 +53,14 @@ public abstract class AbstractScenarioTest
               .executionTime(calculateExecutionTime(timestamp))
               .build());
 
-        } catch (final AssertionError e)
-        {
+        } catch (final AssertionError e) {
           publish(builder().stepExecutionFailed().step(fullStepDescription)
               .executionTime(calculateExecutionTime(timestamp))
               .errorMessage(e.getMessage())
               .build());
 
           throw e;
-        } catch (final Throwable e)
-        {
+        } catch (final Throwable e) {
           publish(builder().stepExecutionFailed().step(fullStepDescription)
               .executionTime(calculateExecutionTime(timestamp))
               .errorMessage(e.getMessage())
@@ -78,8 +69,7 @@ public abstract class AbstractScenarioTest
           throw new AssertionError("Failed to execute the scenario", e);
         }
       }
-    } catch (final Exception e)
-    {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }
@@ -90,8 +80,7 @@ public abstract class AbstractScenarioTest
    * @param timestamp The timestamp that should be used to calculate the execution time.
    * @return The elapsed time in milliseconds.
    */
-  private static long calculateExecutionTime(LocalDateTime timestamp)
-  {
+  private static long calculateExecutionTime(LocalDateTime timestamp) {
     return timestamp.until(LocalDateTime.now(), ChronoUnit.MILLIS);
   }
 
@@ -100,8 +89,7 @@ public abstract class AbstractScenarioTest
    *
    * @param entry The entry.
    */
-  private void publish(final BDD4jReportEntry entry)
-  {
+  private void publish(final BDD4jReportEntry entry) {
     reporter.publishEntry(entry.asMap());
   }
 }

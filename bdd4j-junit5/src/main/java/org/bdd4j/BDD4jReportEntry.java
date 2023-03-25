@@ -3,15 +3,13 @@ package org.bdd4j;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.junit.jupiter.api.TestReporter;
 
 /**
  * This class simplifies building and processing report entries with BDD4j specific
  * fields.
  */
-public final class BDD4jReportEntry
-{
+public final class BDD4jReportEntry {
   private static final String STEP_FIELD = "step";
   private static final String TYPE_FIELD = "type";
 
@@ -26,8 +24,7 @@ public final class BDD4jReportEntry
    *
    * @param entry The entry data.
    */
-  public BDD4jReportEntry(final Map<String, String> entry)
-  {
+  public BDD4jReportEntry(final Map<String, String> entry) {
     this.entry = new ConcurrentHashMap<>(entry);
   }
 
@@ -36,8 +33,7 @@ public final class BDD4jReportEntry
    *
    * @return The description of the step or {@link Optional#empty()} if there is none..
    */
-  public Optional<String> step()
-  {
+  public Optional<String> step() {
     return Optional.ofNullable(entry.getOrDefault(STEP_FIELD, null));
   }
 
@@ -46,8 +42,7 @@ public final class BDD4jReportEntry
    *
    * @return The type of the event or {@link Optional#empty()} if there is none.
    */
-  public Optional<TestEventType> type()
-  {
+  public Optional<TestEventType> type() {
     return Optional.ofNullable(entry.getOrDefault(TYPE_FIELD, null)).map(TestEventType::valueOf);
   }
 
@@ -56,8 +51,7 @@ public final class BDD4jReportEntry
    *
    * @return The error message of the event or {@link Optional#empty()} if there is none.
    */
-  public Optional<String> errorMessage()
-  {
+  public Optional<String> errorMessage() {
     return Optional.ofNullable(entry.getOrDefault(ERROR_MESSAGE_FIELD, null));
   }
 
@@ -67,8 +61,7 @@ public final class BDD4jReportEntry
    *
    * @return The execution time of the event or {@link Optional#empty()} if there is none.
    */
-  public Optional<Long> executionTime()
-  {
+  public Optional<Long> executionTime() {
     return Optional.ofNullable(entry.getOrDefault(EXECUTION_TIME_FIELD, null)).map(Long::valueOf);
   }
 
@@ -77,8 +70,7 @@ public final class BDD4jReportEntry
    *
    * @return The data.
    */
-  public Map<String, String> asMap()
-  {
+  public Map<String, String> asMap() {
     return new ConcurrentHashMap<>(entry);
   }
 
@@ -87,16 +79,14 @@ public final class BDD4jReportEntry
    *
    * @return The builder.
    */
-  public static Builder builder()
-  {
+  public static Builder builder() {
     return new Builder();
   }
 
   /**
    * A builder that can be used to build entries for the {@link TestReporter}
    */
-  public static class Builder
-  {
+  public static class Builder {
     private final Map<String, String> entry = new ConcurrentHashMap<>();
 
     /**
@@ -105,8 +95,7 @@ public final class BDD4jReportEntry
      * @param data The data that should be copied.
      * @return The builder.
      */
-    public Builder copy(final Map<String, String> data)
-    {
+    public Builder copy(final Map<String, String> data) {
       entry.putAll(data);
 
       return this;
@@ -119,8 +108,7 @@ public final class BDD4jReportEntry
      * @param value The value.
      * @return The builder.
      */
-    public Builder with(final String key, final String value)
-    {
+    public Builder with(final String key, final String value) {
       entry.put(key, value);
       return this;
     }
@@ -131,8 +119,7 @@ public final class BDD4jReportEntry
      * @param step The step.
      * @return The builder.
      */
-    public Builder step(final String step)
-    {
+    public Builder step(final String step) {
       return with(STEP_FIELD, step);
     }
 
@@ -142,8 +129,7 @@ public final class BDD4jReportEntry
      * @param type The type.
      * @return The builder.
      */
-    public Builder type(final TestEventType type)
-    {
+    public Builder type(final TestEventType type) {
       return with(TYPE_FIELD, type.name());
     }
 
@@ -152,8 +138,7 @@ public final class BDD4jReportEntry
      *
      * @return The builder.
      */
-    public Builder stepExecutionStarted()
-    {
+    public Builder stepExecutionStarted() {
       return type(TestEventType.STEP_EXECUTION_STARTED);
     }
 
@@ -162,8 +147,7 @@ public final class BDD4jReportEntry
      *
      * @return The builder.
      */
-    public Builder stepExecutionFailed()
-    {
+    public Builder stepExecutionFailed() {
       return type(TestEventType.STEP_EXECUTION_FAILED);
     }
 
@@ -172,8 +156,7 @@ public final class BDD4jReportEntry
      *
      * @return The builder.
      */
-    public Builder stepExecutionCompleted()
-    {
+    public Builder stepExecutionCompleted() {
       return type(TestEventType.STEP_EXECUTION_COMPLETED);
     }
 
@@ -183,8 +166,7 @@ public final class BDD4jReportEntry
      * @param errorMessage The error message.
      * @return The builder.
      */
-    public Builder errorMessage(final String errorMessage)
-    {
+    public Builder errorMessage(final String errorMessage) {
       return with(ERROR_MESSAGE_FIELD, errorMessage);
     }
 
@@ -194,8 +176,7 @@ public final class BDD4jReportEntry
      * @param executionTimeInMs The execution time in milliseconds.
      * @return The builder.
      */
-    public Builder executionTime(final Long executionTimeInMs)
-    {
+    public Builder executionTime(final Long executionTimeInMs) {
       return with(EXECUTION_TIME_FIELD, String.valueOf(executionTimeInMs));
     }
 
@@ -204,8 +185,7 @@ public final class BDD4jReportEntry
      *
      * @return The entry.
      */
-    public BDD4jReportEntry build()
-    {
+    public BDD4jReportEntry build() {
       return new BDD4jReportEntry(entry);
     }
   }

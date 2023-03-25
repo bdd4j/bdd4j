@@ -7,12 +7,10 @@ import static org.bdd4j.StepDSL.when;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-class ConditionalStepDescriptionGeneratorTest
-{
+class ConditionalStepDescriptionGeneratorTest {
 
   @Test
-  public void singleStep()
-  {
+  public void singleStep() {
     var generator = new ConditionalStepDescriptionGenerator();
 
     var step = when("something happens").step(TestState::state);
@@ -24,8 +22,7 @@ class ConditionalStepDescriptionGeneratorTest
   }
 
   @Test
-  public void twoStepsWithTheSameKeyword()
-  {
+  public void twoStepsWithTheSameKeyword() {
     var generator = new ConditionalStepDescriptionGenerator();
 
     var stepOne = when("something happens").step(TestState::state);
@@ -46,8 +43,7 @@ class ConditionalStepDescriptionGeneratorTest
   }
 
   @Test
-  public void threeStepsWithAlteringKeywords()
-  {
+  public void threeStepsWithAlteringKeywords() {
     var generator = new ConditionalStepDescriptionGenerator();
 
     var stepOne = when("something happens").step(TestState::state);

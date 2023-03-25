@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.jupiter.params.ParameterizedTest;
 
 /**
@@ -18,8 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 @Target(ElementType.METHOD)
 @ParameterizedTest
 @BDD4jTest
-public @interface ScenarioOutline
-{
+public @interface ScenarioOutline {
   /**
    * The name of the scenario.
    *

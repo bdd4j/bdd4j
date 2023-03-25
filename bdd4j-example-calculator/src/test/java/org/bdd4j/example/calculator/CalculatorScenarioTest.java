@@ -20,34 +20,29 @@ import org.junit.jupiter.params.provider.CsvSource;
     I want to be able to do calculations
     In order to solve very complex problems.
     """)
-public class CalculatorScenarioTest extends AbstractScenarioTest
-{
+public class CalculatorScenarioTest extends AbstractScenarioTest {
   @Scenario("Add a value")
-  public void addAValue(final CalculatorSteps steps)
-  {
+  public void addAValue(final CalculatorSteps steps) {
     scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1), steps.thenTheSubtotalShouldBe(1));
   }
 
   @Scenario("Subtract a value")
-  public void subtractAValue(final CalculatorSteps steps)
-  {
+  public void subtractAValue(final CalculatorSteps steps) {
     scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(10));
   }
 
   @Scenario("Clear")
-  public void clear(final CalculatorSteps steps)
-  {
+  public void clear(final CalculatorSteps steps) {
     scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
         steps.thenTheSubtotalShouldBe(0));
   }
 
   @Scenario("Integer overflow")
-  public void integerOverflow(final CalculatorSteps steps)
-  {
+  public void integerOverflow(final CalculatorSteps steps) {
     scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
@@ -55,8 +50,7 @@ public class CalculatorScenarioTest extends AbstractScenarioTest
   }
 
   @Scenario("Integer underflow")
-  public void integerUnderflow(final CalculatorSteps steps)
-  {
+  public void integerUnderflow(final CalculatorSteps steps) {
     scenario(steps, steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
@@ -68,8 +62,7 @@ public class CalculatorScenarioTest extends AbstractScenarioTest
       1,1,2
       2,2,4
       """)
-  public void parameterizedTest(int a, int b, int expectedSum, CalculatorSteps steps)
-  {
+  public void parameterizedTest(int a, int b, int expectedSum, CalculatorSteps steps) {
     scenario(steps,
         steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(a),
