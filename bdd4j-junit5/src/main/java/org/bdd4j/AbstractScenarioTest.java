@@ -9,11 +9,11 @@ import org.junit.jupiter.api.TestReporter;
 
 /**
  * An abstract base class that can be used to implement BDD4j scenario tests with.
- * <p>
- * The class provides the main entry point for scenario tests in the form of the
+ *
+ * <p>The class provides the main entry point for scenario tests in the form of the
  * {@link AbstractScenarioTest#scenario(BDD4jSteps, Step[])} method.
- * <p>
- * The tests progress is reported to the {@link TestReporter}.
+ *
+ * <p>The tests progress is reported to the {@link TestReporter}.
  */
 public abstract class AbstractScenarioTest {
   protected TestReporter reporter;
@@ -25,8 +25,8 @@ public abstract class AbstractScenarioTest {
 
   /**
    * Runs a new scenario.
-   * <p>
-   * If the test state implements the {@link AutoCloseable} interface, the
+   *
+   * <p>If the test state implements the {@link AutoCloseable} interface, the
    * {@link AutoCloseable#close()} method will be invoked when the scenario has been completed.
    * This can be used to clean up resources used by the test, such as database connections.
    *

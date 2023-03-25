@@ -31,7 +31,7 @@ public final class BDD4jReportEntry {
   /**
    * Retrieves the step description.
    *
-   * @return The description of the step or {@link Optional#empty()} if there is none..
+   * @return The description of the step or {@link Optional#empty()} if there is none.
    */
   public Optional<String> step() {
     return Optional.ofNullable(entry.getOrDefault(STEP_FIELD, null));
@@ -84,7 +84,7 @@ public final class BDD4jReportEntry {
   }
 
   /**
-   * A builder that can be used to build entries for the {@link TestReporter}
+   * A builder that can be used to build entries for the {@link TestReporter}.
    */
   public static class Builder {
     private final Map<String, String> entry = new ConcurrentHashMap<>();
@@ -134,7 +134,7 @@ public final class BDD4jReportEntry {
     }
 
     /**
-     * Sets the type to {@link TestEventType#STEP_EXECUTION_STARTED}
+     * Sets the type to {@link TestEventType#STEP_EXECUTION_STARTED}.
      *
      * @return The builder.
      */
@@ -143,7 +143,7 @@ public final class BDD4jReportEntry {
     }
 
     /**
-     * Sets the type to {@link TestEventType#STEP_EXECUTION_FAILED}
+     * Sets the type to {@link TestEventType#STEP_EXECUTION_FAILED}.
      *
      * @return The builder.
      */
@@ -152,7 +152,7 @@ public final class BDD4jReportEntry {
     }
 
     /**
-     * Sets the type to {@link TestEventType#STEP_EXECUTION_COMPLETED}
+     * Sets the type to {@link TestEventType#STEP_EXECUTION_COMPLETED}.
      *
      * @return The builder.
      */

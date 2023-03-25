@@ -13,9 +13,9 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator {
    */
   @Override
   public String generateDisplayNameForClass(final Class<?> testClass) {
-    return "Feature: " +
-        Optional.ofNullable(testClass.getAnnotation(Feature.class)).map(Feature::title)
-            .orElse(testClass.getSimpleName());
+    return "Feature: "
+        + Optional.ofNullable(testClass.getAnnotation(Feature.class)).map(Feature::title)
+        .orElse(testClass.getSimpleName());
   }
 
   /**
@@ -23,9 +23,9 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator {
    */
   @Override
   public String generateDisplayNameForNestedClass(final Class<?> nestedClass) {
-    return "Feature: " +
-        Optional.ofNullable(nestedClass.getAnnotation(Feature.class)).map(Feature::title)
-            .orElse(nestedClass.getSimpleName());
+    return "Feature: "
+        + Optional.ofNullable(nestedClass.getAnnotation(Feature.class)).map(Feature::title)
+        .orElse(nestedClass.getSimpleName());
   }
 
   /**
@@ -33,8 +33,8 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator {
    */
   @Override
   public String generateDisplayNameForMethod(final Class<?> testClass, final Method testMethod) {
-    return "Scenario: " +
-        Optional.ofNullable(testMethod.getAnnotation(Scenario.class)).map(Scenario::value)
-            .orElse(testMethod.getName());
+    return "Scenario: "
+        + Optional.ofNullable(testMethod.getAnnotation(Scenario.class)).map(Scenario::value)
+        .orElse(testMethod.getName());
   }
 }

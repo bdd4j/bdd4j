@@ -8,8 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 
 /**
  * An annotation that can be used to create parameterized scenarios.
- * <p>
- * Due to a conflict between parameter resolvers the injected steps have to be placed as the last
+ *
+ * <p>Due to a conflict between parameter resolvers the injected steps have to be placed as the last
  * parameter for the annotated method. See
  * <a href="https://github.com/bdd4j/bdd4j/issues/2">this issue</a> for more details.
  */

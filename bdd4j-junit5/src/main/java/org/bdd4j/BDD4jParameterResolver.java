@@ -30,8 +30,8 @@ public class BDD4jParameterResolver implements ParameterResolver {
     try {
       return parameterContext.getParameter().getType().getConstructors()[0].newInstance();
     } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
-      throw new ParameterResolutionException("Failed to create instance of type " +
-          parameterContext.getParameter().getType().getName(), e);
+      throw new ParameterResolutionException("Failed to create instance of type "
+          + parameterContext.getParameter().getType().getName(), e);
     }
   }
 }
