@@ -17,6 +17,7 @@ configure(subprojects.findAll()) {
     apply plugin: 'jacoco'
     apply plugin: 'pmd'
     apply plugin: 'com.github.spotbugs'
+    apply plugin: 'checkstyle'
 
     repositories {
         mavenCentral()
@@ -88,5 +89,13 @@ configure(subprojects.findAll()) {
             xml.enabled = false
             html.enabled = true
         }
+    }
+
+    checkstyle {
+        toolVersion = '10.9.2'
+        ignoreFailures = true
+        configFile = file("${project.rootDir}/checkstyle.xml")
+
+        sourceSets = [project.sourceSets.main]
     }
 }
