@@ -1,0 +1,5 @@
+dependencies {
+    testImplementation project(':bdd4j-junit5')
+
+    implementation "com.microsoft.playwright:playwright:${playwrightVersion}"
+}
