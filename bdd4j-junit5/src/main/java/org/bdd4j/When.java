@@ -11,29 +11,29 @@ import java.util.function.Function;
  */
 public record When<T>(String description, Function<T, TestState<T>> logic) implements Step<T>
 {
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void accept(StepVisitor<T> visitor) throws Throwable
-  {
-    visitor.visit(this);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public TestState<T> applyLogic(final TestState<T> state) throws Throwable
-  {
-    state.raiseExceptionIfPresent();
-
-    try
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void accept(StepVisitor<T> visitor) throws Throwable
     {
-      return logic().apply(state.state());
-    } catch (final Throwable exception)
-    {
-      return TestState.exception(exception);
+        visitor.visit(this);
     }
-  }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TestState<T> applyLogic(final TestState<T> state) throws Throwable
+    {
+        state.raiseExceptionIfPresent();
+
+        try
+        {
+            return logic().apply(state.state());
+        } catch (final Throwable exception)
+        {
+            return TestState.exception(exception);
+        }
+    }
 }

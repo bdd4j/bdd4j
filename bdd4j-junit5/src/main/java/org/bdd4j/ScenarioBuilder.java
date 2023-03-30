@@ -7,7 +7,8 @@ public class ScenarioBuilder
 {
     private List<Step<?>> steps = Collections.emptyList();
 
-    public <S> void addSteps(Step<S>... steps)
+    @SafeVarargs
+    public final <S> void addSteps(Step<S>... steps)
     {
         this.steps = List.of(steps);
     }

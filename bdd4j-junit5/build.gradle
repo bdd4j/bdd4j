@@ -25,7 +25,9 @@ publishing {
         }
     }
 }
-
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
 signing {
     sign publishing.publications
 }

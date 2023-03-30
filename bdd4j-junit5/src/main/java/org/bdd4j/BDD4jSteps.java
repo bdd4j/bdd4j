@@ -18,10 +18,10 @@ package org.bdd4j;
  */
 public interface BDD4jSteps<T>
 {
-  /**
-   * Initializes the state for the test.
-   *
-   * @return The state.
-   */
-  TestState<T> init();
+    /**
+     * Initializes the state for the test.
+     *
+     * @return The state.
+     */
+    TestState<T> init();
 }

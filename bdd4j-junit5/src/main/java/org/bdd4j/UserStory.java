@@ -12,7 +12,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ExtendWith(BDD4jExtension.class)
 @ExtendWith(BDD4jInvocationInterceptor.class)
 public @interface UserStory
 {

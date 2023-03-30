@@ -7,24 +7,24 @@ package org.bdd4j;
  */
 public interface StepVisitor<T>
 {
-  /**
-   * Visits the given step.
-   *
-   * @param step The step.
-   */
-  void visit(Given<T> step) throws Throwable;
+    /**
+     * Visits the given step.
+     *
+     * @param step The step.
+     */
+    void visit(Given<T> step) throws Throwable;
 
-  /**
-   * Visits the given step.
-   *
-   * @param step The step.
-   */
-  void visit(When<T> step) throws Throwable;
+    /**
+     * Visits the given step.
+     *
+     * @param step The step.
+     */
+    void visit(When<T> step) throws Throwable;
 
-  /**
-   * Visits the given step.
-   *
-   * @param step The step.
-   */
-  void visit(Then<T> step) throws Throwable;
+    /**
+     * Visits the given step.
+     *
+     * @param step The step.
+     */
+    void visit(Then<T> step) throws Throwable;
 }

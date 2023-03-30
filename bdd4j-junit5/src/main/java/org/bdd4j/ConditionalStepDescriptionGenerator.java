@@ -8,26 +8,28 @@ import java.util.Objects;
  */
 public class ConditionalStepDescriptionGenerator
 {
-  private String previousStepType = "";
+    private String previousStepType = "";
 
-  /**
-   * Generates the full step description for the given step.
-   *
-   * @param step The step.
-   * @param <T>  The type of the test state.
-   * @return The step description.
-   */
-  public <T> String generateStepDescriptionFor(final Step<T> step)
-  {
-    String currentStepPrefix = step.getClass().getSimpleName();
-
-    if (Objects.equals(previousStepType, currentStepPrefix))
+    /**
+     * Generates the full step description for the given step.
+     *
+     * @param step The step.
+     * @param <T>  The type of the test state.
+     * @return The step description.
+     */
+    public <T> String generateStepDescriptionFor(final Step<T> step)
     {
-      currentStepPrefix = "And";
+        String currentStepPrefix = step.getClass()
+                                       .getSimpleName();
+
+        if (Objects.equals(previousStepType, currentStepPrefix))
+        {
+            currentStepPrefix = "And";
+        }
+
+        previousStepType = step.getClass()
+                               .getSimpleName();
+
+        return String.format("%s %s", currentStepPrefix, step.description());
     }
-
-    previousStepType = step.getClass().getSimpleName();
-
-    return String.format("%s %s", currentStepPrefix, step.description());
-  }
 }

@@ -5,15 +5,15 @@ package org.bdd4j;
  */
 public class SomeTestedApi
 {
-  private int numberOfInvocations = 0;
+    private int numberOfInvocations = 0;
 
-  public void doTheThing()
-  {
-    numberOfInvocations++;
-  }
+    public void doTheThing()
+    {
+        numberOfInvocations++;
+    }
 
-  public int getNumberOfInvocations()
-  {
-    return numberOfInvocations;
-  }
+    public int getNumberOfInvocations()
+    {
+        return numberOfInvocations;
+    }
 }
