@@ -8,36 +8,34 @@ import org.openqa.selenium.WebDriver;
  */
 public class GithubSearchPageObject
 {
-    private final WebDriver driver;
+  private final WebDriver driver;
 
-    /**
-     * Creates a new instance.
-     *
-     * @param driver The driver used by this instance.
-     */
-    public GithubSearchPageObject(final WebDriver driver)
-    {
-        this.driver = driver;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param driver The driver used by this instance.
+   */
+  public GithubSearchPageObject(final WebDriver driver)
+  {
+    this.driver = driver;
+  }
 
 
-    /**
-     * Enters a search term.
-     *
-     * @param searchTerm The search term.
-     */
-    public void enterSearchTerm(final String searchTerm)
-    {
-        driver.findElement(By.name("q"))
-              .sendKeys(searchTerm);
-    }
+  /**
+   * Enters a search term.
+   *
+   * @param searchTerm The search term.
+   */
+  public void enterSearchTerm(final String searchTerm)
+  {
+    driver.findElement(By.name("q")).sendKeys(searchTerm);
+  }
 
-    /**
-     * Hits the enter key.
-     */
-    public void hitTheEnterKey()
-    {
-        driver.findElement(By.name("q"))
-              .submit();
-    }
+  /**
+   * Hits the enter key.
+   */
+  public void hitTheEnterKey()
+  {
+    driver.findElement(By.name("q")).submit();
+  }
 }

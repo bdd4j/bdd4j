@@ -12,10 +12,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Feature
 {
-    /**
-     * The name of the feature.
-     *
-     * @return The name of the feature.
-     */
-    String value();
+  /**
+   * The name of the feature.
+   *
+   * @return The name of the feature.
+   */
+  String value();
 }

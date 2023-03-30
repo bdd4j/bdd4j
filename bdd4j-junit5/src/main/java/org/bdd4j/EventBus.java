@@ -7,29 +7,28 @@ import java.util.ServiceLoader;
  */
 public interface EventBus
 {
-    /**
-     * Publishes the given event.
-     *
-     * @param event The event.
-     */
-    void publish(final ScenarioEvent event);
+  /**
+   * Publishes the given event.
+   *
+   * @param event The event.
+   */
+  void publish(final ScenarioEvent event);
 
-    /**
-     * Subscribes the given subscriber.
-     *
-     * @param subscriber The subscriber.
-     */
-    void subscribe(final EventListener subscriber);
+  /**
+   * Subscribes the given subscriber.
+   *
+   * @param subscriber The subscriber.
+   */
+  void subscribe(final EventListener subscriber);
 
-    /**
-     * Retrieves the default event bus.
-     *
-     * @return The event bus.
-     */
-    static EventBus getInstance()
-    {
-        return ServiceLoader.load(EventBus.class)
-                            .findFirst()
-                            .orElseThrow(() -> new IllegalStateException("No default event bus provided"));
-    }
+  /**
+   * Retrieves the default event bus.
+   *
+   * @return The event bus.
+   */
+  static EventBus getInstance()
+  {
+    return ServiceLoader.load(EventBus.class).findFirst()
+        .orElseThrow(() -> new IllegalStateException("No default event bus provided"));
+  }
 }

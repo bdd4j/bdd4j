@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
  */
 public interface ScenarioEvent
 {
-    /**
-     * The timestamp that indicates when the event has occurred.
-     *
-     * @return The timestamp.
-     */
-    LocalDateTime timestamp();
+  /**
+   * The timestamp that indicates when the event has occurred.
+   *
+   * @return The timestamp.
+   */
+  LocalDateTime timestamp();
 }

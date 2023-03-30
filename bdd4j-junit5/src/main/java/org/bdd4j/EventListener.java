@@ -8,22 +8,20 @@ import java.util.stream.Stream;
  */
 public interface EventListener
 {
-    /**
-     * Notifies the listener with the given event.
-     *
-     * @param event The event.
-     */
-    void notify(ScenarioEvent event);
+  /**
+   * Notifies the listener with the given event.
+   *
+   * @param event The event.
+   */
+  void notify(ScenarioEvent event);
 
-    /**
-     * Loads all the listeners.
-     *
-     * @return The listeners.
-     */
-    static Stream<EventListener> loadListeners()
-    {
-        return ServiceLoader.load(EventListener.class)
-                            .stream()
-                            .map(ServiceLoader.Provider::get);
-    }
+  /**
+   * Loads all the listeners.
+   *
+   * @return The listeners.
+   */
+  static Stream<EventListener> loadListeners()
+  {
+    return ServiceLoader.load(EventListener.class).stream().map(ServiceLoader.Provider::get);
+  }
 }

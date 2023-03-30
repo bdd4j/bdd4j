@@ -8,175 +8,175 @@ import java.util.function.Function;
  */
 public class StepDSL
 {
+  /**
+   * A builder method that can be used to create a new given step.
+   *
+   * @param step A description of the step.
+   * @return The builder.
+   */
+  public static GivenBuilder given(final String step)
+  {
+    return new GivenBuilder(step);
+  }
+
+  /**
+   * A builder method that can be used to create a new given step.
+   *
+   * @param template The template that should be used to describe the step.
+   * @param args     The parameters that should be injected into the template.
+   * @return The builder.
+   */
+  public static GivenBuilder given(final String template, final Object... args)
+  {
+    return given(formatStepName(template, args));
+  }
+
+  /**
+   * A builder method that can be used to create a new when step.
+   *
+   * @param step A description of the step.
+   * @return The builder.
+   */
+  public static WhenBuilder when(final String step)
+  {
+    return new WhenBuilder(step);
+  }
+
+  /**
+   * A builder method that can be used to create a new when step.
+   *
+   * @param template The template that should be used to describe the step.
+   * @param args     The parameters that should be injected into the template.
+   * @return The builder.
+   */
+  public static WhenBuilder when(final String template, final Object... args)
+  {
+    return when(formatStepName(template, args));
+  }
+
+  /**
+   * A builder method that can be used to create a new then step.
+   *
+   * @param step A description of the step.
+   * @return The builder.
+   */
+  public static ThenBuilder then(final String step)
+  {
+    return new ThenBuilder(step);
+  }
+
+  /**
+   * A builder method that can be used to create a new then step.
+   *
+   * @param template The template that should be used to describe the step.
+   * @param args     The parameters that should be injected into the template.
+   * @return The builder.
+   */
+  public static ThenBuilder then(final String template, final Object... args)
+  {
+    return then(formatStepName(template, args));
+  }
+
+  /**
+   * Formats the given step name template with the given arguments.
+   *
+   * @param template The template string.
+   * @param args     The arguments.
+   * @return The formatted name template.
+   */
+  private static String formatStepName(final String template,
+                                       final Object[] args)
+  {
+    return MessageFormat.format(template, args);
+  }
+
+  /**
+   * A builder that can be used to create a {@link Given} step.
+   */
+  public static class GivenBuilder
+  {
+    private final String step;
+
     /**
-     * A builder method that can be used to create a new given step.
+     * Creates a new instance.
      *
-     * @param step A description of the step.
-     * @return The builder.
+     * @param step The step description.
      */
-    public static GivenBuilder given(final String step)
+    private GivenBuilder(final String step)
     {
-        return new GivenBuilder(step);
+      this.step = step;
     }
 
     /**
-     * A builder method that can be used to create a new given step.
+     * Sets the step logic.
      *
-     * @param template The template that should be used to describe the step.
-     * @param args     The parameters that should be injected into the template.
-     * @return The builder.
+     * @param logic The logic
+     * @param <T>   The type of the state.
+     * @return The step.
      */
-    public static GivenBuilder given(final String template, final Object... args)
+    public <T> Given<T> step(final Function<T, TestState<T>> logic)
     {
-        return given(formatStepName(template, args));
+      return new Given<>(step, logic);
     }
+  }
+
+  /**
+   * A builder that can be used to create a {@link When} step.
+   */
+  public static class WhenBuilder
+  {
+    private final String step;
 
     /**
-     * A builder method that can be used to create a new when step.
+     * Creates a new instance.
      *
-     * @param step A description of the step.
-     * @return The builder.
+     * @param step The step.
      */
-    public static WhenBuilder when(final String step)
+    private WhenBuilder(final String step)
     {
-        return new WhenBuilder(step);
+      this.step = step;
     }
 
     /**
-     * A builder method that can be used to create a new when step.
+     * Sets the step logic for the step.
      *
-     * @param template The template that should be used to describe the step.
-     * @param args     The parameters that should be injected into the template.
-     * @return The builder.
+     * @param logic The logic.
+     * @param <T>   The type of the state.
+     * @return The step.
      */
-    public static WhenBuilder when(final String template, final Object... args)
+    public <T> When<T> step(final Function<T, TestState<T>> logic)
     {
-        return when(formatStepName(template, args));
+      return new When<>(step, logic);
     }
+  }
+
+  /**
+   * A builder that can be used to create a {@link Then} step.
+   */
+  public static class ThenBuilder
+  {
+    private final String step;
 
     /**
-     * A builder method that can be used to create a new then step.
+     * Creates a new instance.
      *
-     * @param step A description of the step.
-     * @return The builder.
+     * @param step The step description.
      */
-    public static ThenBuilder then(final String step)
+    private ThenBuilder(final String step)
     {
-        return new ThenBuilder(step);
+      this.step = step;
     }
 
     /**
-     * A builder method that can be used to create a new then step.
+     * Sets the step logic for the step.
      *
-     * @param template The template that should be used to describe the step.
-     * @param args     The parameters that should be injected into the template.
-     * @return The builder.
+     * @param logic The logic.
+     * @param <T>   The type of the state.
+     * @return The then step.
      */
-    public static ThenBuilder then(final String template, final Object... args)
+    public <T> Then<T> step(final Function<TestState<T>, TestState<T>> logic)
     {
-        return then(formatStepName(template, args));
+      return new Then<>(step, logic);
     }
-
-    /**
-     * Formats the given step name template with the given arguments.
-     *
-     * @param template The template string.
-     * @param args     The arguments.
-     * @return The formatted name template.
-     */
-    private static String formatStepName(final String template,
-                                         final Object[] args)
-    {
-        return MessageFormat.format(template, args);
-    }
-
-    /**
-     * A builder that can be used to create a {@link Given} step.
-     */
-    public static class GivenBuilder
-    {
-        private final String step;
-
-        /**
-         * Creates a new instance.
-         *
-         * @param step The step description.
-         */
-        private GivenBuilder(final String step)
-        {
-            this.step = step;
-        }
-
-        /**
-         * Sets the step logic.
-         *
-         * @param logic The logic
-         * @param <T>   The type of the state.
-         * @return The step.
-         */
-        public <T> Given<T> step(final Function<T, TestState<T>> logic)
-        {
-            return new Given<>(step, logic);
-        }
-    }
-
-    /**
-     * A builder that can be used to create a {@link When} step.
-     */
-    public static class WhenBuilder
-    {
-        private final String step;
-
-        /**
-         * Creates a new instance.
-         *
-         * @param step The step.
-         */
-        private WhenBuilder(final String step)
-        {
-            this.step = step;
-        }
-
-        /**
-         * Sets the step logic for the step.
-         *
-         * @param logic The logic.
-         * @param <T>   The type of the state.
-         * @return The step.
-         */
-        public <T> When<T> step(final Function<T, TestState<T>> logic)
-        {
-            return new When<>(step, logic);
-        }
-    }
-
-    /**
-     * A builder that can be used to create a {@link Then} step.
-     */
-    public static class ThenBuilder
-    {
-        private final String step;
-
-        /**
-         * Creates a new instance.
-         *
-         * @param step The step description.
-         */
-        private ThenBuilder(final String step)
-        {
-            this.step = step;
-        }
-
-        /**
-         * Sets the step logic for the step.
-         *
-         * @param logic The logic.
-         * @param <T>   The type of the state.
-         * @return The then step.
-         */
-        public <T> Then<T> step(final Function<TestState<T>, TestState<T>> logic)
-        {
-            return new Then<>(step, logic);
-        }
-    }
+  }
 }

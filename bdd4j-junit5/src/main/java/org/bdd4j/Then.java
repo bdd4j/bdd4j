@@ -10,32 +10,32 @@ import java.util.function.Function;
  * @param <T>         The type of the test state.
  */
 public record Then<T>(String description, Function<TestState<T>, TestState<T>> logic)
-        implements Step<T>
+    implements Step<T>
 {
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(final StepVisitor<T> visitor) throws Throwable
-    {
-        visitor.visit(this);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void accept(final StepVisitor<T> visitor) throws Throwable
+  {
+    visitor.visit(this);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TestState<T> applyLogic(TestState<T> state)
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public TestState<T> applyLogic(TestState<T> state)
+  {
+    try
     {
-        try
-        {
-            return logic().apply(state);
-        } catch (final AssertionError assertionError)
-        {
-            throw assertionError;
-        } catch (final Throwable exception)
-        {
-            return TestState.exception(exception);
-        }
+      return logic().apply(state);
+    } catch (final AssertionError assertionError)
+    {
+      throw assertionError;
+    } catch (final Throwable exception)
+    {
+      return TestState.exception(exception);
     }
+  }
 }

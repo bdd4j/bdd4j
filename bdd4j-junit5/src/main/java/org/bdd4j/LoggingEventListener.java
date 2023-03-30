@@ -8,13 +8,12 @@ import java.util.logging.Logger;
  */
 public final class LoggingEventListener implements EventListener
 {
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void notify(final ScenarioEvent event)
-    {
-        Logger.getLogger(LoggingEventListener.class.getSimpleName())
-              .log(Level.INFO, event.toString());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void notify(final ScenarioEvent event)
+  {
+    Logger.getLogger(LoggingEventListener.class.getSimpleName()).log(Level.INFO, event.toString());
+  }
 }

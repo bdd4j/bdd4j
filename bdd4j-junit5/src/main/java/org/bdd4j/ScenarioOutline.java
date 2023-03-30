@@ -1,11 +1,11 @@
 package org.bdd4j;
 
-import org.junit.jupiter.params.ParameterizedTest;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.junit.jupiter.params.ParameterizedTest;
 
 /**
  * An annotation that can be used to create parameterized scenarios.
@@ -20,10 +20,10 @@ import java.lang.annotation.Target;
 @BDD4jTest
 public @interface ScenarioOutline
 {
-    /**
-     * The name of the scenario.
-     *
-     * @return The name.
-     */
-    String value();
+  /**
+   * The name of the scenario.
+   *
+   * @return The name.
+   */
+  String value();
 }
