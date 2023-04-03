@@ -1,15 +1,18 @@
 package org.bdd4j;
 
+import static java.util.Objects.nonNull;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
-import static java.util.Objects.nonNull;
-
-public class BDD4jInvocationInterceptor implements InvocationInterceptor
+/**
+ * BDD4jInvocationInterceptor is an Extensions that intercepts calls to test code.
+ * It gathers information about the test for reporting purposes and sets up a scenario runner to execute the steps involved in a bdd4j test.
+ */
+public final class BDD4jInvocationInterceptor implements InvocationInterceptor
 {
 
     private String feature;
@@ -49,19 +52,16 @@ public class BDD4jInvocationInterceptor implements InvocationInterceptor
         var scenarioBuilder = invocationContext.getArguments()
                                                .stream()
                                                .filter(o -> o instanceof ScenarioBuilder)
-                                               .map(o -> (ScenarioBuilder) o)
+                                               .map(o -> (ScenarioBuilder<?>) o)
                                                .findFirst()
                                                .orElseThrow();
-        var stepsWrapper = invocationContext.getArguments()
-                                            .stream()
-                                            .filter(o -> o instanceof BDD4jSteps<?>)
-                                            .map(o -> (BDD4jSteps<?>) o)
-                                            .findFirst()
-                                            .orElseThrow();
+
+        var stepsWrapper = scenarioBuilder.availableSteps();
 
         //noinspection unchecked
-        BDD4jRunner.scenario(stepsWrapper, extensionContext::publishReportEntry, scenarioBuilder.steps()
-                                                                                                .toArray(new Step[0]));
+        BDD4jRunner.scenario(stepsWrapper, extensionContext::publishReportEntry,
+                             scenarioBuilder.steps()
+                                            .toArray(new Step[0]));
 
     }
 
