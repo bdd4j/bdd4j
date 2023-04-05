@@ -18,10 +18,14 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
   private String feature;
   private String story;
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public <T> T interceptTestClassConstructor(Invocation<T> invocation,
-                                             ReflectiveInvocationContext<Constructor<T>> invocationContext,
-                                             ExtensionContext extensionContext) throws Throwable {
+  public <T> T interceptTestClassConstructor(final Invocation<T> invocation,
+                                             final ReflectiveInvocationContext<Constructor<T>> invocationContext,
+                                             final ExtensionContext extensionContext)
+      throws Throwable {
     //it would be much nicer if the annotation value would be reported directly via
     //extensionContext.publishReportEntry(), but for some reasons, that report entry "gets lost"
     //This could be related to https://github.com/junit-team/junit5/issues/2277
@@ -32,10 +36,13 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
         extensionContext);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public void interceptTestMethod(Invocation<Void> invocation,
-                                  ReflectiveInvocationContext<Method> invocationContext,
-                                  ExtensionContext extensionContext) throws Throwable {
+  public void interceptTestMethod(final Invocation<Void> invocation,
+                                  final ReflectiveInvocationContext<Method> invocationContext,
+                                  final ExtensionContext extensionContext) throws Throwable {
     if (nonNull(feature)) {
       extensionContext.publishReportEntry("Feature", feature);
       feature = null;
@@ -59,16 +66,27 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
     BDD4jRunner.scenario(stepsWrapper, extensionContext::publishReportEntry,
         scenarioBuilder.registeredSteps()
             .toArray(new Step[0]));
-
   }
 
-  private String readValueOfFeatureAnnotationIfPresent(Class<?> targetClass) {
+  /**
+   * Reads the value of the feature annotation if it is present on the given class.
+   *
+   * @param targetClass The class.
+   * @return The value of the feature annotation.
+   */
+  private String readValueOfFeatureAnnotationIfPresent(final Class<?> targetClass) {
     return Optional.ofNullable(targetClass.getAnnotation(Feature.class))
         .map(Feature::value)
         .orElse(null);
   }
 
-  private String readValueOfUserStoryAnnotationIfPresent(Class<?> targetClass) {
+  /**
+   * Reads the value of the user story annotation if it is present on the given class.
+   *
+   * @param targetClass The class.
+   * @return The value of the user story annotation.
+   */
+  private String readValueOfUserStoryAnnotationIfPresent(final Class<?> targetClass) {
     return Optional.ofNullable(targetClass.getAnnotation(UserStory.class))
         .map(UserStory::value)
         .orElse(null);
