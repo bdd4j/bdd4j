@@ -32,6 +32,11 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
     this.steps = List.of(steps);
   }
 
+  /**
+   * Retrieves the steps that are available to the scenario..
+   *
+   * @return The available steps.
+   */
   public T availableSteps() {
     return availableSteps;
   }
