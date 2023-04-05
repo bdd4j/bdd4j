@@ -5,8 +5,7 @@ package org.bdd4j;
  *
  * @param <T> The type of the test state.
  */
-public final class TestStepVisitor<T> implements StepVisitor<T>
-{
+public final class TestStepVisitor<T> implements StepVisitor<T> {
   private TestState<T> state;
 
   /**
@@ -14,8 +13,7 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    *
    * @param initialState The initial state of the test.
    */
-  public TestStepVisitor(final TestState<T> initialState)
-  {
+  public TestStepVisitor(final TestState<T> initialState) {
     this.state = initialState;
   }
 
@@ -23,8 +21,7 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
-  public void visit(final Given<T> step) throws Throwable
-  {
+  public void visit(final Given<T> step) throws Throwable {
     state = step.applyLogic(state);
   }
 
@@ -32,8 +29,7 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
-  public void visit(final When<T> step) throws Throwable
-  {
+  public void visit(final When<T> step) throws Throwable {
     state = step.applyLogic(state);
   }
 
@@ -41,8 +37,7 @@ public final class TestStepVisitor<T> implements StepVisitor<T>
    * {@inheritDoc}
    */
   @Override
-  public void visit(final Then<T> step)
-  {
+  public void visit(final Then<T> step) {
     state = step.applyLogic(state);
   }
 }

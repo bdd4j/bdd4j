@@ -3,8 +3,7 @@ package org.bdd4j;
 /**
  * The common interface for objects that represent a step execution event.
  */
-public interface StepExecutionEvent extends ScenarioEvent
-{
+public interface StepExecutionEvent extends ScenarioEvent {
   /**
    * The textual description of the step.
    *

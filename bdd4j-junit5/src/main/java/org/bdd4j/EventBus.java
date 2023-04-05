@@ -5,8 +5,7 @@ import java.util.ServiceLoader;
 /**
  * The common interface for objects that represent an event bus.
  */
-public interface EventBus
-{
+public interface EventBus {
   /**
    * Publishes the given event.
    *
@@ -26,8 +25,7 @@ public interface EventBus
    *
    * @return The event bus.
    */
-  static EventBus getInstance()
-  {
+  static EventBus getInstance() {
     return ServiceLoader.load(EventBus.class).findFirst()
         .orElseThrow(() -> new IllegalStateException("No default event bus provided"));
   }

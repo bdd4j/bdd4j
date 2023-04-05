@@ -6,16 +6,14 @@ import java.util.Collection;
 /**
  * An in-memory implementation of the {@link EventBus} interface.
  */
-public final class InMemoryEventBus implements EventBus
-{
+public final class InMemoryEventBus implements EventBus {
   private static final Collection<EventListener> SUBSCRIBERS = new ArrayList<>();
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void publish(final ScenarioEvent event)
-  {
+  public void publish(final ScenarioEvent event) {
     SUBSCRIBERS.forEach(subscriber -> subscriber.notify(event));
   }
 
@@ -23,8 +21,7 @@ public final class InMemoryEventBus implements EventBus
    * {@inheritDoc}
    */
   @Override
-  public void subscribe(final EventListener subscriber)
-  {
+  public void subscribe(final EventListener subscriber) {
     SUBSCRIBERS.add(subscriber);
   }
 }

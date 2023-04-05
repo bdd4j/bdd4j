@@ -16,6 +16,5 @@ import java.util.Collection;
 public record ScenarioTestDisabledEvent(LocalDateTime timestamp, String featureName,
                                         String userStory, String scenarioName,
                                         Collection<String> tags, String reason)
-    implements ScenarioEvent
-{
+    implements ScenarioEvent {
 }

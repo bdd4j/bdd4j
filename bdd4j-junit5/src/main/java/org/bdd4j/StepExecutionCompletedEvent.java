@@ -11,6 +11,6 @@ import java.time.LocalDateTime;
  */
 public record StepExecutionCompletedEvent(LocalDateTime timestamp,
                                           String step,
-                                          Long executionTimeInMillis) implements StepExecutionEvent
-{
+                                          Long executionTimeInMillis)
+    implements StepExecutionEvent {
 }

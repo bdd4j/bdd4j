@@ -14,6 +14,5 @@ import java.util.Collection;
  */
 public record ScenarioTestAbortedEvent(LocalDateTime timestamp, String featureName,
                                        String userStory, String scenarioName,
-                                       Collection<String> tags) implements ScenarioEvent
-{
+                                       Collection<String> tags) implements ScenarioEvent {
 }

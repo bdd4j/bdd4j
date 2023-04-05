@@ -7,8 +7,7 @@ import org.testcontainers.containers.BrowserWebDriverContainer;
 /**
  * A page object that can be used to interact with the github page.
  */
-public class GithubPageObject implements AutoCloseable
-{
+public class GithubPageObject implements AutoCloseable {
   private final BrowserWebDriverContainer<?> container;
   private final RemoteWebDriver driver;
 
@@ -17,8 +16,7 @@ public class GithubPageObject implements AutoCloseable
    *
    * @param container The container that should be used by this instance.
    */
-  public GithubPageObject(final BrowserWebDriverContainer<?> container)
-  {
+  public GithubPageObject(final BrowserWebDriverContainer<?> container) {
     this(container, container.getWebDriver());
   }
 
@@ -29,8 +27,7 @@ public class GithubPageObject implements AutoCloseable
    * @param driver    The driver that should be used.
    */
   protected GithubPageObject(final BrowserWebDriverContainer<?> container,
-                             final RemoteWebDriver driver)
-  {
+                             final RemoteWebDriver driver) {
     this.container = container;
     this.driver = driver;
   }
@@ -38,8 +35,7 @@ public class GithubPageObject implements AutoCloseable
   /**
    * Opens the landing page.
    */
-  public void openLandingPage()
-  {
+  public void openLandingPage() {
     driver.get("https://github.com");
   }
 
@@ -48,8 +44,7 @@ public class GithubPageObject implements AutoCloseable
    *
    * @param expectedURL The expected URL.
    */
-  public void shouldBeOnTheURL(final String expectedURL)
-  {
+  public void shouldBeOnTheURL(final String expectedURL) {
     Assertions.assertThat(driver.getCurrentUrl()).isEqualTo(expectedURL);
   }
 
@@ -58,8 +53,7 @@ public class GithubPageObject implements AutoCloseable
    *
    * @return The landing page object.
    */
-  public GithubSearchPageObject landingPage()
-  {
+  public GithubSearchPageObject landingPage() {
     return new GithubSearchPageObject(driver);
   }
 
@@ -68,8 +62,7 @@ public class GithubPageObject implements AutoCloseable
    *
    * @return The search results page.
    */
-  public GithubSearchResultPageObject searchResultsPage()
-  {
+  public GithubSearchResultPageObject searchResultsPage() {
     return new GithubSearchResultPageObject(driver);
   }
 
@@ -77,8 +70,7 @@ public class GithubPageObject implements AutoCloseable
    * {@inheritDoc}
    */
   @Override
-  public void close()
-  {
+  public void close() {
     container.close();
   }
 }

@@ -5,8 +5,7 @@ package org.bdd4j;
  *
  * @param <T> The type of the test state.
  */
-public interface Step<T>
-{
+public interface Step<T> {
   /**
    * A human-readable description for the step.
    *

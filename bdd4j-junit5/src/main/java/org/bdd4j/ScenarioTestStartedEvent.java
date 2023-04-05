@@ -10,6 +10,5 @@ import java.time.LocalDateTime;
  * @param scenario           The name of the executed scenario.
  */
 public record ScenarioTestStartedEvent(LocalDateTime timestamp, int totalNumberOfSteps,
-                                       String scenario) implements ScenarioEvent
-{
+                                       String scenario) implements ScenarioEvent {
 }

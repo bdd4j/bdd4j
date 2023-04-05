@@ -15,6 +15,5 @@ import java.util.Collection;
 public record ScenarioTestSuccessfullyCompletedEvent(LocalDateTime timestamp, String featureName,
                                                      String userStory, String scenarioName,
                                                      Collection<String> tags)
-    implements ScenarioEvent
-{
+    implements ScenarioEvent {
 }

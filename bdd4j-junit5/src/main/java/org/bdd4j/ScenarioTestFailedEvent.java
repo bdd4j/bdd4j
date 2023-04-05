@@ -16,6 +16,5 @@ import java.util.Collection;
 public record ScenarioTestFailedEvent(LocalDateTime timestamp, String featureName,
                                       String userStory, String scenarioName,
                                       Collection<String> tags,
-                                      String errorMessage) implements ScenarioEvent
-{
+                                      String errorMessage) implements ScenarioEvent {
 }

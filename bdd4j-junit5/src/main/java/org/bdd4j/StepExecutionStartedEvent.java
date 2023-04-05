@@ -9,6 +9,5 @@ import java.time.LocalDateTime;
  * @param step      The textual description of the step.
  */
 public record StepExecutionStartedEvent(LocalDateTime timestamp,
-                                        String step) implements StepExecutionEvent
-{
+                                        String step) implements StepExecutionEvent {
 }

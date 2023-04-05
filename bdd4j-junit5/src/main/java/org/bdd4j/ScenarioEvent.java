@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 /**
  * An event that occurs while executing the test scenario.
  */
-public interface ScenarioEvent
-{
+public interface ScenarioEvent {
   /**
    * The timestamp that indicates when the event has occurred.
    *

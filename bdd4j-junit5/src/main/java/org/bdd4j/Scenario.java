@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -14,8 +13,7 @@ import org.junit.jupiter.api.Test;
 @Target(ElementType.METHOD)
 @Test
 @BDD4jTest
-public @interface Scenario
-{
+public @interface Scenario {
   /**
    * The name of the scenario.
    *

@@ -6,8 +6,7 @@ import java.util.stream.Stream;
 /**
  * A listener that can be used to process scenario events.
  */
-public interface EventListener
-{
+public interface EventListener {
   /**
    * Notifies the listener with the given event.
    *
@@ -20,8 +19,7 @@ public interface EventListener
    *
    * @return The listeners.
    */
-  static Stream<EventListener> loadListeners()
-  {
+  static Stream<EventListener> loadListeners() {
     return ServiceLoader.load(EventListener.class).stream().map(ServiceLoader.Provider::get);
   }
 }

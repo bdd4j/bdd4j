@@ -13,6 +13,5 @@ import java.time.LocalDateTime;
 public record StepExecutionFailedEvent(LocalDateTime timestamp,
                                        String step,
                                        String errorMessage,
-                                       Long executionTimeInMillis) implements StepExecutionEvent
-{
+                                       Long executionTimeInMillis) implements StepExecutionEvent {
 }
