@@ -12,7 +12,12 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
   private final T availableSteps;
   private List<Step<?>> steps = Collections.emptyList();
 
-  public ScenarioBuilder(T availableSteps) {
+  /**
+   * Creates a new instance.
+   *
+   * @param availableSteps The available steps.
+   */
+  public ScenarioBuilder(final T availableSteps) {
     this.availableSteps = availableSteps;
   }
 
