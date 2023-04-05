@@ -4,6 +4,7 @@ import static java.util.Objects.nonNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
@@ -62,18 +63,14 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
   }
 
   private String readValueOfFeatureAnnotationIfPresent(Class<?> targetClass) {
-    if (targetClass.isAnnotationPresent(Feature.class)) {
-      return targetClass.getAnnotation(Feature.class)
-          .value();
-    }
-    return null;
+    return Optional.ofNullable(targetClass.getAnnotation(Feature.class))
+        .map(Feature::value)
+        .orElse(null);
   }
 
   private String readValueOfUserStoryAnnotationIfPresent(Class<?> targetClass) {
-    if (targetClass.isAnnotationPresent(UserStory.class)) {
-      return targetClass.getAnnotation(UserStory.class)
-          .value();
-    }
-    return null;
+    return Optional.ofNullable(targetClass.getAnnotation(UserStory.class))
+        .map(UserStory::value)
+        .orElse(null);
   }
 }
