@@ -30,16 +30,6 @@ public class BDD4jRunner {
   }
 
   /**
-   * Publishes an event.
-   *
-   * @param event The event that should be published.
-   */
-  private static void publishEvent(final ScenarioEvent event) {
-    EventBus.getInstance()
-        .publish(event);
-  }
-
-  /**
    * Runs a new scenario.
    * <p>
    * If the test state implements the {@link AutoCloseable} interface, the
