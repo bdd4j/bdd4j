@@ -15,7 +15,7 @@ public class GithubSearchTest {
   @Scenario("Search for 'bdd4j'")
   public void searchForBDD4j(ScenarioBuilder<GithubSearchSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(
+    scenarioBuilder.registerSteps(
         steps.whenIOpenTheLandingPage(),
         steps.whenIEnterTheSearchTerm("bdd4j"),
         steps.whenIHitTheEnterKey(),

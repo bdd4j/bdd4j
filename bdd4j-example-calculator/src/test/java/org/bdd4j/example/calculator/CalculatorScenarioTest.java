@@ -21,7 +21,7 @@ public class CalculatorScenarioTest {
   @Scenario("Add a value")
   public void addAValue(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(steps.givenThatIHaveABlankCalculator(),
+    scenarioBuilder.registerSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(1));
   }
@@ -29,7 +29,7 @@ public class CalculatorScenarioTest {
   @Scenario("Clear")
   public void clear(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(steps.givenThatIHaveABlankCalculator(),
+    scenarioBuilder.registerSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
         steps.thenTheSubtotalShouldBe(0));
   }
@@ -37,7 +37,7 @@ public class CalculatorScenarioTest {
   @Scenario("Integer overflow")
   public void integerOverflow(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(steps.givenThatIHaveABlankCalculator(),
+    scenarioBuilder.registerSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't add the given value, because it would produce an Integer overflow"));
@@ -46,7 +46,7 @@ public class CalculatorScenarioTest {
   @Scenario("Integer underflow")
   public void integerUnderflow(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(steps.givenThatIHaveABlankCalculator(),
+    scenarioBuilder.registerSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheCalculationShouldHaveFailedWithTheMessage(
             "Can't subtract the given value, because it would produce an Integer underflow"));
@@ -60,7 +60,7 @@ public class CalculatorScenarioTest {
   public void parameterizedTest(int a, int b, int expectedSum,
                                 ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(
+    scenarioBuilder.registerSteps(
         steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(a),
         steps.whenIAddToTheSubtotal(b),
@@ -70,7 +70,7 @@ public class CalculatorScenarioTest {
   @Scenario("Subtract a value")
   public void subtractAValue(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.addSteps(steps.givenThatIHaveABlankCalculator(),
+    scenarioBuilder.registerSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
         steps.thenTheSubtotalShouldBe(10));
   }

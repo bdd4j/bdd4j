@@ -21,8 +21,14 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
     this.availableSteps = availableSteps;
   }
 
+  /**
+   * Registers the given steps with the scenario.
+   *
+   * @param steps The steps that should be registered.
+   * @param <S>   The type of the steps.
+   */
   @SafeVarargs
-  public final <S> void addSteps(Step<S>... steps) {
+  public final <S> void registerSteps(final Step<S>... steps) {
     this.steps = List.of(steps);
   }
 
