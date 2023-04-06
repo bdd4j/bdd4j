@@ -32,6 +32,8 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
     story = readValueOfUserStoryAnnotationIfPresent(invocationContext.getTargetClass());
     feature = readValueOfFeatureAnnotationIfPresent(invocationContext.getTargetClass());
 
+    extensionContext.publishReportEntry(generateInfrastructureReportEntry().asMap());
+
     return InvocationInterceptor.super.interceptTestClassConstructor(invocation, invocationContext,
         extensionContext);
   }
@@ -87,5 +89,21 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
    */
   private String readValueOfUserStoryAnnotationIfPresent(final Class<?> targetClass) {
     return ifNonNullApply(targetClass.getAnnotation(UserStory.class), UserStory::value);
+  }
+
+  /**
+   * Generates the infrastructure report entry.
+   *
+   * @return The entry.
+   */
+  private BDD4jReportEntry generateInfrastructureReportEntry() {
+    return BDD4jReportEntry.builder().type(TestEventType.INFRASTRUCTURE_REPORTED)
+        .with("hostname", InfrastructureHelper.determineHostname())
+        .with("username", InfrastructureHelper.determineUsername())
+        .with("operating_system", InfrastructureHelper.determineOperatingSystem())
+        .with("cores", String.valueOf(InfrastructureHelper.determineNumberOfCores()))
+        .with("java_version", InfrastructureHelper.determineJavaVersion())
+        .with("file_encoding", InfrastructureHelper.determineFileEncoding())
+        .with("heap_size", String.valueOf(InfrastructureHelper.determineHeapSize())).build();
   }
 }

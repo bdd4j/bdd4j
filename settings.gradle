@@ -3,4 +3,5 @@ rootProject.name = 'bdd4j'
 include ':bdd4j-junit5'
 
 include ':bdd4j-example-calculator'
+include ':bdd4j-example-playwright'
 include ':bdd4j-example-selenium'
