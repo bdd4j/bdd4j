@@ -1,10 +1,10 @@
 package org.bdd4j;
 
 import static java.util.Objects.nonNull;
+import static org.bdd4j.Util.ifNonNullApply;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
@@ -75,9 +75,8 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
    * @return The value of the feature annotation.
    */
   private String readValueOfFeatureAnnotationIfPresent(final Class<?> targetClass) {
-    return Optional.ofNullable(targetClass.getAnnotation(Feature.class))
-        .map(Feature::value)
-        .orElse(null);
+    return ifNonNullApply(targetClass.getAnnotation(Feature.class), Feature::value);
+
   }
 
   /**
@@ -87,8 +86,6 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
    * @return The value of the user story annotation.
    */
   private String readValueOfUserStoryAnnotationIfPresent(final Class<?> targetClass) {
-    return Optional.ofNullable(targetClass.getAnnotation(UserStory.class))
-        .map(UserStory::value)
-        .orElse(null);
+    return ifNonNullApply(targetClass.getAnnotation(UserStory.class), UserStory::value);
   }
 }
