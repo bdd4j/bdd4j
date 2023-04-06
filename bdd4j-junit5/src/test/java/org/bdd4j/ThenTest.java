@@ -6,12 +6,10 @@ import static org.bdd4j.StepDSL.then;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-class ThenTest
-{
+class ThenTest {
 
   @Test
-  public void applyLogic_withState()
-  {
+  public void applyLogic_withState() {
     final var api = new SomeTestedApi();
 
     final Then<SomeTestedApi> step = then("the thing should have been done").step(state -> {
@@ -25,8 +23,7 @@ class ThenTest
   }
 
   @Test
-  public void applyLogic_withException()
-  {
+  public void applyLogic_withException() {
     final Then<SomeTestedApi> step = then("that I do the thing").step(state -> state);
 
     final var result =

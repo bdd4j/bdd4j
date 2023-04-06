@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -13,9 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @DisplayNameGeneration(BDD4jDisplayNameGenerator.class)
 @ExtendWith(BDD4jParameterResolver.class)
-@ExtendWith(BDD4jTestWatcher.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface BDD4jTest
-{
+public @interface BDD4jTest {
 }

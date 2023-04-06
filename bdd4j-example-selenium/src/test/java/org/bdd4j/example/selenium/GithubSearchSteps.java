@@ -13,14 +13,12 @@ import org.testcontainers.containers.BrowserWebDriverContainer;
 /**
  * The steps used to test the github search feature.
  */
-public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
-{
+public class GithubSearchSteps implements BDD4jSteps<GithubPageObject> {
   /**
    * {@inheritDoc}
    */
   @Override
-  public TestState<GithubPageObject> init()
-  {
+  public TestState<GithubPageObject> init() {
     final var capabilities = new ChromeOptions();
     final var container =
         new BrowserWebDriverContainer<>().withCapabilities(capabilities);
@@ -30,8 +28,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     return TestState.state(new GithubPageObject(container));
   }
 
-  public When<GithubPageObject> whenIOpenTheLandingPage()
-  {
+  public When<GithubPageObject> whenIOpenTheLandingPage() {
     return when("I open the landing page").step(state -> {
       state.openLandingPage();
 
@@ -39,8 +36,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     });
   }
 
-  public When<GithubPageObject> whenIEnterTheSearchTerm(final String searchTerm)
-  {
+  public When<GithubPageObject> whenIEnterTheSearchTerm(final String searchTerm) {
     return when("I enter the search term ''{0}''", searchTerm).step(state -> {
       state.landingPage().enterSearchTerm(searchTerm);
 
@@ -48,8 +44,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     });
   }
 
-  public When<GithubPageObject> whenIHitTheEnterKey()
-  {
+  public When<GithubPageObject> whenIHitTheEnterKey() {
     return when("I hit the enter key").step(state -> {
       state.landingPage().hitTheEnterKey();
 
@@ -57,23 +52,19 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject>
     });
   }
 
-  public Then<GithubPageObject> thenIShouldFindALinkTo(final String expectedLink)
-  {
+  public Then<GithubPageObject> thenIShouldFindALinkTo(final String expectedLink) {
     return then("I should find the link to ''{0}''", expectedLink).step(state -> {
       state.state().searchResultsPage().shouldContainALinkTo(expectedLink);
       return state;
     });
   }
 
-  public Then<GithubPageObject> thenIShouldBeOnTheSearchResultsPage()
-  {
+  public Then<GithubPageObject> thenIShouldBeOnTheSearchResultsPage() {
     return then("I should be on the search results page").step(state -> {
       state.state().shouldBeOnTheURL("https://github.com/search?q=bdd4j&type=");
-      try
-      {
+      try {
         state.state().wait();
-      } catch (final InterruptedException e)
-      {
+      } catch (final InterruptedException e) {
         throw new RuntimeException(e);
       }
 

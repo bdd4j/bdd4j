@@ -6,16 +6,14 @@ import java.util.function.Function;
 /**
  * A DSL that can be used to ease building steps.
  */
-public class StepDSL
-{
+public class StepDSL {
   /**
    * A builder method that can be used to create a new given step.
    *
    * @param step A description of the step.
    * @return The builder.
    */
-  public static GivenBuilder given(final String step)
-  {
+  public static GivenBuilder given(final String step) {
     return new GivenBuilder(step);
   }
 
@@ -26,8 +24,7 @@ public class StepDSL
    * @param args     The parameters that should be injected into the template.
    * @return The builder.
    */
-  public static GivenBuilder given(final String template, final Object... args)
-  {
+  public static GivenBuilder given(final String template, final Object... args) {
     return given(formatStepName(template, args));
   }
 
@@ -37,8 +34,7 @@ public class StepDSL
    * @param step A description of the step.
    * @return The builder.
    */
-  public static WhenBuilder when(final String step)
-  {
+  public static WhenBuilder when(final String step) {
     return new WhenBuilder(step);
   }
 
@@ -49,8 +45,7 @@ public class StepDSL
    * @param args     The parameters that should be injected into the template.
    * @return The builder.
    */
-  public static WhenBuilder when(final String template, final Object... args)
-  {
+  public static WhenBuilder when(final String template, final Object... args) {
     return when(formatStepName(template, args));
   }
 
@@ -60,8 +55,7 @@ public class StepDSL
    * @param step A description of the step.
    * @return The builder.
    */
-  public static ThenBuilder then(final String step)
-  {
+  public static ThenBuilder then(final String step) {
     return new ThenBuilder(step);
   }
 
@@ -72,8 +66,7 @@ public class StepDSL
    * @param args     The parameters that should be injected into the template.
    * @return The builder.
    */
-  public static ThenBuilder then(final String template, final Object... args)
-  {
+  public static ThenBuilder then(final String template, final Object... args) {
     return then(formatStepName(template, args));
   }
 
@@ -85,16 +78,14 @@ public class StepDSL
    * @return The formatted name template.
    */
   private static String formatStepName(final String template,
-                                       final Object[] args)
-  {
+                                       final Object[] args) {
     return MessageFormat.format(template, args);
   }
 
   /**
    * A builder that can be used to create a {@link Given} step.
    */
-  public static class GivenBuilder
-  {
+  public static class GivenBuilder {
     private final String step;
 
     /**
@@ -102,8 +93,7 @@ public class StepDSL
      *
      * @param step The step description.
      */
-    private GivenBuilder(final String step)
-    {
+    private GivenBuilder(final String step) {
       this.step = step;
     }
 
@@ -114,8 +104,7 @@ public class StepDSL
      * @param <T>   The type of the state.
      * @return The step.
      */
-    public <T> Given<T> step(final Function<T, TestState<T>> logic)
-    {
+    public <T> Given<T> step(final Function<T, TestState<T>> logic) {
       return new Given<>(step, logic);
     }
   }
@@ -123,8 +112,7 @@ public class StepDSL
   /**
    * A builder that can be used to create a {@link When} step.
    */
-  public static class WhenBuilder
-  {
+  public static class WhenBuilder {
     private final String step;
 
     /**
@@ -132,8 +120,7 @@ public class StepDSL
      *
      * @param step The step.
      */
-    private WhenBuilder(final String step)
-    {
+    private WhenBuilder(final String step) {
       this.step = step;
     }
 
@@ -144,8 +131,7 @@ public class StepDSL
      * @param <T>   The type of the state.
      * @return The step.
      */
-    public <T> When<T> step(final Function<T, TestState<T>> logic)
-    {
+    public <T> When<T> step(final Function<T, TestState<T>> logic) {
       return new When<>(step, logic);
     }
   }
@@ -153,8 +139,7 @@ public class StepDSL
   /**
    * A builder that can be used to create a {@link Then} step.
    */
-  public static class ThenBuilder
-  {
+  public static class ThenBuilder {
     private final String step;
 
     /**
@@ -162,8 +147,7 @@ public class StepDSL
      *
      * @param step The step description.
      */
-    private ThenBuilder(final String step)
-    {
+    private ThenBuilder(final String step) {
       this.step = step;
     }
 
@@ -174,8 +158,7 @@ public class StepDSL
      * @param <T>   The type of the state.
      * @return The then step.
      */
-    public <T> Then<T> step(final Function<TestState<T>, TestState<T>> logic)
-    {
+    public <T> Then<T> step(final Function<TestState<T>, TestState<T>> logic) {
       return new Then<>(step, logic);
     }
   }

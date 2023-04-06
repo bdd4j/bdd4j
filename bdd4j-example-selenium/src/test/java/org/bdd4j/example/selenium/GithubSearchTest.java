@@ -1,8 +1,8 @@
 package org.bdd4j.example.selenium;
 
-import org.bdd4j.BDD4jRunner;
 import org.bdd4j.Feature;
 import org.bdd4j.Scenario;
+import org.bdd4j.ScenarioBuilder;
 import org.bdd4j.UserStory;
 
 @Feature("Search for github projects")
@@ -11,12 +11,11 @@ import org.bdd4j.UserStory;
     I want to be able to search for github projects on the homepage
     In order to find the projects that I'm interested in.
     """)
-public class GithubSearchTest
-{
+public class GithubSearchTest {
   @Scenario("Search for 'bdd4j'")
-  public void searchForBDD4j(final GithubSearchSteps steps)
-  {
-    BDD4jRunner.scenario(steps,
+  public void searchForBDD4j(ScenarioBuilder<GithubSearchSteps> scenarioBuilder) {
+    var steps = scenarioBuilder.availableSteps();
+    scenarioBuilder.defineSteps(
         steps.whenIOpenTheLandingPage(),
         steps.whenIEnterTheSearchTerm("bdd4j"),
         steps.whenIHitTheEnterKey(),

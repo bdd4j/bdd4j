@@ -6,12 +6,10 @@ import static org.bdd4j.StepDSL.when;
 
 import org.junit.jupiter.api.Test;
 
-class WhenTest
-{
+class WhenTest {
 
   @Test
-  public void applyLogic_withState() throws Throwable
-  {
+  public void applyLogic_withState() throws Throwable {
     final var api = new SomeTestedApi();
 
     final When<SomeTestedApi> step = when("I do the thing").step(state -> {
@@ -25,8 +23,7 @@ class WhenTest
   }
 
   @Test
-  public void applyLogic_withException()
-  {
+  public void applyLogic_withException() {
     final When<SomeTestedApi> step = when("I do the thing").step(TestState::state);
 
     assertThatThrownBy(

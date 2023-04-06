@@ -6,11 +6,9 @@ import static org.bdd4j.StepDSL.given;
 
 import org.junit.jupiter.api.Test;
 
-class GivenTest
-{
+class GivenTest {
   @Test
-  public void applyLogic_withState() throws Throwable
-  {
+  public void applyLogic_withState() throws Throwable {
     final var api = new SomeTestedApi();
 
     final Given<SomeTestedApi> step = given("that I do the thing").step(state -> {
@@ -24,8 +22,7 @@ class GivenTest
   }
 
   @Test
-  public void applyLogic_withException()
-  {
+  public void applyLogic_withException() {
     final Given<SomeTestedApi> step = given("that I do the thing").step(TestState::state);
 
     assertThatThrownBy(
