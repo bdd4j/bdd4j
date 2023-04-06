@@ -10,7 +10,7 @@ import java.util.List;
  */
 public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
   private final T availableSteps;
-  private List<Step<?>> registeredSteps = Collections.emptyList();
+  private List<Step<?>> definedSteps = Collections.emptyList();
 
   /**
    * Creates a new instance.
@@ -22,18 +22,18 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
   }
 
   /**
-   * Registers the given steps with the scenario.
+   * Defines the given steps as the ordered steps of the scenario.
    *
-   * @param steps The steps that should be registered.
+   * @param steps The steps that should be applied in order in the scenario.
    * @param <S>   The type of the steps.
    */
   @SafeVarargs
-  public final <S> void registerSteps(final Step<S>... steps) {
-    this.registeredSteps = List.of(steps);
+  public final <S> void defineSteps(final Step<S>... steps) {
+    this.definedSteps = List.of(steps);
   }
 
   /**
-   * Retrieves the steps that are available to the scenario..
+   * Retrieves the steps that are available to the scenario.
    *
    * @return The available steps.
    */
@@ -42,11 +42,11 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
   }
 
   /**
-   * Retrieves the steps that are registered with the scenario.
+   * Returns the steps that are defined for this scenario.
    *
-   * @return The registered steps.
+   * @return The defined steps of this scenario.
    */
-  public List<Step<?>> registeredSteps() {
-    return registeredSteps;
+  public List<Step<?>> definedSteps() {
+    return definedSteps;
   }
 }

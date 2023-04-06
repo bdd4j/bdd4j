@@ -64,7 +64,7 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
 
     //noinspection unchecked
     BDD4jRunner.scenario(stepsWrapper, extensionContext::publishReportEntry,
-        scenarioBuilder.registeredSteps()
+        scenarioBuilder.definedSteps()
             .toArray(new Step[0]));
   }
 
