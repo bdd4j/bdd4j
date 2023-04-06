@@ -6,8 +6,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * A page object for the github search.
  */
-public class GithubSearchPageObject
-{
+public class GithubSearchPageObject {
   private final WebDriver driver;
 
   /**
@@ -15,8 +14,7 @@ public class GithubSearchPageObject
    *
    * @param driver The driver used by this instance.
    */
-  public GithubSearchPageObject(final WebDriver driver)
-  {
+  public GithubSearchPageObject(final WebDriver driver) {
     this.driver = driver;
   }
 
@@ -26,16 +24,14 @@ public class GithubSearchPageObject
    *
    * @param searchTerm The search term.
    */
-  public void enterSearchTerm(final String searchTerm)
-  {
+  public void enterSearchTerm(final String searchTerm) {
     driver.findElement(By.name("q")).sendKeys(searchTerm);
   }
 
   /**
    * Hits the enter key.
    */
-  public void hitTheEnterKey()
-  {
+  public void hitTheEnterKey() {
     driver.findElement(By.name("q")).submit();
   }
 }

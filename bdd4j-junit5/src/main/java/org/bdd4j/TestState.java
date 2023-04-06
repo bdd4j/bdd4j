@@ -7,8 +7,7 @@ package org.bdd4j;
  * @param exception An optional exception that has been thrown by a previous step.
  * @param <T>       The type of the test state.
  */
-public record TestState<T>(T state, Throwable exception) implements AutoCloseable
-{
+public record TestState<T>(T state, Throwable exception) implements AutoCloseable {
   /**
    * Creates a new test state with the given state.
    *
@@ -16,8 +15,7 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    * @param <T>   The type of the test state.
    * @return The test state.
    */
-  public static <T> TestState<T> state(final T state)
-  {
+  public static <T> TestState<T> state(final T state) {
     return new TestState<>(state, null);
   }
 
@@ -28,8 +26,7 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    * @param <T>       The type of the test state.
    * @return The test state.
    */
-  public static <T> TestState<T> exception(final Throwable exception)
-  {
+  public static <T> TestState<T> exception(final Throwable exception) {
     return new TestState<>(null, exception);
   }
 
@@ -39,8 +36,7 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    * @param exception The exception.
    * @return The test state.
    */
-  public TestState<T> withException(final Throwable exception)
-  {
+  public TestState<T> withException(final Throwable exception) {
     return new TestState<>(state, exception);
   }
 
@@ -50,8 +46,7 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    * @param state The state.
    * @return The test state.
    */
-  public TestState<T> withState(final T state)
-  {
+  public TestState<T> withState(final T state) {
     return new TestState<>(state, exception);
   }
 
@@ -59,10 +54,8 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    * {@inheritDoc}
    */
   @Override
-  public void close() throws Exception
-  {
-    if (state != null && state instanceof AutoCloseable autoClosable)
-    {
+  public void close() throws Exception {
+    if (state != null && state instanceof AutoCloseable autoClosable) {
       autoClosable.close();
     }
   }
@@ -72,8 +65,7 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    *
    * @return True if the test state has an exception, otherwise false.
    */
-  public boolean hasException()
-  {
+  public boolean hasException() {
     return exception != null;
   }
 
@@ -82,10 +74,8 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
    *
    * @throws Throwable Might throw any kind of stored exception.
    */
-  public void raiseExceptionIfPresent() throws Throwable
-  {
-    if (hasException())
-    {
+  public void raiseExceptionIfPresent() throws Throwable {
+    if (hasException()) {
       throw exception;
     }
   }

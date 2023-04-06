@@ -8,29 +8,45 @@ import java.util.List;
  * to set up the test scenario.
  * A test scenario is set up by adding steps using the addSteps method.
  */
-public final class ScenarioBuilder<T extends BDD4jSteps<?>>
-{
-    private final T availableSteps;
-    private List<Step<?>> steps = Collections.emptyList();
+public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
+  private final T availableSteps;
+  private List<Step<?>> registeredSteps = Collections.emptyList();
 
-    public ScenarioBuilder(T availableSteps)
-    {
-        this.availableSteps = availableSteps;
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param availableSteps The available steps.
+   */
+  public ScenarioBuilder(final T availableSteps) {
+    this.availableSteps = availableSteps;
+  }
 
-    @SafeVarargs
-    public final <S> void addSteps(Step<S>... steps)
-    {
-        this.steps = List.of(steps);
-    }
+  /**
+   * Registers the given steps with the scenario.
+   *
+   * @param steps The steps that should be registered.
+   * @param <S>   The type of the steps.
+   */
+  @SafeVarargs
+  public final <S> void registerSteps(final Step<S>... steps) {
+    this.registeredSteps = List.of(steps);
+  }
 
-    public T availableSteps()
-    {
-        return availableSteps;
-    }
+  /**
+   * Retrieves the steps that are available to the scenario..
+   *
+   * @return The available steps.
+   */
+  public T availableSteps() {
+    return availableSteps;
+  }
 
-    public List<Step<?>> steps()
-    {
-        return steps;
-    }
+  /**
+   * Retrieves the steps that are registered with the scenario.
+   *
+   * @return The registered steps.
+   */
+  public List<Step<?>> registeredSteps() {
+    return registeredSteps;
+  }
 }

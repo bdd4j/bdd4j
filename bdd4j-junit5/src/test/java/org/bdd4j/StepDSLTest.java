@@ -4,11 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class StepDSLTest
-{
+class StepDSLTest {
   @Test
-  public void given_withMessageFormat()
-  {
+  public void given_withMessageFormat() {
     final var step =
         StepDSL.given("that I pass ''{0}'' they should be rendered properly", "parameters")
             .step(TestState::state);
@@ -18,8 +16,7 @@ class StepDSLTest
   }
 
   @Test
-  public void given_withStaticName()
-  {
+  public void given_withStaticName() {
     final var step =
         StepDSL.given("that I enter some text")
             .step(TestState::state);
@@ -29,8 +26,7 @@ class StepDSLTest
   }
 
   @Test
-  public void when_withMessageFormat()
-  {
+  public void when_withMessageFormat() {
     final var step =
         StepDSL.when("I pass ''{0}'' they should be rendered properly", "parameters")
             .step(TestState::state);
@@ -40,8 +36,7 @@ class StepDSLTest
   }
 
   @Test
-  public void when_withStaticName()
-  {
+  public void when_withStaticName() {
     final var step =
         StepDSL.when("I do something")
             .step(TestState::state);
@@ -50,8 +45,7 @@ class StepDSLTest
   }
 
   @Test
-  public void then_withMessageFormat()
-  {
+  public void then_withMessageFormat() {
     final var step =
         StepDSL.then("I should be able to pass ''{0}''", "parameters")
             .step(state -> state);
@@ -61,8 +55,7 @@ class StepDSLTest
   }
 
   @Test
-  public void then_withStaticName()
-  {
+  public void then_withStaticName() {
     final var step =
         StepDSL.then("something should have happened")
             .step(state -> state);

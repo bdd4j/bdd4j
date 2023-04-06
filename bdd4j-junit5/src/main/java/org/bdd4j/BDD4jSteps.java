@@ -16,8 +16,7 @@ package org.bdd4j;
  *
  * @param <T> The type of the state managed by the BDD4j test.
  */
-public interface BDD4jSteps<T>
-{
+public interface BDD4jSteps<T> {
   /**
    * Initializes the state for the test.
    *
