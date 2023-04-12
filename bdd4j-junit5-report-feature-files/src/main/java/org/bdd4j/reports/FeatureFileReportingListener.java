@@ -17,11 +17,11 @@ import org.junit.platform.launcher.listeners.OutputDir;
 /**
  * A {@link TestExecutionListener} that listens to the events of the executed scenarios and
  * reports them in the format of a .feature file.
- * <p>
- * The directory to which the reports will be written to can be specified by setting the
+ *
+ * <p>The directory to which the reports will be written to can be specified by setting the
  * <code>bdd4j.platform.reporting.output.dir</code> property.
- * <p>
- * By default, the files will be written to the gradle build directory.
+ *
+ * <p>By default, the files will be written to the gradle build directory.
  */
 public final class FeatureFileReportingListener implements TestExecutionListener {
 
@@ -80,8 +80,8 @@ public final class FeatureFileReportingListener implements TestExecutionListener
   private void reportFeatureMetadata(final TestIdentifier testIdentifier,
                                      final BDD4jReportEntry entry) {
     if (featureMetadataHasNotBeenReported(testIdentifier)) {
-      appendToFeature(testIdentifier, "Feature: " +
-          entry.asMap().getOrDefault("feature", ""));
+      appendToFeature(testIdentifier, "Feature: "
+          + entry.asMap().getOrDefault("feature", ""));
 
       appendToFeature(testIdentifier, "");
 
