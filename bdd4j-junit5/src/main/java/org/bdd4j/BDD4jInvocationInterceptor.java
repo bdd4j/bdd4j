@@ -1,6 +1,5 @@
 package org.bdd4j;
 
-import static java.util.Objects.nonNull;
 import static org.bdd4j.Util.ifNonNullApply;
 
 import java.lang.reflect.Constructor;
@@ -45,14 +44,22 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
   public void interceptTestMethod(final Invocation<Void> invocation,
                                   final ReflectiveInvocationContext<Method> invocationContext,
                                   final ExtensionContext extensionContext) throws Throwable {
-    if (nonNull(feature)) {
-      extensionContext.publishReportEntry("Feature", feature);
-      feature = null;
-    }
-    if (nonNull(story)) {
-      extensionContext.publishReportEntry("UserStory", story);
-      story = null;
-    }
+    extensionContext.publishReportEntry(
+        BDD4jReportEntry.builder()
+            .type(TestEventType.FEATURE_METADATA_REPORTED)
+            .with("feature", feature)
+            .with("story", story)
+            .build()
+            .asMap());
+
+    extensionContext.publishReportEntry(
+        BDD4jReportEntry.builder()
+            .type(TestEventType.SCENARIO_METADATA_REPORTED)
+            .with("scenario", invocationContext.getExecutable()
+                .getAnnotation(Scenario.class)
+                .value())
+            .build()
+            .asMap());
 
     invocation.proceed();
     var scenarioBuilder = invocationContext.getArguments()

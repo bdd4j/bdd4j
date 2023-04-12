@@ -1,4 +1,7 @@
 build:
 	./gradlew build
 
-.PHONY: build
+clean:
+	./gradlew clean
+
+.PHONY: build clean

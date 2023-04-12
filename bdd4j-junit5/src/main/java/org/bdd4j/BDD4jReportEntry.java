@@ -31,7 +31,7 @@ public final class BDD4jReportEntry {
   /**
    * Retrieves the step description.
    *
-   * @return The description of the step or {@link Optional#empty()} if there is none..
+   * @return The description of the step or {@link Optional#empty()} if there is none.
    */
   public Optional<String> step() {
     return Optional.ofNullable(entry.getOrDefault(STEP_FIELD, null));
