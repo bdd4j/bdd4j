@@ -1,0 +1,8 @@
+dependencies {
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+    implementation "org.postgresql:postgresql:${project.postgresJdbcVersion}"
+
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+
+    testImplementation project(':bdd4j-junit5')
+}
