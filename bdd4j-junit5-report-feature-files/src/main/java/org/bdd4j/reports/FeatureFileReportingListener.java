@@ -65,7 +65,8 @@ public final class FeatureFileReportingListener implements TestExecutionListener
    * @param testIdentifier The test identifier.
    * @param entry          The entry.
    */
-  private void reportScenarioMetadata(TestIdentifier testIdentifier, BDD4jReportEntry entry) {
+  private void reportScenarioMetadata(final TestIdentifier testIdentifier,
+                                      final BDD4jReportEntry entry) {
     appendToScenario(testIdentifier,
         "  Scenario: " + entry.asMap().getOrDefault("scenario", "") + "\n");
   }
