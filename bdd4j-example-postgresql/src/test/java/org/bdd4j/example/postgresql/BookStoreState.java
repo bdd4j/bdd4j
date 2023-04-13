@@ -3,16 +3,25 @@ package org.bdd4j.example.postgresql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.bdd4j.example.postgresql.repository.AuthorsRepository;
+import org.bdd4j.example.postgresql.repository.BooksRepository;
+import org.bdd4j.example.postgresql.service.AuthorService;
+import org.bdd4j.example.postgresql.service.BookService;
 import org.flywaydb.core.Flyway;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 /**
  * The state used to represent the book stores infrastructure.
  */
-public class BookStoreState implements AutoCloseable {
+public final class BookStoreState implements AutoCloseable {
 
   private final PostgreSQLContainer<?> container;
 
+  /**
+   * Creates a new instance.
+   *
+   * @param container The container that should be used by this instance.
+   */
   public BookStoreState(final PostgreSQLContainer<?> container) {
 
     this.container = container;
@@ -42,7 +51,7 @@ public class BookStoreState implements AutoCloseable {
    *
    * @return The JDBC connection.
    */
-  protected Connection acquireJdbcConnection() {
+  private Connection acquireJdbcConnection() {
     try {
       return DriverManager.getConnection(container.getJdbcUrl(), container.getUsername(),
           container.getPassword());
@@ -52,11 +61,29 @@ public class BookStoreState implements AutoCloseable {
   }
 
   /**
+   * Creates a new book service.
+   *
+   * @return The book service.
+   */
+  public BookService createBookService() {
+    return new BookService(createBookRepository(), createAuthorService());
+  }
+
+  /**
+   * Creates a new author service.
+   *
+   * @return The author service.
+   */
+  public AuthorService createAuthorService() {
+    return new AuthorService(createAuthorRepository());
+  }
+
+  /**
    * Provides access to an author repository.
    *
    * @return The repository.
    */
-  public AuthorsRepository authorRepository() {
+  private AuthorsRepository createAuthorRepository() {
     return new AuthorsRepository(acquireJdbcConnection());
   }
 
@@ -65,7 +92,7 @@ public class BookStoreState implements AutoCloseable {
    *
    * @return The repository.
    */
-  public BooksRepository bookRepository() {
+  private BooksRepository createBookRepository() {
     return new BooksRepository(acquireJdbcConnection());
   }
 

@@ -1,4 +1,4 @@
-package org.bdd4j.example.postgresql;
+package org.bdd4j.example.postgresql.repository;
 
 /**
  * An exception that indicates that some interaction with the repository failed.
