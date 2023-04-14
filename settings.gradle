@@ -5,4 +5,5 @@ include ':bdd4j-junit5-report-feature-files'
 
 include ':bdd4j-example-calculator'
 include ':bdd4j-example-playwright'
+include ':bdd4j-example-postgresql'
 include ':bdd4j-example-selenium'
