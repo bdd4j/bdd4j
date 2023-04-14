@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Disabled;
 public class GithubSearchTest {
   @Disabled("Tests cannot be run as a github action")
   @Scenario("Search for 'bdd4j'")
-  public void searchForBDD4j(final ScenarioBuilder<GithubSearchSteps> builder) {
+  public void searchForBDD4j(final ScenarioBuilder<GithubSearchSteps, GithubPageObject> builder) {
     final var steps = builder.availableSteps();
 
     builder.defineSteps(

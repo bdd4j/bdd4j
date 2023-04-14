@@ -2,22 +2,27 @@ package org.bdd4j;
 
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.TestReporter;
 
 /**
  * The {@link ScenarioBuilder} provides access to available test {@link Step Steps} which can in turn be used
  * to set up the test scenario.
  * A test scenario is set up by adding steps using the addSteps method.
+ *
+ * @param <S>  The type of the steps.
+ * @param <TS> The type of the test state.
  */
-public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
-  private final T availableSteps;
-  private List<Step<?>> definedSteps = Collections.emptyList();
+public final class ScenarioBuilder<S extends BDD4jSteps<TS>, TS> {
+  private final S availableSteps;
+  private List<Step<TS>> definedSteps = Collections.emptyList();
+  private TestReporter testReporter;
 
   /**
    * Creates a new instance.
    *
    * @param availableSteps The available steps.
    */
-  public ScenarioBuilder(final T availableSteps) {
+  public ScenarioBuilder(final S availableSteps) {
     this.availableSteps = availableSteps;
   }
 
@@ -25,10 +30,9 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
    * Defines the given steps as the ordered steps of the scenario.
    *
    * @param steps The steps that should be applied in order in the scenario.
-   * @param <S>   The type of the steps.
    */
   @SafeVarargs
-  public final <S> void defineSteps(final Step<S>... steps) {
+  public final void defineSteps(final Step<TS>... steps) {
     this.definedSteps = List.of(steps);
   }
 
@@ -37,16 +41,27 @@ public final class ScenarioBuilder<T extends BDD4jSteps<?>> {
    *
    * @return The available steps.
    */
-  public T availableSteps() {
+  public S availableSteps() {
     return availableSteps;
   }
 
   /**
-   * Returns the steps that are defined for this scenario.
+   * Sets the given test reporter for the builder.
    *
-   * @return The defined steps of this scenario.
+   * @param testReporter The test reporter.
    */
-  public List<Step<?>> definedSteps() {
-    return definedSteps;
+  public ScenarioBuilder<S, TS> withTestReporter(final TestReporter testReporter) {
+    this.testReporter = testReporter;
+
+    return this;
+  }
+
+  /**
+   * Builds the scenario.
+   *
+   * @return The built scenario.
+   */
+  public BDD4jScenario<TS> build() {
+    return new BDD4jScenario<>(availableSteps, testReporter, definedSteps);
   }
 }

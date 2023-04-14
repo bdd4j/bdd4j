@@ -55,19 +55,16 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
     }
 
     invocation.proceed();
-    var scenarioBuilder = invocationContext.getArguments()
+
+    invocationContext.getArguments()
         .stream()
         .filter(o -> o instanceof ScenarioBuilder)
-        .map(o -> (ScenarioBuilder<?>) o)
+        .map(o -> (ScenarioBuilder<?, ?>) o)
         .findFirst()
-        .orElseThrow();
-
-    var stepsWrapper = scenarioBuilder.availableSteps();
-
-    //noinspection unchecked
-    BDD4jRunner.scenario(stepsWrapper, extensionContext::publishReportEntry,
-        scenarioBuilder.definedSteps()
-            .toArray(new Step[0]));
+        .orElseThrow()
+        .withTestReporter(extensionContext::publishReportEntry)
+        .build()
+        .run();
   }
 
   /**

@@ -13,7 +13,8 @@ import org.bdd4j.UserStory;
     """)
 public class ListANewBookTest {
   @Scenario("The author does not exist")
-  public void theAuthorDoesNotExist(final ScenarioBuilder<BookStoreTestSteps> builder) {
+  public void theAuthorDoesNotExist(
+      final ScenarioBuilder<BookStoreTestSteps, BookStoreState> builder) {
     final var steps = builder.availableSteps();
 
     builder.defineSteps(
@@ -25,7 +26,8 @@ public class ListANewBookTest {
   }
 
   @Scenario("Successfully list a book")
-  public void successfullyListABook(final ScenarioBuilder<BookStoreTestSteps> builder) {
+  public void successfullyListABook(
+      final ScenarioBuilder<BookStoreTestSteps, BookStoreState> builder) {
     final var steps = builder.availableSteps();
 
     builder.defineSteps(

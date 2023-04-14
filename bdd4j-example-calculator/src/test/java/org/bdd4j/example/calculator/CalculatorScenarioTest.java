@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.CsvSource;
     """)
 public class CalculatorScenarioTest {
   @Scenario("Add a value")
-  public void addAValue(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+  public void addAValue(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1),
@@ -27,7 +27,7 @@ public class CalculatorScenarioTest {
   }
 
   @Scenario("Clear")
-  public void clear(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+  public void clear(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
@@ -35,7 +35,7 @@ public class CalculatorScenarioTest {
   }
 
   @Scenario("Integer overflow")
-  public void integerOverflow(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+  public void integerOverflow(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
@@ -44,7 +44,7 @@ public class CalculatorScenarioTest {
   }
 
   @Scenario("Integer underflow")
-  public void integerUnderflow(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+  public void integerUnderflow(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
@@ -58,7 +58,7 @@ public class CalculatorScenarioTest {
       2,2,4
       """)
   public void parameterizedTest(int a, int b, int expectedSum,
-                                ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+                                ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(
         steps.givenThatIHaveABlankCalculator(),
@@ -68,7 +68,7 @@ public class CalculatorScenarioTest {
   }
 
   @Scenario("Subtract a value")
-  public void subtractAValue(ScenarioBuilder<CalculatorSteps> scenarioBuilder) {
+  public void subtractAValue(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
         steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
