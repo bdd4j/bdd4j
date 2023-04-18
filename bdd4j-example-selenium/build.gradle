@@ -1,5 +1,6 @@
 dependencies {
     testImplementation project(':bdd4j-junit5')
+    testImplementation project(':bdd4j-junit5-report-feature-files')
 
     testImplementation "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
     testImplementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"

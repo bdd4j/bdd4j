@@ -1,6 +1,5 @@
 package org.bdd4j;
 
-import static java.util.Objects.nonNull;
 import static org.bdd4j.Util.ifNonNullApply;
 
 import java.lang.reflect.Constructor;
@@ -15,9 +14,6 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
  */
 public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
 
-  private String feature;
-  private String story;
-
   /**
    * {@inheritDoc}
    */
@@ -26,12 +22,6 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
                                              final ReflectiveInvocationContext<Constructor<T>> invocationContext,
                                              final ExtensionContext extensionContext)
       throws Throwable {
-    //it would be much nicer if the annotation value would be reported directly via
-    //extensionContext.publishReportEntry(), but for some reasons, that report entry "gets lost"
-    //This could be related to https://github.com/junit-team/junit5/issues/2277
-    story = readValueOfUserStoryAnnotationIfPresent(invocationContext.getTargetClass());
-    feature = readValueOfFeatureAnnotationIfPresent(invocationContext.getTargetClass());
-
     extensionContext.publishReportEntry(generateInfrastructureReportEntry().asMap());
 
     return InvocationInterceptor.super.interceptTestClassConstructor(invocation, invocationContext,
@@ -45,14 +35,24 @@ public final class BDD4jInvocationInterceptor implements InvocationInterceptor {
   public void interceptTestMethod(final Invocation<Void> invocation,
                                   final ReflectiveInvocationContext<Method> invocationContext,
                                   final ExtensionContext extensionContext) throws Throwable {
-    if (nonNull(feature)) {
-      extensionContext.publishReportEntry("Feature", feature);
-      feature = null;
-    }
-    if (nonNull(story)) {
-      extensionContext.publishReportEntry("UserStory", story);
-      story = null;
-    }
+    extensionContext.publishReportEntry(
+        BDD4jReportEntry.builder()
+            .type(TestEventType.FEATURE_METADATA_REPORTED)
+            .with("feature",
+                readValueOfFeatureAnnotationIfPresent(invocationContext.getTargetClass()))
+            .with("story",
+                readValueOfUserStoryAnnotationIfPresent(invocationContext.getTargetClass()))
+            .build()
+            .asMap());
+
+    extensionContext.publishReportEntry(
+        BDD4jReportEntry.builder()
+            .type(TestEventType.SCENARIO_METADATA_REPORTED)
+            .with("scenario", invocationContext.getExecutable()
+                .getAnnotation(Scenario.class)
+                .value())
+            .build()
+            .asMap());
 
     invocation.proceed();
 

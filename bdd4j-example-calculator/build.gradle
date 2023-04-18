@@ -1,3 +1,4 @@
 dependencies {
     testImplementation project(':bdd4j-junit5')
+    testImplementation project(':bdd4j-junit5-report-feature-files')
 }
