@@ -13,7 +13,7 @@ import org.bdd4j.UserStory;
     """)
 public class GithubSearchTest {
   @Scenario("Search for 'bdd4j'")
-  public void searchForBDD4j(ScenarioBuilder<GithubSearchSteps> scenarioBuilder) {
+  public void searchForBDD4j(ScenarioBuilder<GithubSearchSteps, GithubPageObject> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
     scenarioBuilder.defineSteps(
         steps.whenIOpenTheLandingPage(),
