@@ -1,6 +1,7 @@
 # Architecture Decision Record Template
 
-The adr.vtl file contains a velocity template for the creation of architecture decision record files that is compatible
+The `template.md file contains a velocity template for the creation of architecture decision record files that is
+compatible
 with the IntelliJ IDEA IDE.
 
 ## Setup
