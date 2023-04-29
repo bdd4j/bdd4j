@@ -1,6 +1,6 @@
 # Architecture Decision Record Template
 
-The `template.md file contains a velocity template for the creation of architecture decision record files that is
+The `template.md` file contains a velocity template for the creation of architecture decision record files that is
 compatible
 with the IntelliJ IDEA IDE.
 
