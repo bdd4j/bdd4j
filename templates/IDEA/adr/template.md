@@ -1,11 +1,6 @@
 ${ArchitectureDecisionID} - ${ArchitectureDecisionName}
 ===============
 
-| Parameter | Value         |
-|-----------|---------------|
-| Date      | ${DATE}       |
-| Author    | ${USER}       |
-
 Status
 ---------------
 
