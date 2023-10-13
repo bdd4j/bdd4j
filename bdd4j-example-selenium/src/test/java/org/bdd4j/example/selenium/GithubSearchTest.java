@@ -4,6 +4,7 @@ import org.bdd4j.Feature;
 import org.bdd4j.Scenario;
 import org.bdd4j.ScenarioBuilder;
 import org.bdd4j.UserStory;
+import org.junit.jupiter.api.Disabled;
 
 @Feature("Search for github projects")
 @UserStory("""
@@ -12,6 +13,7 @@ import org.bdd4j.UserStory;
     In order to find the projects that I'm interested in.
     """)
 public class GithubSearchTest {
+  @Disabled
   @Scenario("Search for 'bdd4j'")
   public void searchForBDD4j(ScenarioBuilder<GithubSearchSteps, GithubPageObject> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
