@@ -33,8 +33,24 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator {
    */
   @Override
   public String generateDisplayNameForMethod(final Class<?> testClass, final Method testMethod) {
-    return "Scenario: " +
-        Optional.ofNullable(testMethod.getAnnotation(Scenario.class)).map(Scenario::value)
-            .orElse(testMethod.getName());
+    return "Scenario: " + extractScenarioName(testMethod);
+  }
+
+  /**
+   * Extracts the scenario from the given test method.
+   *
+   * @param testMethod The test method.
+   * @return The extracted scenario name.
+   */
+  private String extractScenarioName(final Method testMethod) {
+    if (testMethod.isAnnotationPresent(Scenario.class)) {
+      return testMethod.getAnnotation(Scenario.class).value();
+    }
+
+    if (testMethod.isAnnotationPresent(ScenarioOutline.class)) {
+      return testMethod.getAnnotation(ScenarioOutline.class).value();
+    }
+
+    return testMethod.getName();
   }
 }
