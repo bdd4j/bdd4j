@@ -53,10 +53,10 @@ public class CalculatorScenarioTest {
   }
 
   @ScenarioOutline("Parameterized test")
-  @CsvSource("""
-      1,1,2
-      2,2,4
-      """)
+  @CsvSource({
+      "1,1,2",
+      "2,2,4"
+  })
   public void parameterizedTest(int a, int b, int expectedSum,
                                 ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
     var steps = scenarioBuilder.availableSteps();
@@ -65,6 +65,9 @@ public class CalculatorScenarioTest {
         steps.whenIAddToTheSubtotal(a),
         steps.whenIAddToTheSubtotal(b),
         steps.thenTheSubtotalShouldBe(expectedSum));
+
+    //This manual call is required due to https://github.com/bdd4j/bdd4j/issues/54
+    scenarioBuilder.build().run();
   }
 
   @Scenario("Subtract a value")

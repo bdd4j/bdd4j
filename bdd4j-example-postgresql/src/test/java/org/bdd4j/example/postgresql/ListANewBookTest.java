@@ -26,6 +26,9 @@ public class ListANewBookTest {
         steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
             "The author with the ID 1 does not exist")
     );
+
+    //This manual call is required due to https://github.com/bdd4j/bdd4j/issues/54
+    builder.build().run();
   }
 
   @ScenarioOutline("Successfully list a book")
@@ -43,5 +46,8 @@ public class ListANewBookTest {
             steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
                 "The author with the ID 1 does not exist")
         );
+
+    //This manual call is required due to https://github.com/bdd4j/bdd4j/issues/54
+    builder.build().run();
   }
 }
