@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 /**
- * BDD4jInvocationInterceptor is an Extensions that intercepts calls to test code.
+ * BDD4jInvocationInterceptor is an Extension that intercepts calls to test code.
  * It gathers information about the test for reporting purposes and sets up a scenario runner to
  * execute the steps involved in a bdd4j test.
  */
