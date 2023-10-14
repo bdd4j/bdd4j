@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import org.bdd4j.BDD4jReportEntry;
+import org.bdd4j.internal.BDD4jReportEntry;
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.reporting.ReportEntry;

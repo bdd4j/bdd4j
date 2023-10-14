@@ -1,16 +1,16 @@
 package org.bdd4j.example.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.bdd4j.StepDSL.given;
-import static org.bdd4j.StepDSL.then;
-import static org.bdd4j.StepDSL.when;
+import static org.bdd4j.api.StepDSL.given;
+import static org.bdd4j.api.StepDSL.then;
+import static org.bdd4j.api.StepDSL.when;
 
-import org.bdd4j.BDD4jSteps;
-import org.bdd4j.Given;
-import org.bdd4j.Parameters;
-import org.bdd4j.TestState;
-import org.bdd4j.Then;
-import org.bdd4j.When;
+import org.bdd4j.api.BDD4jSteps;
+import org.bdd4j.api.Given;
+import org.bdd4j.api.Parameters;
+import org.bdd4j.api.TestState;
+import org.bdd4j.api.Then;
+import org.bdd4j.api.When;
 
 /**
  * The steps used to test the calculator feature.

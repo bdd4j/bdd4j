@@ -1,10 +1,10 @@
 package org.bdd4j.example.calculator;
 
-import org.bdd4j.Feature;
-import org.bdd4j.Scenario;
-import org.bdd4j.ScenarioBuilder;
-import org.bdd4j.ScenarioOutline;
-import org.bdd4j.UserStory;
+import org.bdd4j.api.Feature;
+import org.bdd4j.api.Scenario;
+import org.bdd4j.api.ScenarioBuilder;
+import org.bdd4j.api.ScenarioOutline;
+import org.bdd4j.api.UserStory;
 import org.junit.jupiter.params.provider.CsvSource;
 
 

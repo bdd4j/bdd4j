@@ -1,9 +1,9 @@
 package org.bdd4j.example.selenium;
 
-import org.bdd4j.Feature;
-import org.bdd4j.Scenario;
-import org.bdd4j.ScenarioBuilder;
-import org.bdd4j.UserStory;
+import org.bdd4j.api.Feature;
+import org.bdd4j.api.Scenario;
+import org.bdd4j.api.ScenarioBuilder;
+import org.bdd4j.api.UserStory;
 import org.junit.jupiter.api.Disabled;
 
 @Feature("Search for github projects")
