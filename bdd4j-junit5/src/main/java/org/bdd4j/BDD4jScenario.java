@@ -19,6 +19,7 @@ public final class BDD4jScenario<TS> implements Runnable {
   private final BDD4jSteps<TS> stepsWrapper;
   private final TestReporter testReporter;
   private final Collection<Step<TS>> definedSteps;
+  private final Parameters parameters;
 
   /**
    * Creates a new instance.
@@ -26,14 +27,17 @@ public final class BDD4jScenario<TS> implements Runnable {
    * @param stepsWrapper The steps' wrapper.
    * @param testReporter The test reporter.
    * @param definedSteps The steps defined for the scenario.
+   * @param parameters   The parameters for the scenario.
    */
   public BDD4jScenario(final BDD4jSteps<TS> stepsWrapper,
                        final TestReporter testReporter,
-                       final Collection<Step<TS>> definedSteps) {
+                       final Collection<Step<TS>> definedSteps,
+                       final Parameters parameters) {
 
     this.stepsWrapper = stepsWrapper;
     this.testReporter = testReporter;
     this.definedSteps = definedSteps;
+    this.parameters = parameters;
   }
 
   /**
@@ -45,7 +49,7 @@ public final class BDD4jScenario<TS> implements Runnable {
    */
   @Override
   public void run() {
-    try (final TestState<TS> state = stepsWrapper.init()) {
+    try (final TestState<TS> state = stepsWrapper.init(parameters)) {
       final var stepVisitor = new TestStepVisitor<>(state);
       final var stepDescriptionGenerator = new ConditionalStepDescriptionGenerator();
 

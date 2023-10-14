@@ -7,6 +7,7 @@ import static org.bdd4j.StepDSL.when;
 
 import org.bdd4j.BDD4jSteps;
 import org.bdd4j.Given;
+import org.bdd4j.Parameters;
 import org.bdd4j.TestState;
 import org.bdd4j.Then;
 import org.bdd4j.When;
@@ -19,7 +20,7 @@ public class CalculatorSteps implements BDD4jSteps<Calculator> {
    * {@inheritDoc}
    */
   @Override
-  public TestState<Calculator> init() {
+  public TestState<Calculator> init(final Parameters parameters) {
     return TestState.state(new Calculator());
   }
 

@@ -8,8 +8,8 @@ package org.bdd4j;
  * {@link Then} steps for the scenarios, by using the builders defined in the {@link StepDSL} class
  * and exposing them to tests.
  * <p>
- * To initialize the test state the interface provides the {@link BDD4jSteps#init()} method, which
- * must be implemented by concrete step classes.
+ * To initialize the test state the interface provides the {@link BDD4jSteps#init(Parameters)} method,
+ * which must be implemented by concrete step classes.
  * <p>
  * Instances of the steps can be injected into the scenario test methods. This is done by the
  * {@link BDD4jParameterResolver}.
@@ -20,7 +20,8 @@ public interface BDD4jSteps<T> {
   /**
    * Initializes the state for the test.
    *
+   * @param parameters The parameters used to initialize the test state.
    * @return The state.
    */
-  TestState<T> init();
+  TestState<T> init(Parameters parameters);
 }
