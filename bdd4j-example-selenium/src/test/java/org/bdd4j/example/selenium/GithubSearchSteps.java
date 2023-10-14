@@ -4,6 +4,7 @@ import static org.bdd4j.StepDSL.then;
 import static org.bdd4j.StepDSL.when;
 
 import org.bdd4j.BDD4jSteps;
+import org.bdd4j.Parameters;
 import org.bdd4j.TestState;
 import org.bdd4j.Then;
 import org.bdd4j.When;
@@ -18,7 +19,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject> {
    * {@inheritDoc}
    */
   @Override
-  public TestState<GithubPageObject> init() {
+  public TestState<GithubPageObject> init(final Parameters parameters) {
     final var capabilities = new ChromeOptions();
     final var container =
         new BrowserWebDriverContainer<>().withCapabilities(capabilities);

@@ -17,6 +17,8 @@ public final class ScenarioBuilder<S extends BDD4jSteps<TS>, TS> {
   private List<Step<TS>> definedSteps = Collections.emptyList();
   private TestReporter testReporter;
 
+  private final Parameters parameters = new Parameters();
+
   /**
    * Creates a new instance.
    *
@@ -57,11 +59,27 @@ public final class ScenarioBuilder<S extends BDD4jSteps<TS>, TS> {
   }
 
   /**
+   * Sets a parameter for the builder. This will be passed to the scenario for customization purposes.
+   * <p>
+   * E.g. you can use this method to set your desired database version and process the values in
+   * the {@link BDD4jSteps#init(Parameters)} method.
+   *
+   * @param key   The key of the parameter.
+   * @param value The value of the parameter.
+   * @return The builder.
+   */
+  public ScenarioBuilder<S, TS> withParameter(final String key, final String value) {
+    this.parameters.set(key, value);
+
+    return this;
+  }
+
+  /**
    * Builds the scenario.
    *
    * @return The built scenario.
    */
   public BDD4jScenario<TS> build() {
-    return new BDD4jScenario<>(availableSteps, testReporter, definedSteps);
+    return new BDD4jScenario<>(availableSteps, testReporter, definedSteps, parameters);
   }
 }

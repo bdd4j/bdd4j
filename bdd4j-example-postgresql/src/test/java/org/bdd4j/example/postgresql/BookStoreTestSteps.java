@@ -5,9 +5,11 @@ import static org.bdd4j.StepDSL.given;
 import static org.bdd4j.StepDSL.then;
 import static org.bdd4j.StepDSL.when;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 import org.bdd4j.BDD4jSteps;
 import org.bdd4j.Given;
+import org.bdd4j.Parameters;
 import org.bdd4j.TestState;
 import org.bdd4j.Then;
 import org.bdd4j.When;
@@ -24,9 +26,9 @@ public final class BookStoreTestSteps implements BDD4jSteps<BookStoreState> {
    * {@inheritDoc}
    */
   @Override
-  public TestState<BookStoreState> init() {
+  public TestState<BookStoreState> init(final Parameters parameters) {
     final var state = new BookStoreState(
-        new PostgreSQLContainer<>("postgres:15.2")
+        new PostgreSQLContainer<>(generatePostgresVersionString(parameters))
             .withDatabaseName("book-store")
             .withUsername("book-manager")
             .withPassword(UUID.randomUUID().toString()));
@@ -67,5 +69,17 @@ public final class BookStoreTestSteps implements BDD4jSteps<BookStoreState> {
       assertThat(state.exception()).hasMessage(expectedMessage);
       return state;
     });
+  }
+
+  /**
+   * Generates the postgres version string for the given parameters
+   *
+   * @param parameters The parameters that have been provided.
+   * @return The generated postgres version string.
+   */
+  private static String generatePostgresVersionString(Parameters parameters) {
+    final String configuredVersion = parameters.getString(TestConstants.POSTGRES_VERSION_KEY);
+
+    return MessageFormat.format("postgres:{0}", configuredVersion);
   }
 }

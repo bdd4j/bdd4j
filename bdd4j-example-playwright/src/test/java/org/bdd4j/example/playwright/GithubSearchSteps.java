@@ -5,6 +5,7 @@ import static org.bdd4j.StepDSL.when;
 
 import com.microsoft.playwright.Playwright;
 import org.bdd4j.BDD4jSteps;
+import org.bdd4j.Parameters;
 import org.bdd4j.TestState;
 import org.bdd4j.Then;
 import org.bdd4j.When;
@@ -17,7 +18,7 @@ public class GithubSearchSteps implements BDD4jSteps<GithubPageObject> {
    * {@inheritDoc}
    */
   @Override
-  public TestState<GithubPageObject> init() {
+  public TestState<GithubPageObject> init(final Parameters parameters) {
     return TestState.state(new GithubPageObject(Playwright.create()));
   }
 
