@@ -69,10 +69,32 @@ class BDD4jDisplayNameGeneratorTest {
     assertThat(displayName).isEqualTo("Scenario: doTheThing");
   }
 
+  @Test
+  public void generateDisplayNameForParameterizedMethod() throws Throwable {
+    final var generator = new BDD4jDisplayNameGenerator();
+
+    final var testClass = ParameterizedTest.class;
+
+    final var method = testClass.getMethod("doTheParameterizedThing");
+
+    final var displayName = generator.generateDisplayNameForMethod(testClass, method);
+
+    assertThat(displayName).isEqualTo("Scenario: Do the parameterized thing");
+  }
+
   @Feature("Cool feature")
   private static class TestWithAnnotation {
     @Scenario("Do the thing")
     public void doTheThing() {
+    }
+  }
+
+  @Feature("Parameterized very cool feature")
+  private static class ParameterizedTest {
+
+    @ScenarioOutline("Do the parameterized thing")
+    public void doTheParameterizedThing() {
+
     }
   }
 
