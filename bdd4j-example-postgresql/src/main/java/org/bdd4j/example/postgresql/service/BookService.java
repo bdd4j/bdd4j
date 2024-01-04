@@ -42,7 +42,7 @@ public final class BookService {
     repository.create(new BooksRecord(data.id(), data.name(), data.authorId()));
 
     return repository.findById(data.id())
-        .map(record -> new Book(record.id(), record.name(), author.get()))
+        .map(book -> new Book(book.id(), book.name(), author.get()))
         .orElseThrow(() -> new ServiceException("Failed to read book after listing it"));
   }
 
@@ -54,7 +54,7 @@ public final class BookService {
    */
   public Optional<Book> loadBook(final int id) {
     return repository.findById(id)
-        .map(record -> new Book(record.id(), record.name(),
-            authorService.getById(record.author()).orElse(null)));
+        .map(book -> new Book(book.id(), book.name(),
+            authorService.getById(book.author()).orElse(null)));
   }
 }
