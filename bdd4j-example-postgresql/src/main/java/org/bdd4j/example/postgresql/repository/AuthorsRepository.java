@@ -60,7 +60,7 @@ public final class AuthorsRepository {
 
       statement.setInt(1, id);
 
-      final var resultSet = statement.getResultSet();
+      final var resultSet = statement.executeQuery();
 
       if (resultSet == null) {
         return Optional.empty();

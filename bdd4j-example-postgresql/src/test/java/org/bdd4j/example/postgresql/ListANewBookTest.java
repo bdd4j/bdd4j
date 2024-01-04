@@ -43,8 +43,7 @@ public class ListANewBookTest {
             steps.givenThatTheAuthorExists(1, "Richard Bachmann"),
             steps.whenITryToListTheNewBook(1, "How bdd4j changed my life and other made-up stories",
                 1),
-            steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
-                "The author with the ID 1 does not exist")
+            steps.thenListingTheNewBookShouldHaveSucceeded()
         );
 
     //This manual call is required due to https://github.com/bdd4j/bdd4j/issues/54

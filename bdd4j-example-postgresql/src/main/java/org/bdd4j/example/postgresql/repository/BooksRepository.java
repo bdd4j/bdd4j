@@ -16,7 +16,7 @@ public class BooksRepository {
 
   private static final String SELECT_STATEMENT =
       """
-          SELECT "id", "name", "author" from "book" where id = ?
+          SELECT "id", "name", "author" from "books" where id = ?
           """;
 
 
@@ -56,7 +56,7 @@ public class BooksRepository {
 
       statement.setInt(1, id);
 
-      final var resultSet = statement.getResultSet();
+      final var resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
         return Optional.of(new BooksRecord(
