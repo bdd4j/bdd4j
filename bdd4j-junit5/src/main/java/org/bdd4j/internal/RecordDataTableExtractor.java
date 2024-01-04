@@ -23,19 +23,19 @@ public final class RecordDataTableExtractor {
   public <T> Map<String, List<Object>> extractDataTableFrom(final Collection<T> records) {
     final Map<String, List<Object>> dataTable = new ConcurrentHashMap<>();
 
-    for (final T record : records) {
-      if (!record.getClass().isRecord()) {
+    for (final T row : records) {
+      if (!row.getClass().isRecord()) {
         throw new IllegalArgumentException("The given type is not a record");
       }
 
-      for (final RecordComponent component : record.getClass().getRecordComponents()) {
+      for (final RecordComponent component : row.getClass().getRecordComponents()) {
         final List<Object> list = dataTable.getOrDefault(component.getName(), new ArrayList<>());
 
         try {
-          list.add(component.getAccessor().invoke(record));
+          list.add(component.getAccessor().invoke(row));
           dataTable.put(component.getName(), list);
         } catch (final IllegalAccessException | InvocationTargetException e) {
-          throw new RuntimeException(e);
+          throw new AssertionError("Failed to compute data table", e);
         }
       }
     }
