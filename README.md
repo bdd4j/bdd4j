@@ -2,6 +2,7 @@
 
 ![Build](https://github.com/bdd4j/bdd4j/actions/workflows/gradle.yml/badge.svg)
 
+![codecov](https://codecov.io/gh/bdd4j/bdd4j/branch/main/graph/badge.svg)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bdd4j_bdd4j&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bdd4j_bdd4j)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=bdd4j_bdd4j&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=bdd4j_bdd4j)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=bdd4j_bdd4j&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=bdd4j_bdd4j)
