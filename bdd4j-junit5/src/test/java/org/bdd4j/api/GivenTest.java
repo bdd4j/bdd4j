@@ -25,9 +25,11 @@ class GivenTest {
   public void applyLogic_withException() {
     final Given<SomeTestedApi> step = given("that I do the thing").step(TestState::state);
 
+    final var exception = new Exception("Something bad happened");
+
     assertThatThrownBy(
-        () -> step.applyLogic(TestState.exception(new Exception("Something bad happened"))))
-        .isInstanceOf(Exception.class)
-        .hasMessage("Something bad happened");
+        () -> step.applyLogic(TestState.exception(exception)))
+        .isInstanceOf(AssertionError.class)
+        .hasCause(exception);
   }
 }
