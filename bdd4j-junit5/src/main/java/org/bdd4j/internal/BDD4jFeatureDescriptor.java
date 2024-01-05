@@ -8,20 +8,15 @@ import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
  */
 public class BDD4jFeatureDescriptor extends AbstractTestDescriptor {
 
-  private final Class<?> testClass;
-
   /**
    * Creates a new instance.
    *
    * @param uniqueId    The unique ID.
    * @param displayName The display name.
-   * @param testClass   The test class.
    */
   public BDD4jFeatureDescriptor(final UniqueId uniqueId,
-                                final String displayName,
-                                final Class<?> testClass) {
+                                final String displayName) {
     super(uniqueId, displayName);
-    this.testClass = testClass;
   }
 
   /**
@@ -30,14 +25,5 @@ public class BDD4jFeatureDescriptor extends AbstractTestDescriptor {
   @Override
   public Type getType() {
     return Type.CONTAINER;
-  }
-
-  /**
-   * The test class that is represented by the descriptor.
-   *
-   * @return The test class.
-   */
-  public Class<?> getTestClass() {
-    return testClass;
   }
 }

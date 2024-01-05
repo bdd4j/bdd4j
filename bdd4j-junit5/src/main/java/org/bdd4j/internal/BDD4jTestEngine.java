@@ -48,8 +48,7 @@ public class BDD4jTestEngine implements TestEngine {
       if (selector.getJavaClass().isAnnotationPresent(Feature.class)) {
         final BDD4jFeatureDescriptor feature = new BDD4jFeatureDescriptor(
             UniqueId.root(getId(), UUID.randomUUID().toString()),
-            NAME_GENERATOR.generateDisplayNameForClass(selector.getJavaClass()),
-            selector.getJavaClass());
+            NAME_GENERATOR.generateDisplayNameForClass(selector.getJavaClass()));
 
         final List<Method> scenarios = ReflectionSupport.findMethods(selector.getJavaClass(),
             (method) -> method.isAnnotationPresent(Scenario.class) &&
@@ -61,7 +60,8 @@ public class BDD4jTestEngine implements TestEngine {
 
           final UniqueId id = UniqueId.root(getId(), scenarioName);
 
-          feature.addChild(new BDD4jScenarioDescriptor(id, scenarioName, scenario));
+          feature.addChild(
+              new BDD4jScenarioDescriptor(id, scenarioName, scenario, selector.getJavaClass()));
         }
 
         final List<Method> scenarioOutlines = ReflectionSupport.findMethods(selector.getJavaClass(),
@@ -76,7 +76,8 @@ public class BDD4jTestEngine implements TestEngine {
           for (final DataRow row : rows) {
             final UniqueId id = UniqueId.root(getId(), scenarioName + " " + row);
 
-            feature.addChild(new BDD4jScenarioOutlineDescriptor(id, scenarioName, scenario, row));
+            feature.addChild(new BDD4jScenarioOutlineDescriptor(id, scenarioName, scenario, row,
+                selector.getJavaClass()));
           }
         }
 

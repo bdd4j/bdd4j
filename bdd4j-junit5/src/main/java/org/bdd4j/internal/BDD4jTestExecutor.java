@@ -37,9 +37,9 @@ public class BDD4jTestExecutor {
     } else if (descriptor instanceof BDD4jFeatureDescriptor) {
       executeContainer(request, descriptor);
     } else if (descriptor instanceof BDD4jScenarioDescriptor scenario) {
-      executeScenario(descriptor, scenario);
+      executeScenario(scenario);
     } else if (descriptor instanceof BDD4jScenarioOutlineDescriptor scenario) {
-      executeScenarioOutline(descriptor, scenario);
+      executeScenarioOutline(scenario);
     }
 
     request.getEngineExecutionListener()
@@ -49,29 +49,20 @@ public class BDD4jTestExecutor {
   /**
    * Executes the scenario outline definition.
    *
-   * @param descriptor The descriptor.
-   * @param scenario   The scenario.
+   * @param scenario The scenario.
    */
-  private void executeScenarioOutline(final TestDescriptor descriptor,
-                                      final BDD4jScenarioOutlineDescriptor scenario) {
-    final BDD4jFeatureDescriptor parentDescriptor =
-        descriptor.getParent()
-            .filter(d -> d instanceof BDD4jFeatureDescriptor)
-            .map(d -> (BDD4jFeatureDescriptor) d)
-            .orElseThrow(() -> new IllegalStateException(
-                "Missing parent BDD4jFeatureDescriptor for: " + scenario.getDisplayName()));
-
+  private void executeScenarioOutline(final BDD4jScenarioOutlineDescriptor scenario) {
     try {
-      final Object testInstance = ReflectionSupport.newInstance(parentDescriptor.getTestClass());
+      final Object testInstance = ReflectionSupport.newInstance(scenario.getTestClass());
 
       final var type =
           GenericTypeReflector.getExactReturnType(scenario.getMethod(),
-              parentDescriptor.getTestClass());
+              scenario.getTestClass());
 
       final ScenarioOutlineSpec<?, ?> spec =
           (ScenarioOutlineSpec<?, ?>) scenario.getMethod().invoke(testInstance);
 
-      invokeScenarioOutlineSpec(type, spec, scenario.getRow(), parentDescriptor.getTestClass());
+      invokeScenarioOutlineSpec(type, spec, scenario.getRow(), scenario.getTestClass());
     } catch (final IllegalAccessException | InvocationTargetException | ClassNotFoundException |
                    InstantiationException e) {
       throw new RuntimeException(e);
@@ -98,32 +89,25 @@ public class BDD4jTestExecutor {
         .run();
   }
 
-  private void executeScenario(TestDescriptor descriptor, BDD4jScenarioDescriptor scenario) {
-    final BDD4jFeatureDescriptor parentDescriptor =
-        descriptor.getParent()
-            .filter(d -> d instanceof BDD4jFeatureDescriptor)
-            .map(d -> (BDD4jFeatureDescriptor) d)
-            .orElseThrow(() -> new IllegalStateException(
-                "Missing parent BDD4jFeatureDescriptor for: " + scenario.getDisplayName()));
-
+  private void executeScenario(final BDD4jScenarioDescriptor scenario) {
     try {
-      final Object testInstance = ReflectionSupport.newInstance(parentDescriptor.getTestClass());
+      final Object testInstance = ReflectionSupport.newInstance(scenario.getTestClass());
 
       final var type =
           GenericTypeReflector.getExactReturnType(scenario.getMethod(),
-              parentDescriptor.getTestClass());
+              scenario.getTestClass());
 
       if (!List.of(ScenarioSpec.class, ScenarioOutlineSpec.class)
           .contains(scenario.getMethod().getReturnType())) {
         throw new AssertionError("The test method " + scenario.getMethod() + " in class " +
-            parentDescriptor.getTestClass() +
+            scenario.getTestClass() +
             " does not return a ScenarioSpec or ScenarioOutlineSpec");
       }
 
       final ScenarioSpec<?, ?> spec =
           (ScenarioSpec<?, ?>) scenario.getMethod().invoke(testInstance);
 
-      invokeScenarioSpec(type, spec, parentDescriptor.getTestClass());
+      invokeScenarioSpec(type, spec, scenario.getTestClass());
     } catch (final IllegalAccessException | InvocationTargetException | ClassNotFoundException |
                    InstantiationException e) {
       throw new RuntimeException(e);

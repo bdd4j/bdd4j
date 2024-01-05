@@ -9,14 +9,17 @@ public class BDD4jScenarioOutlineDescriptor extends AbstractTestDescriptor {
 
   private final Method method;
   private final DataRow row;
+  private final Class<?> testClass;
 
   public BDD4jScenarioOutlineDescriptor(final UniqueId uniqueId,
                                         final String displayName,
                                         final Method method,
-                                        final DataRow row) {
+                                        final DataRow row,
+                                        final Class<?> testClass) {
     super(uniqueId, displayName);
     this.method = method;
     this.row = row;
+    this.testClass = testClass;
   }
 
   @Override
@@ -30,5 +33,9 @@ public class BDD4jScenarioOutlineDescriptor extends AbstractTestDescriptor {
 
   public DataRow getRow() {
     return row;
+  }
+
+  public Class<?> getTestClass() {
+    return testClass;
   }
 }
