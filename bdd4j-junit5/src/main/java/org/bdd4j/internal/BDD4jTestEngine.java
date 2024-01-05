@@ -9,6 +9,8 @@ import org.bdd4j.api.Feature;
 import org.bdd4j.api.Scenario;
 import org.bdd4j.api.ScenarioOutline;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.engine.config.DefaultJupiterConfiguration;
+import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
 import org.junit.platform.commons.support.HierarchyTraversalMode;
 import org.junit.platform.commons.support.ReflectionSupport;
 import org.junit.platform.engine.EngineDiscoveryRequest;
@@ -46,7 +48,7 @@ public class BDD4jTestEngine implements TestEngine {
 
     request.getSelectorsByType(ClassSelector.class).forEach(selector -> {
       if (selector.getJavaClass().isAnnotationPresent(Feature.class)) {
-        final BDD4jFeatureDescriptor feature = new BDD4jFeatureDescriptor(
+        final BDD4jFeatureDescriptor featureDescriptor = new BDD4jFeatureDescriptor(
             UniqueId.root(getId(), UUID.randomUUID().toString()),
             NAME_GENERATOR.generateDisplayNameForClass(selector.getJavaClass()));
 
@@ -60,7 +62,7 @@ public class BDD4jTestEngine implements TestEngine {
 
           final UniqueId id = UniqueId.root(getId(), scenarioName);
 
-          feature.addChild(
+          featureDescriptor.addChild(
               new BDD4jScenarioDescriptor(id, scenarioName, scenario, selector.getJavaClass()));
         }
 
@@ -76,12 +78,20 @@ public class BDD4jTestEngine implements TestEngine {
           for (final DataRow row : rows) {
             final UniqueId id = UniqueId.root(getId(), scenarioName + " " + row);
 
-            feature.addChild(new BDD4jScenarioOutlineDescriptor(id, scenarioName, scenario, row,
-                selector.getJavaClass()));
+            featureDescriptor.addChild(
+                new BDD4jScenarioOutlineDescriptor(id, scenarioName, scenario, row,
+                    selector.getJavaClass()));
           }
         }
+        
+        final ClassTestDescriptor classDescriptor =
+            new ClassTestDescriptor(UniqueId.root(getId(), selector.getJavaClass().getName()),
+                selector.getJavaClass(),
+                new DefaultJupiterConfiguration(request.getConfigurationParameters()));
 
-        engineDescriptor.addChild(feature);
+        classDescriptor.addChild(featureDescriptor);
+
+        engineDescriptor.addChild(classDescriptor);
       }
     });
 
