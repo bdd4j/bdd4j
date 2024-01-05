@@ -41,6 +41,16 @@ public class DataRow {
   }
 
   /**
+   * Retrieves an integer from the given key.
+   *
+   * @param key The key.
+   * @return The integer value.
+   */
+  public Integer getInteger(final String key) {
+    return Integer.valueOf(getString(key));
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override

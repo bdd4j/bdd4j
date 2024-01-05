@@ -4,7 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.platform.commons.annotation.Testable;
 
 
 /**
@@ -16,13 +16,20 @@ import org.junit.jupiter.params.ParameterizedTest;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@ParameterizedTest
+@Testable
 @BDD4jTest
 public @interface ScenarioOutline {
   /**
-   * The name of the scenario.
+   * The description of the scenario.
    *
-   * @return The name.
+   * @return The description.
    */
-  String value();
+  String description();
+
+  /**
+   * The data of the scenario outline.
+   *
+   * @return The data.
+   */
+  String data();
 }

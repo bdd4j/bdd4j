@@ -62,7 +62,7 @@ public class BDD4jParameterResolver implements ParameterResolver {
    * @throws InvocationTargetException Might be thrown in case that the underlying constructor throws an exception.
    * @throws ClassNotFoundException    Might be thrown in case that the class could not be found.
    */
-  private static Object instantiateScenarioBuilder(final Parameter scenarioBuilderParameter,
+  public static Object instantiateScenarioBuilder(final Parameter scenarioBuilderParameter,
                                                    final Class<?> type)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException,
       InvocationTargetException,
