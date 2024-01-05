@@ -52,7 +52,7 @@ public class BDD4jTestEngine implements TestEngine {
             HierarchyTraversalMode.BOTTOM_UP);
 
         for (final Method scenario : scenarios) {
-          final String scenarioName = getScenarioName(scenario);
+          final String scenarioName = ScenarioNameGenerator.generateName(scenario);
 
           final UniqueId id = UniqueId.root(getId(), scenarioName);
 
@@ -65,7 +65,7 @@ public class BDD4jTestEngine implements TestEngine {
             HierarchyTraversalMode.BOTTOM_UP);
 
         for (final Method scenario : scenarioOutlines) {
-          final String scenarioName = getScenarioName(scenario);
+          final String scenarioName = ScenarioNameGenerator.generateName(scenario);
           final Collection<DataRow> rows = getDataRows(scenario);
 
           for (final DataRow row : rows) {
@@ -82,22 +82,8 @@ public class BDD4jTestEngine implements TestEngine {
     return engineDescriptor;
   }
 
-  private Collection<DataRow> getDataRows(Method scenario) {
+  private Collection<DataRow> getDataRows(final Method scenario) {
     return new TableParser().parseTable(scenario.getAnnotation(ScenarioOutline.class).data());
-  }
-
-  private String getScenarioName(final Method scenario) {
-    final String scenarioName;
-
-    if (scenario.isAnnotationPresent(Scenario.class)) {
-      scenarioName = scenario.getAnnotation(Scenario.class).value();
-    } else if (scenario.isAnnotationPresent(ScenarioOutline.class)) {
-      scenarioName = scenario.getAnnotation(ScenarioOutline.class).description();
-    } else {
-      scenarioName = scenario.getName();
-    }
-
-    return scenarioName;
   }
 
   /**
