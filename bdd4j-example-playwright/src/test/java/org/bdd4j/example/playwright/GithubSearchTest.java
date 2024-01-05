@@ -2,7 +2,7 @@ package org.bdd4j.example.playwright;
 
 import org.bdd4j.api.Feature;
 import org.bdd4j.api.Scenario;
-import org.bdd4j.api.ScenarioBuilder;
+import org.bdd4j.api.ScenarioSpec;
 import org.bdd4j.api.UserStory;
 import org.junit.jupiter.api.Disabled;
 
@@ -15,15 +15,14 @@ import org.junit.jupiter.api.Disabled;
 public class GithubSearchTest {
   @Disabled("Tests cannot be run as a github action")
   @Scenario("Search for 'bdd4j'")
-  public void searchForBDD4j(final ScenarioBuilder<GithubSearchSteps, GithubPageObject> builder) {
-    final var steps = builder.availableSteps();
-
-    builder.defineSteps(
-        steps.whenIOpenTheLandingPage(),
-        steps.whenIEnterTheSearchTerm("bdd4j"),
-        steps.whenIHitTheEnterKey(),
-        steps.thenIShouldBeOnTheSearchResultsPage(),
-        steps.thenIShouldFindALinkTo("/bdd4j/bdd4j")
-    );
+  public ScenarioSpec<GithubSearchSteps, GithubPageObject> searchForBDD4j() {
+    return (builder, steps) ->
+        builder.defineScenario(
+            steps.whenIOpenTheLandingPage(),
+            steps.whenIEnterTheSearchTerm("bdd4j"),
+            steps.whenIHitTheEnterKey(),
+            steps.thenIShouldBeOnTheSearchResultsPage(),
+            steps.thenIShouldFindALinkTo("/bdd4j/bdd4j")
+        );
   }
 }

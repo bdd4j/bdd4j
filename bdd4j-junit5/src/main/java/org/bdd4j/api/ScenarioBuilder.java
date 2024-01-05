@@ -34,8 +34,9 @@ public final class ScenarioBuilder<S extends BDD4jSteps<TS>, TS> {
    * @param steps The steps that should be applied in order in the scenario.
    */
   @SafeVarargs
-  public final void defineSteps(final Step<TS>... steps) {
+  public final BDD4jScenario<TS> defineScenario(final Step<TS>... steps) {
     this.definedSteps = List.of(steps);
+    return build();
   }
 
   /**

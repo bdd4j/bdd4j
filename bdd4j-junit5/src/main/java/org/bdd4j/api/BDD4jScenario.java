@@ -5,6 +5,7 @@ import static org.bdd4j.internal.BDD4jReportEntry.builder;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.logging.Logger;
 import org.bdd4j.internal.BDD4jReportEntry;
 import org.bdd4j.internal.ConditionalStepDescriptionGenerator;
 import org.bdd4j.internal.TestStepVisitor;
@@ -111,6 +112,20 @@ public final class BDD4jScenario<TS> implements Runnable {
    * @param entry The entry.
    */
   private void publish(final BDD4jReportEntry entry) {
-    testReporter.publishEntry(entry.asMap());
+    if (testReporter == null) {
+      Logger.getLogger(BDD4jScenario.class.getSimpleName()).warning("The test reporter is null");
+    } else {
+      testReporter.publishEntry(entry.asMap());
+    }
+  }
+
+  /**
+   * Creates a new {@link BDD4jScenario} with the given test reporter.
+   *
+   * @param testReporter The test reporter.
+   * @return The scenario.
+   */
+  public BDD4jScenario<TS> withTestReporter(final TestReporter testReporter) {
+    return new BDD4jScenario<>(stepsWrapper, testReporter, definedSteps, parameters);
   }
 }

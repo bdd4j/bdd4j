@@ -1,7 +1,5 @@
 package org.bdd4j.api;
 
-import org.bdd4j.internal.BDD4jParameterResolver;
-
 /**
  * This is the common interface that needs to be implemented by classes that provide access to
  * the steps used in bdd4j scenarios.
@@ -12,9 +10,6 @@ import org.bdd4j.internal.BDD4jParameterResolver;
  * <p>
  * To initialize the test state the interface provides the {@link BDD4jSteps#init(Parameters)} method,
  * which must be implemented by concrete step classes.
- * <p>
- * Instances of the steps can be injected into the scenario test methods. This is done by the
- * {@link BDD4jParameterResolver}.
  *
  * @param <T> The type of the state managed by the BDD4j test.
  */

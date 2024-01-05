@@ -2,10 +2,10 @@ package org.bdd4j.example.calculator;
 
 import org.bdd4j.api.Feature;
 import org.bdd4j.api.Scenario;
-import org.bdd4j.api.ScenarioBuilder;
 import org.bdd4j.api.ScenarioOutline;
+import org.bdd4j.api.ScenarioOutlineSpec;
+import org.bdd4j.api.ScenarioSpec;
 import org.bdd4j.api.UserStory;
-import org.junit.jupiter.params.provider.CsvSource;
 
 
 /**
@@ -18,60 +18,68 @@ import org.junit.jupiter.params.provider.CsvSource;
     In order to solve very complex problems.
     """)
 public class CalculatorScenarioTest {
+
   @Scenario("Add a value")
-  public void addAValue(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(1),
-        steps.thenTheSubtotalShouldBe(1));
+  public ScenarioSpec<CalculatorSteps, Calculator> addAValue() {
+    return (builder, steps) ->
+        builder.defineScenario(
+            steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(1),
+            steps.thenTheSubtotalShouldBe(1));
   }
 
   @Scenario("Clear")
-  public void clear(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(1337), steps.whenIClearTheCalculator(),
-        steps.thenTheSubtotalShouldBe(0));
+  public ScenarioSpec<CalculatorSteps, Calculator> clear() {
+    return (builder, steps) ->
+        builder.defineScenario(
+            steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(1337),
+            steps.whenIClearTheCalculator(),
+            steps.thenTheSubtotalShouldBe(0));
   }
 
   @Scenario("Integer overflow")
-  public void integerOverflow(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(Integer.MAX_VALUE), steps.whenIAddToTheSubtotal(1),
-        steps.thenTheCalculationShouldHaveFailedWithTheMessage(
-            "Can't add the given value, because it would produce an Integer overflow"));
+  public ScenarioSpec<CalculatorSteps, Calculator> integerOverflow() {
+    return (builder, steps) ->
+        builder.defineScenario(
+            steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(Integer.MAX_VALUE),
+            steps.whenIAddToTheSubtotal(1),
+            steps.thenTheCalculationShouldHaveFailedWithTheMessage(
+                "Can't add the given value, because it would produce an Integer overflow"));
   }
 
   @Scenario("Integer underflow")
-  public void integerUnderflow(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(Integer.MIN_VALUE), steps.whenISubtractFromTheSubtotal(1),
-        steps.thenTheCalculationShouldHaveFailedWithTheMessage(
-            "Can't subtract the given value, because it would produce an Integer underflow"));
+  public ScenarioSpec<CalculatorSteps, Calculator> integerUnderflow() {
+    return (builder, steps) ->
+        builder.defineScenario(
+            steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(Integer.MIN_VALUE),
+            steps.whenISubtractFromTheSubtotal(1),
+            steps.thenTheCalculationShouldHaveFailedWithTheMessage(
+                "Can't subtract the given value, because it would produce an Integer underflow"));
   }
 
-  @ScenarioOutline("Parameterized test")
-  @CsvSource("""
-      1,1,2
-      2,2,4
-      """)
-  public void parameterizedTest(int a, int b, int expectedSum,
-                                ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(
-        steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(a),
-        steps.whenIAddToTheSubtotal(b),
-        steps.thenTheSubtotalShouldBe(expectedSum));
+  @ScenarioOutline(description = "Parameterized test",
+      data = """
+          | a | b | expected sum |
+          | 1 | 1 | 2            |
+          | 2 | 2 | 4            |
+          """)
+  public ScenarioOutlineSpec<CalculatorSteps, Calculator> parameterizedTest() {
+    return (builder, steps, row) ->
+        builder.defineScenario(
+            steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(row.getInteger("a")),
+            steps.whenIAddToTheSubtotal(row.getInteger("b")),
+            steps.thenTheSubtotalShouldBe(row.getInteger("expected sum")));
   }
 
   @Scenario("Subtract a value")
-  public void subtractAValue(ScenarioBuilder<CalculatorSteps, Calculator> scenarioBuilder) {
-    var steps = scenarioBuilder.availableSteps();
-    scenarioBuilder.defineSteps(steps.givenThatIHaveABlankCalculator(),
-        steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
-        steps.thenTheSubtotalShouldBe(10));
+  public ScenarioSpec<CalculatorSteps, Calculator> subtractAValue() {
+    return (builder, steps) ->
+        builder.defineScenario(steps.givenThatIHaveABlankCalculator(),
+            steps.whenIAddToTheSubtotal(11), steps.whenISubtractFromTheSubtotal(1),
+            steps.thenTheSubtotalShouldBe(10));
   }
 }

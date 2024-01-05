@@ -16,7 +16,7 @@ public class BooksRepository {
 
   private static final String SELECT_STATEMENT =
       """
-          SELECT "id", "name", "author" from "book" where id = ?
+          SELECT "id", "name", "author" from "books" where id = ?
           """;
 
 
@@ -37,8 +37,7 @@ public class BooksRepository {
    * @param book The books' data.
    */
   public void create(final BooksRecord book) {
-    try {
-      final var statement = connection.prepareStatement(INSERT_STATEMENT);
+    try (final var statement = connection.prepareStatement(INSERT_STATEMENT)) {
 
       statement.setInt(1, book.id());
       statement.setString(2, book.name());
@@ -51,12 +50,10 @@ public class BooksRepository {
   }
 
   public Optional<BooksRecord> findById(final int id) {
-    try {
-      final var statement = connection.prepareStatement(SELECT_STATEMENT);
-
+    try (final var statement = connection.prepareStatement(SELECT_STATEMENT)) {
       statement.setInt(1, id);
 
-      final var resultSet = statement.getResultSet();
+      final var resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
         return Optional.of(new BooksRecord(

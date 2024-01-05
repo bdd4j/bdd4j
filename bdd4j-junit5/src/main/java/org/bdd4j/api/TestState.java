@@ -1,5 +1,7 @@
 package org.bdd4j.api;
 
+import org.junit.jupiter.api.Assertions;
+
 /**
  * A datatype that can be used to represent the state for a BDD test.
  *
@@ -71,12 +73,10 @@ public record TestState<T>(T state, Throwable exception) implements AutoCloseabl
 
   /**
    * Raises the stored exception if it is present.
-   *
-   * @throws Throwable Might throw any kind of stored exception.
    */
-  public void raiseExceptionIfPresent() throws Throwable {
+  public void raiseExceptionIfPresent() {
     if (hasException()) {
-      throw exception;
+      Assertions.fail(exception);
     }
   }
 }

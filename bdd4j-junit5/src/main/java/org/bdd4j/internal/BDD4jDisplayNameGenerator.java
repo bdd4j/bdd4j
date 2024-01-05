@@ -51,7 +51,7 @@ public class BDD4jDisplayNameGenerator implements DisplayNameGenerator {
     }
 
     if (testMethod.isAnnotationPresent(ScenarioOutline.class)) {
-      return testMethod.getAnnotation(ScenarioOutline.class).value();
+      return testMethod.getAnnotation(ScenarioOutline.class).description();
     }
 
     return testMethod.getName();

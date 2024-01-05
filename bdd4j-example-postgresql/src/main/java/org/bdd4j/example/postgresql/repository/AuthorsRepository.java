@@ -36,9 +36,7 @@ public final class AuthorsRepository {
    * @param data The authors' data.
    */
   public void create(final AuthorRecord data) {
-    try {
-      final var statement = connection.prepareStatement(INSERT_STATEMENT);
-
+    try (final var statement = connection.prepareStatement(INSERT_STATEMENT)) {
       statement.setInt(1, data.id());
       statement.setString(2, data.name());
 
@@ -55,12 +53,10 @@ public final class AuthorsRepository {
    * @return The authors record, otherwise {@link Optional#empty()}.
    */
   public Optional<AuthorRecord> getById(final Integer id) {
-    try {
-      final var statement = connection.prepareStatement(SELECT_STATEMENT);
-
+    try (final var statement = connection.prepareStatement(SELECT_STATEMENT)) {
       statement.setInt(1, id);
 
-      final var resultSet = statement.getResultSet();
+      final var resultSet = statement.executeQuery();
 
       if (resultSet == null) {
         return Optional.empty();

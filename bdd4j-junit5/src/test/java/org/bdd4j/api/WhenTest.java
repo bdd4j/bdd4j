@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.bdd4j.api.StepDSL.when;
 
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 class WhenTest {
 
@@ -26,9 +27,11 @@ class WhenTest {
   public void applyLogic_withException() {
     final When<SomeTestedApi> step = when("I do the thing").step(TestState::state);
 
+    final Exception exception = new Exception("Something bad happened");
+
     assertThatThrownBy(
-        () -> step.applyLogic(TestState.exception(new Exception("Something bad happened"))))
-        .isInstanceOf(Exception.class)
-        .hasMessage("Something bad happened");
+        () -> step.applyLogic(TestState.exception(exception)))
+        .isInstanceOf(AssertionFailedError.class)
+        .hasCause(exception);
   }
 }

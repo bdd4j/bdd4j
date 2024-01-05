@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.bdd4j.api.Feature;
 import org.bdd4j.api.Scenario;
 import org.bdd4j.api.ScenarioOutline;
-import org.bdd4j.internal.BDD4jDisplayNameGenerator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class BDD4jDisplayNameGeneratorTest {
@@ -86,17 +86,23 @@ class BDD4jDisplayNameGeneratorTest {
     assertThat(displayName).isEqualTo("Scenario: Do the parameterized thing");
   }
 
+  @Disabled
   @Feature("Cool feature")
   private static class TestWithAnnotation {
+    @Disabled
     @Scenario("Do the thing")
     public void doTheThing() {
     }
   }
 
+  @Disabled
   @Feature("Parameterized very cool feature")
   private static class ParameterizedTest {
 
-    @ScenarioOutline("Do the parameterized thing")
+    @Disabled
+    @ScenarioOutline(
+        description = "Do the parameterized thing",
+        data = "")
     public void doTheParameterizedThing() {
 
     }

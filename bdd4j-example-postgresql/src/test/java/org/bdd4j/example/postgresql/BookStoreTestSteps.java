@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.bdd4j.api.BDD4jSteps;
 import org.bdd4j.api.Given;
 import org.bdd4j.api.Parameters;
+import org.bdd4j.api.Step;
 import org.bdd4j.api.TestState;
 import org.bdd4j.api.Then;
 import org.bdd4j.api.When;
@@ -60,6 +61,15 @@ public final class BookStoreTestSteps implements BDD4jSteps<BookStoreState> {
           state.createBookService().listBook(new ListBookRequest(id, bookName, author));
           return TestState.state(state);
         });
+  }
+
+  public Step<BookStoreState> thenListingTheNewBookShouldHaveSucceeded() {
+    return then("listing the new book should have succeeded").step(state -> {
+      state.raiseExceptionIfPresent();
+      final var book = state.state().createBookService().loadBook(1);
+      assertThat(book).isPresent();
+      return state;
+    });
   }
 
   public Then<BookStoreState> thenListingTheNewBookShouldHaveFailedWithTheMessage(

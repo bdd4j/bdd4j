@@ -1,10 +1,9 @@
 package org.bdd4j.example.postgresql;
 
 import org.bdd4j.api.Feature;
-import org.bdd4j.api.ScenarioBuilder;
 import org.bdd4j.api.ScenarioOutline;
+import org.bdd4j.api.ScenarioOutlineSpec;
 import org.bdd4j.api.UserStory;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 
 @Feature("List a new book")
 @UserStory("""
@@ -13,35 +12,44 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
     So that my users can find the books I have in store.
     """)
 public class ListANewBookTest {
-  @ScenarioOutline("The author does not exist")
-  @ArgumentsSource(PostgresVersionProvider.class)
-  public void theAuthorDoesNotExist(
-      final String postgresVersion,
-      final ScenarioBuilder<BookStoreTestSteps, BookStoreState> builder) {
-    final var steps = builder.availableSteps();
+  private static final String POSTGRES_VERSIONS =
+      """
+          | postgres version |
+          | 16.0             |
+          | 15.4             |
+          | 14.9             |
+          | 13.12            |
+          """;
 
-    builder.withParameter(TestConstants.POSTGRES_VERSION_KEY, postgresVersion).defineSteps(
-        steps.givenThatNoAuthorsExist(),
-        steps.whenITryToListTheNewBook(1, "How bdd4j changed my life and other made-up stories", 1),
-        steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
-            "The author with the ID 1 does not exist")
-    );
+  @ScenarioOutline(description = "The author does not exist",
+      data = POSTGRES_VERSIONS)
+  public ScenarioOutlineSpec<BookStoreTestSteps, BookStoreState> theAuthorDoesNotExist() {
+    return (builder, steps, row) ->
+        builder.withParameter(
+                TestConstants.POSTGRES_VERSION_KEY, row.getString("postgres version"))
+            .defineScenario(
+                steps.givenThatNoAuthorsExist(),
+                steps.whenITryToListTheNewBook(1,
+                    "How bdd4j changed my life and other made-up stories",
+                    1),
+                steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
+                    "The author with the ID 1 does not exist")
+            );
   }
 
-  @ScenarioOutline("Successfully list a book")
-  @ArgumentsSource(PostgresVersionProvider.class)
-  public void successfullyListABook(
-      final String postgresVersion,
-      final ScenarioBuilder<BookStoreTestSteps, BookStoreState> builder) {
-    final var steps = builder.availableSteps();
-
-    builder.withParameter(TestConstants.POSTGRES_VERSION_KEY, postgresVersion)
-        .defineSteps(
-            steps.givenThatTheAuthorExists(1, "Richard Bachmann"),
-            steps.whenITryToListTheNewBook(1, "How bdd4j changed my life and other made-up stories",
-                1),
-            steps.thenListingTheNewBookShouldHaveFailedWithTheMessage(
-                "The author with the ID 1 does not exist")
-        );
+  @ScenarioOutline(
+      description = "Successfully list a book",
+      data = POSTGRES_VERSIONS
+  )
+  public ScenarioOutlineSpec<BookStoreTestSteps, BookStoreState> successfullyListABook() {
+    return (builder, steps, row) ->
+        builder.withParameter(TestConstants.POSTGRES_VERSION_KEY, row.getString("postgres version"))
+            .defineScenario(
+                steps.givenThatTheAuthorExists(1, "Richard Bachmann"),
+                steps.whenITryToListTheNewBook(1,
+                    "How bdd4j changed my life and other made-up stories",
+                    1),
+                steps.thenListingTheNewBookShouldHaveSucceeded()
+            );
   }
 }

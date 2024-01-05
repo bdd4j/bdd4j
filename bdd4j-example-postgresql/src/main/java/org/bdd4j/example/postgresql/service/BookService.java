@@ -1,5 +1,6 @@
 package org.bdd4j.example.postgresql.service;
 
+import java.util.Optional;
 import org.bdd4j.example.postgresql.repository.BooksRecord;
 import org.bdd4j.example.postgresql.repository.BooksRepository;
 
@@ -41,7 +42,19 @@ public final class BookService {
     repository.create(new BooksRecord(data.id(), data.name(), data.authorId()));
 
     return repository.findById(data.id())
-        .map(record -> new Book(record.id(), record.name(), author.get()))
+        .map(book -> new Book(book.id(), book.name(), author.get()))
         .orElseThrow(() -> new ServiceException("Failed to read book after listing it"));
+  }
+
+  /**
+   * Loads a book.
+   *
+   * @param id The ID of the book.
+   * @return The loaded book.
+   */
+  public Optional<Book> loadBook(final int id) {
+    return repository.findById(id)
+        .map(book -> new Book(book.id(), book.name(),
+            authorService.getById(book.author()).orElse(null)));
   }
 }
