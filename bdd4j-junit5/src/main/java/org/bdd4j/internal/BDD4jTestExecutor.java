@@ -71,7 +71,7 @@ public class BDD4jTestExecutor {
       final ScenarioOutlineSpec<?, ?> spec =
           (ScenarioOutlineSpec<?, ?>) scenario.getMethod().invoke(testInstance);
 
-      invokeScenarioOutlineSpec(type, spec, scenario.getRow());
+      invokeScenarioOutlineSpec(type, spec, scenario.getRow(), parentDescriptor.getTestClass());
     } catch (final IllegalAccessException | InvocationTargetException | ClassNotFoundException |
                    InstantiationException e) {
       throw new RuntimeException(e);
@@ -81,7 +81,8 @@ public class BDD4jTestExecutor {
   private <S extends BDD4jSteps<T>, T> void invokeScenarioOutlineSpec(
       final Type type,
       final ScenarioOutlineSpec<S, T> spec,
-      final DataRow row)
+      final DataRow row,
+      final Class<?> testClass)
       throws ClassNotFoundException, InvocationTargetException, InstantiationException,
       IllegalAccessException {
     final String[] tokens = type.toString().split("[<,>]");
@@ -92,7 +93,9 @@ public class BDD4jTestExecutor {
 
     final ScenarioBuilder<S, T> builder = new ScenarioBuilder<>(steps);
 
-    spec.apply(builder, steps, row).run();
+    spec.apply(builder, steps, row)
+        .withTestReporter(new LoggingTestReporter(testClass))
+        .run();
   }
 
   private void executeScenario(TestDescriptor descriptor, BDD4jScenarioDescriptor scenario) {
@@ -120,7 +123,7 @@ public class BDD4jTestExecutor {
       final ScenarioSpec<?, ?> spec =
           (ScenarioSpec<?, ?>) scenario.getMethod().invoke(testInstance);
 
-      invokeScenarioSpec(type, spec);
+      invokeScenarioSpec(type, spec, parentDescriptor.getTestClass());
     } catch (final IllegalAccessException | InvocationTargetException | ClassNotFoundException |
                    InstantiationException e) {
       throw new RuntimeException(e);
@@ -129,7 +132,8 @@ public class BDD4jTestExecutor {
 
   private <S extends BDD4jSteps<T>, T> void invokeScenarioSpec(
       final Type type,
-      final ScenarioSpec<S, T> spec)
+      final ScenarioSpec<S, T> spec,
+      final Class<?> testClass)
       throws InstantiationException, IllegalAccessException, InvocationTargetException,
       ClassNotFoundException {
     final String[] tokens = type.toString().split("[<,>]");
@@ -140,7 +144,9 @@ public class BDD4jTestExecutor {
 
     final ScenarioBuilder<S, T> builder = new ScenarioBuilder<>(steps);
 
-    spec.apply(builder, steps).run();
+    spec.apply(builder, steps)
+        .withTestReporter(new LoggingTestReporter(testClass))
+        .run();
   }
 
   private void executeContainer(final ExecutionRequest request,

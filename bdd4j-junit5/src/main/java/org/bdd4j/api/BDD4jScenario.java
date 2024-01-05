@@ -118,4 +118,14 @@ public final class BDD4jScenario<TS> implements Runnable {
       testReporter.publishEntry(entry.asMap());
     }
   }
+
+  /**
+   * Creates a new {@link BDD4jScenario} with the given test reporter.
+   *
+   * @param testReporter The test reporter.
+   * @return The scenario.
+   */
+  public BDD4jScenario<TS> withTestReporter(final TestReporter testReporter) {
+    return new BDD4jScenario<>(stepsWrapper, testReporter, definedSteps, parameters);
+  }
 }

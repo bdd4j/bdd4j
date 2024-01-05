@@ -19,6 +19,11 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.discovery.ClassSelector;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 
+/**
+ * A {@link TestEngine} that executes the bdd4j tests.
+ * <p>
+ * This engine will discover tests annotated with {@link Feature}, {@link Scenario} and {@link ScenarioOutline}.
+ */
 public class BDD4jTestEngine implements TestEngine {
 
   private static final BDD4jDisplayNameGenerator NAME_GENERATOR = new BDD4jDisplayNameGenerator();
