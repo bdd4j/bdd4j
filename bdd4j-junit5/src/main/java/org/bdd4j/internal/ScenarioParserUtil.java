@@ -30,8 +30,8 @@ public final class ScenarioParserUtil {
     for (final String line : feature.split("\n")) {
       final String trimmedLine = line.trim();
 
-      if (trimmedLine.startsWith(CucumberKeywords.SCENARIO) ||
-          trimmedLine.startsWith(CucumberKeywords.SCENARIO_OUTLINE)) {
+      if (trimmedLine.startsWith(CucumberKeywords.SCENARIO.concat(": ")) ||
+          trimmedLine.startsWith(CucumberKeywords.SCENARIO_OUTLINE.concat(": "))) {
         //Flush previous scenario
         if (!isFirst) {
           scenarios.add(builder.toString());
