@@ -9,7 +9,6 @@ import java.util.List;
 public final class CucumberKeywords {
   public static final String FEATURE = "Feature";
 
-
   public static final String SCENARIO = "Scenario";
 
   public static final String SCENARIO_OUTLINE = "Scenario Outline";

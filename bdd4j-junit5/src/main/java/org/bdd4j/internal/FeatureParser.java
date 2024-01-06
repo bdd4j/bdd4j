@@ -32,7 +32,7 @@ public class FeatureParser {
   public List<BDD4jScenario<?>> parse(final String feature) {
     final List<BDD4jScenario<?>> scenarios = new ArrayList<>();
 
-    for (final String scenarioDefinition : splitScenarios(feature)) {
+    for (final String scenarioDefinition : ScenarioParserUtil.splitScenarios(feature)) {
       final Collection<RequiredStepDefinition> requiredSteps =
           parseRequiredSteps(scenarioDefinition);
 
@@ -182,40 +182,6 @@ public class FeatureParser {
   private static boolean isRelevantLine(final String line) {
     return CucumberKeywords.KEYWORDS.stream().anyMatch(line::startsWith);
   }
-
-  /**
-   * Splits the given feature into the contained scenario and scenario outline definitions.
-   *
-   * @param feature The feature that should be split.
-   * @return The split scenarios.
-   */
-  private static Collection<String> splitScenarios(final String feature) {
-    final Collection<String> scenarios = new ArrayList<>();
-
-    StringBuilder builder = new StringBuilder();
-
-    boolean isFirst = true;
-
-    for (final String line : feature.split("\n")) {
-      final String trimmedLine = line.trim();
-
-      if (trimmedLine.startsWith(CucumberKeywords.SCENARIO) ||
-          trimmedLine.startsWith(CucumberKeywords.SCENARIO_OUTLINE)) {
-        //Flush previous scenario
-        if (!isFirst) {
-          scenarios.add(builder.toString());
-          builder = new StringBuilder();
-        }
-        isFirst = false;
-      }
-
-      if (!trimmedLine.startsWith(CucumberKeywords.FEATURE) && !trimmedLine.isEmpty()) {
-        builder.append(trimmedLine).append('\n');
-      }
-    }
-
-    scenarios.add(builder.toString());
-
-    return scenarios;
-  }
 }
+
+
