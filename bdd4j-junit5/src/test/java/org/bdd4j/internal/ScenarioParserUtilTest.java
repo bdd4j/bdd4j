@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class ScenarioParserUtilTest {
@@ -38,6 +39,36 @@ class ScenarioParserUtilTest {
             Then the Breaker must guess a word with 5 characters
             """
     );
+
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  public void splitScenarioOutline() {
+    final String input = """
+        Scenario Outline: eating
+          Given there are <start> cucumbers
+          When I eat <eat> cucumbers
+          Then I should have <left> cucumbers
+                
+          Examples:
+            | start | eat | left |
+            |    12 |   5 |    7 |
+            |    20 |   5 |   15 |
+        """;
+
+    final Collection<String> expected = List.of("""
+        Scenario Outline: eating
+        Given there are <start> cucumbers
+        When I eat <eat> cucumbers
+        Then I should have <left> cucumbers
+        Examples:
+        | start | eat | left |
+        |    12 |   5 |    7 |
+        |    20 |   5 |   15 |
+        """);
+
+    final Collection<String> actual = ScenarioParserUtil.splitScenarios(input);
 
     assertThat(actual).isEqualTo(expected);
   }
