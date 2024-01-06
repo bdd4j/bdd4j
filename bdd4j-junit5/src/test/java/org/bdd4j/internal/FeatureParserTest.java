@@ -27,6 +27,7 @@ class FeatureParserTest {
           Scenario: Awesome scenario
           
             Given that I enter 'cool'
+              And that everything is fine and dandy
             When I invoke the feature
             Then the result should be 'awesome'
         """;
@@ -36,10 +37,11 @@ class FeatureParserTest {
 
     final ExampleScenarioSteps steps = new ExampleScenarioSteps();
 
+    assertThat(scenarios).hasSize(1);
+
     final SoftAssertions assertions = new SoftAssertions();
 
-    assertions.assertThat(scenarios).hasSize(1);
-    assertions.assertThat(scenarios.getFirst().steps()).hasSize(3);
+    assertions.assertThat(scenarios.getFirst().steps()).hasSize(4);
 
     assertions.assertThat(scenarios.getFirst().step(0))
         .hasValueSatisfying((actual) ->
@@ -47,9 +49,13 @@ class FeatureParserTest {
 
     assertions.assertThat(scenarios.getFirst().step(1))
         .hasValueSatisfying((actual) ->
-            matchStep(steps.whenIInvokeTheFeature(), actual));
+            matchStep(steps.givenThatEverythingIsFineAndDandy(), actual));
 
     assertions.assertThat(scenarios.getFirst().step(2))
+        .hasValueSatisfying((actual) ->
+            matchStep(steps.whenIInvokeTheFeature(), actual));
+
+    assertions.assertThat(scenarios.getFirst().step(3))
         .hasValueSatisfying((actual) ->
             matchStep(steps.thenTheResultShouldBe("awesome"), actual));
 
@@ -87,6 +93,10 @@ class FeatureParserTest {
             state.put("input", input);
             return TestState.state(state);
           });
+    }
+
+    public Given<Map<String, String>> givenThatEverythingIsFineAndDandy() {
+      return StepDSL.given("that everything is fine and dandy").step(TestState::state);
     }
 
     public When<Map<String, String>> whenIInvokeTheFeature() {
