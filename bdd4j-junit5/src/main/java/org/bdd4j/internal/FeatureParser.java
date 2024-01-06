@@ -19,10 +19,6 @@ import org.bdd4j.api.Step;
  */
 public class FeatureParser {
 
-  private static final Collection<String> KEYWORDS =
-      List.of("Feature", "Scenario", "Scenario Outline", "Given", "When", "Then", "And");
-
-
   public <T> FeatureParser(final Collection<Class<? extends BDD4jSteps<?>>> stepCandidates) {
     this.stepCandidates = new ArrayList<>(stepCandidates);
   }
@@ -87,7 +83,7 @@ public class FeatureParser {
       for (final Method method : stepBuilders) {
         final boolean numberOfParametersMatch =
             method.getParameters().length == requiredStep.parameters().size();
-        
+
         if (numberOfParametersMatch) {
           final Collection<Object> parameters = mapParameters(requiredStep, method);
 
@@ -153,18 +149,18 @@ public class FeatureParser {
       final String sanitized = line.trim();
 
       if (isRelevantLine(sanitized)) {
-        if (sanitized.startsWith("Given")) {
-          previousKeyword = "Given";
+        if (sanitized.startsWith(CucumberKeywords.GIVEN)) {
+          previousKeyword = CucumberKeywords.GIVEN;
           result.add(parseStep(previousKeyword, previousKeyword, sanitized));
-        } else if (sanitized.startsWith("When")) {
-          previousKeyword = "When";
+        } else if (sanitized.startsWith(CucumberKeywords.WHEN)) {
+          previousKeyword = CucumberKeywords.WHEN;
           result.add(parseStep(previousKeyword, previousKeyword, sanitized));
-        } else if (sanitized.startsWith("Then")) {
-          previousKeyword = "Then";
+        } else if (sanitized.startsWith(CucumberKeywords.THEN)) {
+          previousKeyword = CucumberKeywords.THEN;
           result.add(parseStep(previousKeyword, previousKeyword, sanitized));
-        } else if (sanitized.startsWith("And")) {
+        } else if (sanitized.startsWith(CucumberKeywords.AND)) {
           // previous keyword stays the same, but the actual keyword is 'And'
-          result.add(parseStep(previousKeyword, "And", sanitized));
+          result.add(parseStep(previousKeyword, CucumberKeywords.AND, sanitized));
         } else {
           // process other keywords
         }
@@ -218,6 +214,6 @@ public class FeatureParser {
    * @return True if the line is relevant, otherwise false.
    */
   private static boolean isRelevantLine(final String line) {
-    return KEYWORDS.stream().anyMatch(line::startsWith);
+    return CucumberKeywords.KEYWORDS.stream().anyMatch(line::startsWith);
   }
 }
