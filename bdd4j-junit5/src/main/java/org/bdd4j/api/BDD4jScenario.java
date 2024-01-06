@@ -4,7 +4,10 @@ import static org.bdd4j.internal.BDD4jReportEntry.builder;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import org.bdd4j.internal.BDD4jReportEntry;
 import org.bdd4j.internal.ConditionalStepDescriptionGenerator;
@@ -22,7 +25,7 @@ public final class BDD4jScenario<TS> implements Runnable {
 
   private final BDD4jSteps<TS> stepsWrapper;
   private final TestReporter testReporter;
-  private final Collection<Step<TS>> definedSteps;
+  private final List<Step<TS>> definedSteps;
   private final Parameters parameters;
 
   /**
@@ -40,7 +43,7 @@ public final class BDD4jScenario<TS> implements Runnable {
 
     this.stepsWrapper = stepsWrapper;
     this.testReporter = testReporter;
-    this.definedSteps = definedSteps;
+    this.definedSteps = new ArrayList<>(definedSteps);
     this.parameters = parameters;
   }
 
@@ -94,6 +97,27 @@ public final class BDD4jScenario<TS> implements Runnable {
     } catch (final Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Retrieves the steps for this scenario.
+   *
+   * @return The steps.
+   */
+  public List<Step<TS>> steps() {
+    return new ArrayList<>(definedSteps);
+  }
+
+  /**
+   * Retrieves the specified step at the given index from the list of defined steps.
+   *
+   * @param index The index of the step to retrieve.
+   * @return An Optional object containing the step at the specified index, or empty if the index is out of bounds.
+   */
+  public Optional<Step<TS>> step(final Integer index) {
+    return index < steps().size()
+        ? Optional.of(definedSteps.get(index))
+        : Optional.empty();
   }
 
   /**
