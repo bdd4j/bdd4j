@@ -62,6 +62,55 @@ class FeatureParserTest {
     assertions.assertAll();
   }
 
+  @Test
+  public void twoScenarios() {
+    final var feature = """
+        Feature: Cool feature
+          Scenario: Awesome scenario
+          
+            Given that I enter 'cool'
+              And that everything is fine and dandy
+            When I invoke the feature
+            Then the result should be 'awesome'
+            
+          Scenario: Not so awesome scenario
+          
+            Given that I enter 'not cool'
+              And that everything is fine and dandy
+            When I invoke the feature
+            Then the result should be 'not awesome'
+        """;
+
+    final List<BDD4jScenario<?>> scenarios =
+        new FeatureParser(Collections.singleton(ExampleScenarioSteps.class)).parse(feature);
+
+    final ExampleScenarioSteps steps = new ExampleScenarioSteps();
+
+    assertThat(scenarios).hasSize(2);
+
+    final SoftAssertions assertions = new SoftAssertions();
+
+    assertions.assertThat(scenarios.getFirst().steps()).hasSize(4);
+
+    assertions.assertThat(scenarios.getFirst().step(0))
+        .hasValueSatisfying((actual) ->
+            matchStep(steps.givenThatIEnter("cool"), actual));
+
+    assertions.assertThat(scenarios.getFirst().step(1))
+        .hasValueSatisfying((actual) ->
+            matchStep(steps.givenThatEverythingIsFineAndDandy(), actual));
+
+    assertions.assertThat(scenarios.getFirst().step(2))
+        .hasValueSatisfying((actual) ->
+            matchStep(steps.whenIInvokeTheFeature(), actual));
+
+    assertions.assertThat(scenarios.getFirst().step(3))
+        .hasValueSatisfying((actual) ->
+            matchStep(steps.thenTheResultShouldBe("awesome"), actual));
+
+    assertions.assertAll();
+  }
+
   private static void matchStep(final Step<?> expected, final Step<?> actual) {
     final SoftAssertions assertions = new SoftAssertions();
 

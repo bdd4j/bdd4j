@@ -30,30 +30,33 @@ public class FeatureParser {
    * @return The parsed scenarios.
    */
   public List<BDD4jScenario<?>> parse(final String feature) {
-    // Missing support for multiple scenarios in the same feature file
-    final Collection<RequiredStepDefinition> requiredSteps = parseRequiredSteps(feature);
     final List<BDD4jScenario<?>> scenarios = new ArrayList<>();
 
-    for (final Class<? extends BDD4jSteps<?>> stepCandidate : stepCandidates) {
-      try {
-        final BDD4jSteps<Object> steps = FeatureReflectionUtil.instantiateSteps(stepCandidate);
+    for (final String scenarioDefinition : splitScenarios(feature)) {
+      final Collection<RequiredStepDefinition> requiredSteps =
+          parseRequiredSteps(scenarioDefinition);
 
-        final Collection<Method> stepBuilders =
-            FeatureReflectionUtil.findStepBuilderMethods(stepCandidate);
+      for (final Class<? extends BDD4jSteps<?>> stepCandidate : stepCandidates) {
+        try {
+          final BDD4jSteps<Object> steps = FeatureReflectionUtil.instantiateSteps(stepCandidate);
 
-        final Collection<Step<Object>> resolvedSteps =
-            resolveSteps(requiredSteps, stepBuilders, steps);
+          final Collection<Method> stepBuilders =
+              FeatureReflectionUtil.findStepBuilderMethods(stepCandidate);
 
-        final boolean allStepsHaveBeenResolved = requiredSteps.size() == resolvedSteps.size();
+          final Collection<Step<Object>> resolvedSteps =
+              resolveSteps(requiredSteps, stepBuilders, steps);
 
-        if (allStepsHaveBeenResolved) {
-          scenarios.add(new BDD4jScenario<>(steps,
-              new LoggingTestReporter(FeatureParser.class),
-              resolvedSteps,
-              new Parameters()));
+          final boolean allStepsHaveBeenResolved = requiredSteps.size() == resolvedSteps.size();
+
+          if (allStepsHaveBeenResolved) {
+            scenarios.add(new BDD4jScenario<>(steps,
+                new LoggingTestReporter(FeatureParser.class),
+                resolvedSteps,
+                new Parameters()));
+          }
+        } catch (final IllegalAccessException | InvocationTargetException e) {
+          throw new FeatureParserException("Failed to parse the feature", e);
         }
-      } catch (final IllegalAccessException | InvocationTargetException e) {
-        throw new FeatureParserException("Failed to parse the feature", e);
       }
     }
 
@@ -178,5 +181,41 @@ public class FeatureParser {
    */
   private static boolean isRelevantLine(final String line) {
     return CucumberKeywords.KEYWORDS.stream().anyMatch(line::startsWith);
+  }
+
+  /**
+   * Splits the given feature into the contained scenario and scenario outline definitions.
+   *
+   * @param feature The feature that should be split.
+   * @return The split scenarios.
+   */
+  private static Collection<String> splitScenarios(final String feature) {
+    final Collection<String> scenarios = new ArrayList<>();
+
+    StringBuilder builder = new StringBuilder();
+
+    boolean isFirst = true;
+
+    for (final String line : feature.split("\n")) {
+      final String trimmedLine = line.trim();
+
+      if (trimmedLine.startsWith(CucumberKeywords.SCENARIO) ||
+          trimmedLine.startsWith(CucumberKeywords.SCENARIO_OUTLINE)) {
+        //Flush previous scenario
+        if (!isFirst) {
+          scenarios.add(builder.toString());
+          builder = new StringBuilder();
+        }
+        isFirst = false;
+      }
+
+      if (!trimmedLine.startsWith(CucumberKeywords.FEATURE) && !trimmedLine.isEmpty()) {
+        builder.append(trimmedLine).append('\n');
+      }
+    }
+
+    scenarios.add(builder.toString());
+
+    return scenarios;
   }
 }
