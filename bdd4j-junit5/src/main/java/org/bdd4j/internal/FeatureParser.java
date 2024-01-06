@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.bdd4j.api.BDD4jScenario;
 import org.bdd4j.api.BDD4jSteps;
 import org.bdd4j.api.Parameters;
@@ -151,16 +149,16 @@ public class FeatureParser {
       if (isRelevantLine(sanitized)) {
         if (sanitized.startsWith(CucumberKeywords.GIVEN)) {
           previousKeyword = CucumberKeywords.GIVEN;
-          result.add(parseStep(previousKeyword, previousKeyword, sanitized));
+          result.add(StepParser.parseStep(previousKeyword, previousKeyword, sanitized));
         } else if (sanitized.startsWith(CucumberKeywords.WHEN)) {
           previousKeyword = CucumberKeywords.WHEN;
-          result.add(parseStep(previousKeyword, previousKeyword, sanitized));
+          result.add(StepParser.parseStep(previousKeyword, previousKeyword, sanitized));
         } else if (sanitized.startsWith(CucumberKeywords.THEN)) {
           previousKeyword = CucumberKeywords.THEN;
-          result.add(parseStep(previousKeyword, previousKeyword, sanitized));
+          result.add(StepParser.parseStep(previousKeyword, previousKeyword, sanitized));
         } else if (sanitized.startsWith(CucumberKeywords.AND)) {
           // previous keyword stays the same, but the actual keyword is 'And'
-          result.add(parseStep(previousKeyword, CucumberKeywords.AND, sanitized));
+          result.add(StepParser.parseStep(previousKeyword, CucumberKeywords.AND, sanitized));
         } else {
           // process other keywords
         }
@@ -170,41 +168,6 @@ public class FeatureParser {
     }
 
     return result;
-  }
-
-  /**
-   * Parses the step from the given line.
-   *
-   * @param semanticKeyword The semantic keyword
-   * @param actualKeyword   The actual keyword present in the line.
-   * @param line            The line.
-   * @return The required step definition.
-   */
-  private static RequiredStepDefinition parseStep(final String semanticKeyword,
-                                                  final String actualKeyword,
-                                                  final String line) {
-    return new RequiredStepDefinition(
-        semanticKeyword, line.replaceFirst(actualKeyword + " ", ""),
-        parseParameters(line));
-  }
-
-  /**
-   * Parses the parameters from the given line.
-   *
-   * @param line The line that the parameters should be parsed from.
-   * @return The list of string parameters.
-   */
-  private static List<String> parseParameters(final String line) {
-    final Pattern pattern = Pattern.compile("'(.*?[^\\\\])'");
-    final Matcher matcher = pattern.matcher(line);
-
-    final List<String> parameters = new ArrayList<>();
-
-    while (matcher.find()) {
-      parameters.add(matcher.group(1));
-    }
-
-    return parameters;
   }
 
   /**
