@@ -8,7 +8,13 @@ import java.util.regex.Pattern;
 /**
  * A parser that can be used to parse cucumber style steps.
  */
-public class StepParser {
+public final class StepParser {
+
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private StepParser() {
+  }
 
   /**
    * Parses the step from the given line.
