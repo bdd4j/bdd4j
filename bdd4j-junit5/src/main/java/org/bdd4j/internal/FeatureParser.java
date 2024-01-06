@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -12,11 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bdd4j.api.BDD4jScenario;
 import org.bdd4j.api.BDD4jSteps;
-import org.bdd4j.api.Given;
 import org.bdd4j.api.Parameters;
 import org.bdd4j.api.Step;
-import org.bdd4j.api.Then;
-import org.bdd4j.api.When;
 
 /**
  * A parser that can be used to process the contents of a cucumber style feature file and match it
@@ -26,8 +22,6 @@ public class FeatureParser {
   private static final Collection<String> KEYWORDS =
       List.of("Feature", "Scenario", "Scenario Outline", "Given", "When", "Then", "And");
 
-  private static final Collection<Class<?>> STEP_RETURN_TYPES =
-      List.of(Given.class, When.class, Then.class);
 
   public <T> FeatureParser(final Collection<Class<? extends BDD4jSteps<?>>> stepCandidates) {
     this.stepCandidates = new ArrayList<>(stepCandidates);
@@ -42,54 +36,19 @@ public class FeatureParser {
    * @return The parsed scenarios.
    */
   public List<BDD4jScenario<?>> parse(final String feature) {
+    // Missing support for multiple scenarios in the same feature file
     final Collection<RequiredStepDefinition> requiredSteps = parseRequiredSteps(feature);
     final List<BDD4jScenario<?>> scenarios = new ArrayList<>();
 
     for (final Class<? extends BDD4jSteps<?>> stepCandidate : stepCandidates) {
       try {
-        final BDD4jSteps<Object> steps =
-            (BDD4jSteps<Object>) stepCandidate.getConstructors()[0].newInstance();
+        final BDD4jSteps<Object> steps = FeatureReflectionUtil.instantiateSteps(stepCandidate);
 
-        final Collection<Method> stepBuilders = Arrays.stream(stepCandidate.getMethods())
-            .filter(method -> STEP_RETURN_TYPES.contains(method.getReturnType()))
-            .toList();
+        final Collection<Method> stepBuilders =
+            FeatureReflectionUtil.findStepBuilderMethods(stepCandidate);
 
-        final Collection<Step<Object>> resolvedSteps = new ArrayList<>();
-
-        for (final RequiredStepDefinition requiredStep : requiredSteps) {
-          for (final Method method : stepBuilders) {
-            if (method.getParameters().length == requiredStep.parameters().size()) {
-              final Collection<Object> parameters = new ArrayList<>();
-              int i = 0;
-
-              for (final Parameter parameter : method.getParameters()) {
-                final Class<?> parameterType = parameter.getType();
-
-                final String storedValue = requiredStep.parameters().get(i);
-
-                if (Integer.class == parameterType) {
-                  parameters.add(Integer.valueOf(storedValue));
-                } else if (String.class == parameterType) {
-                  parameters.add(storedValue);
-                } else {
-                  throw new IllegalArgumentException(
-                      "Failed to handle parameter with type " + parameterType);
-                }
-
-                i++;
-              }
-
-              final Step<Object> step = (Step<Object>) method.invoke(steps, parameters.toArray());
-
-              final boolean stepMatches = Objects.equals(requiredStep.line(), step.description());
-
-              if (stepMatches) {
-                resolvedSteps.add(step);
-                break;
-              }
-            }
-          }
-        }
+        final Collection<Step<Object>> resolvedSteps =
+            resolveSteps(requiredSteps, stepBuilders, steps);
 
         final boolean allStepsHaveBeenResolved = requiredSteps.size() == resolvedSteps.size();
 
@@ -99,13 +58,82 @@ public class FeatureParser {
               resolvedSteps,
               new Parameters()));
         }
-      } catch (final InstantiationException | IllegalAccessException |
-                     InvocationTargetException e) {
-        throw new RuntimeException(e);
+      } catch (final IllegalAccessException | InvocationTargetException e) {
+        throw new FeatureParserException("Failed to parse the feature", e);
       }
     }
 
     return scenarios;
+  }
+
+  /**
+   * Resolves the steps by matching the required steps with the step builders.
+   *
+   * @param requiredSteps The collection of required steps to be resolved.
+   * @param stepBuilders  The collection of step builders to be used for resolution.
+   * @param steps         The BDD4jSteps object containing the implemented steps.
+   * @return The collection of resolved steps.
+   * @throws IllegalAccessException    If a step builder method cannot be accessed.
+   * @throws InvocationTargetException If a step builder method cannot be invoked.
+   */
+  private static Collection<Step<Object>> resolveSteps(
+      final Collection<RequiredStepDefinition> requiredSteps,
+      final Collection<Method> stepBuilders,
+      final BDD4jSteps<Object> steps)
+      throws IllegalAccessException, InvocationTargetException {
+    final Collection<Step<Object>> resolvedSteps = new ArrayList<>();
+
+    for (final RequiredStepDefinition requiredStep : requiredSteps) {
+      for (final Method method : stepBuilders) {
+        final boolean numberOfParametersMatch =
+            method.getParameters().length == requiredStep.parameters().size();
+        
+        if (numberOfParametersMatch) {
+          final Collection<Object> parameters = mapParameters(requiredStep, method);
+
+          final Step<Object> step = (Step<Object>) method.invoke(steps, parameters.toArray());
+
+          final boolean stepMatches = Objects.equals(requiredStep.line(), step.description());
+
+          if (stepMatches) {
+            resolvedSteps.add(step);
+            break;
+          }
+        }
+      }
+    }
+    return resolvedSteps;
+  }
+
+  /**
+   * Maps the parameters of the required step to a collection.
+   *
+   * @param requiredStep The required step.
+   * @param method       The method used to retrieve the expected parameter types.
+   * @return The collection of parameters.
+   */
+  private static Collection<Object> mapParameters(final RequiredStepDefinition requiredStep,
+                                                  final Method method) {
+    final Collection<Object> parameters = new ArrayList<>();
+    int i = 0;
+
+    for (final Parameter parameter : method.getParameters()) {
+      final Class<?> parameterType = parameter.getType();
+
+      final String storedValue = requiredStep.parameters().get(i);
+
+      if (Integer.class == parameterType) {
+        parameters.add(Integer.valueOf(storedValue));
+      } else if (String.class == parameterType) {
+        parameters.add(storedValue);
+      } else {
+        throw new FeatureParserException(
+            "Failed to handle parameter with type " + parameterType);
+      }
+
+      i++;
+    }
+    return parameters;
   }
 
   /**
