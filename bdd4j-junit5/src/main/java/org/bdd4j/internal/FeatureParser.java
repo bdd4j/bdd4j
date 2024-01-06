@@ -19,7 +19,7 @@ import org.bdd4j.api.Step;
  */
 public class FeatureParser {
 
-  public <T> FeatureParser(final Collection<Class<? extends BDD4jSteps<?>>> stepCandidates) {
+  public FeatureParser(final Collection<Class<? extends BDD4jSteps<?>>> stepCandidates) {
     this.stepCandidates = new ArrayList<>(stepCandidates);
   }
 
